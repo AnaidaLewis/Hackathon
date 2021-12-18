@@ -5,7 +5,7 @@ from decouple import config
 
 
 
-def register_social_user(provider, user_id, email, name):
+def register_social_user(provider, user_id, email):
     filtered_user_by_email = User.objects.filter(email=email)
 
     if filtered_user_by_email.exists():
@@ -29,6 +29,9 @@ def register_social_user(provider, user_id, email, name):
             'password': config('SOCIAL_SECRET')}
         user = User.objects.create_user(**user)
         user.verified = True
+        user.verifiedPhone = True
+        user.nottwostep = True
+        user.login2stepverify = True
         user.auth_provider = provider
         user.save()
 

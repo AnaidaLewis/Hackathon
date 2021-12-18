@@ -125,8 +125,9 @@ class sendTwoStep(APIView):
             payload = jwt.decode(token,settings.SECRET_KEY, algorithms=['HS256'])
             user = User.objects.get(id=payload['user_id'])
             verifyPhone.send(user.phone)
+            current_site = get_current_site(request).domain
             relative_link = reverse('TwoStep')
-            abs_url = settings.FRONT_END_HOST + relative_link 
+            abs_url = current_site + relative_link 
             return JsonResponse({'status': 'Two step code sent to registered phone number', 'To enter code': abs_url}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)
@@ -228,9 +229,11 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
     def get(self,request,uidb64,token):
         try:
-            id = smart_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id=id)
-
+            try:
+                id = smart_str(urlsafe_base64_decode(uidb64))
+                user = User.objects.get(id=id)
+            except:
+                return JsonResponse({'error':'incorrect uidb64'})
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return JsonResponse({'error':'Token is not valid, please request a new one'}, status = status.HTTP_401_UNAUTHORIZED)
             return JsonResponse({'success':True,'message':'Credentials Valid','uidb64':uidb64,'token':token}, status = status.HTTP_200_OK)

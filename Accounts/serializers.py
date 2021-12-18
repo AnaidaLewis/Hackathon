@@ -110,7 +110,7 @@ class LoginSerializer(serializers.ModelSerializer):
         tokens = RefreshToken.for_user(user=auth_user)
         relative_link = reverse('TwoStep')
         access_token = str(tokens.access_token)
-        abs_url = settings.FRONT_END_HOST + relative_link 
+        abs_url = "https://community-buying.herokuapp.com" + relative_link 
         return {
             'email': auth_user.email,
             'refresh': str(tokens),
@@ -138,11 +138,10 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
 
         user_id = user_data['sub']
         email = user_data['email']
-        name = user_data['name']
         provider = 'google'
 
         return register_social_user(
-            provider=provider, user_id=user_id, email=email, name=name)
+            provider=provider, user_id=user_id, email=email)
 
 
 # class FacebookSocialAuthSerializer(serializers.Serializer):
