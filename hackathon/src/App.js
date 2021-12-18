@@ -10,9 +10,9 @@ import Page2 from './Pages/Page2';
 import Feedback from './Pages/Feedback';
 
 import HeaderFrontPage from './HeaderFooter/HeaderFrontPage';
-import Sidebar from './Pages/Sidebar';
 import { Navbar } from './Pages/Navbar';
 import NotFound from './notFound/NotFound';
+import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
   return (
     <div className="App">
@@ -20,10 +20,11 @@ function App() {
         <Routes>
         <Route exact path = "/" element={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
         <Route path = "Login" element={<div className='sign'><HeaderFrontPage/><Login/></div>} />
-        <Route path = "/HomePage" element={<><Sidebar/><Navbar/><HomePage/></>} />
-        <Route path = "/Page1" element={<><Sidebar/><Navbar/><Page1/></>}/>
-        <Route path = "/Page2" element={<><Sidebar/><Navbar/><Page2/></>} />
-        <Route path = "/Feedback" element={<><Sidebar/><Navbar/><Feedback/></>} />
+        <Route path = "Login/HomePage" element={<><Navbar/><HomePage/></>} />
+        <Route path = "/Page1" element={<><Navbar/><Page1/></>}/>
+        <Route path = "/Page2" element={<><Navbar/><Page2/></>} />
+        {/*<Route path = "/Feedback" element={<><Navbar/><Feedback/></>} />*/}
+        <Route path ='/Dashboard' element={<><Navbar /><Dashboard/></>} />
         <Route element={<h1>not found</h1>} />
         <Route path="*" element={<NotFound/>} />
         </Routes>
