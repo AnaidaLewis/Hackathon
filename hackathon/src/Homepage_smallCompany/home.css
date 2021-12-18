@@ -1,22 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@200&family=Libre+Baskerville&family=Source+Serif+4:wght@300&display=swap");
+/* main page */
+.home {
+  font-family: "Libre Baskerville", serif;
+}
+
+/* quality */
 .cat_link {
   text-decoration: none;
 }
 
 .about_quality {
-  margin: 2% 0%;
+  margin: 150px 0%;
   padding: 4%;
-  background-color: #e8e8cc;
+  background-color: #116530;
 }
 .about_quality p {
   font-size: 3.5rem;
-  color: #0b4619;
+  color: #ffec1d;
 }
 .about_quality h3 {
   font-size: 1.4rem;
-  color: #0b4619;
+  font-family: "Source Serif 4", sans-serif;
+  color: #ffec1d;
+  padding-bottom: 10px;
+}
+.about_quality span {
+  font-size: 0.8rem;
+  color: #ffec1d;
 }
 .cat_link p {
   color: #116530;
   font-size: 1.1rem;
   font-weight: 600;
+}
+
+/* discount section */
+.discountNew {
+  height: 300px;
+  padding: 50px;
+  color: white;
+  /* opacity: .8; */
+  /* background-repeat: no-repeat; */
+  background-size: cover;
+  /* background-position: -40px -70px; */
+  background-image: url("https://images.pexels.com/photos/1048033/pexels-photo-1048033.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+  /* background-image: url("https://images.pexels.com/photos/1213859/pexels-photo-1213859.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"); */
+}
+
+.discountNew p {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.discountNew h1 {
+  text-shadow: 0 0 8px rgb(255,255,255);
+
+  font-size: 3rem;
+  font-family: "Archivo", sans-serif;
+}
+.discount_paper {
+  margin: 20px 50px;
+  border-radius: 50px;
+}
+.price {
+  color: #116530;
+}
+
+/* main screen */
+
+.main {
+  height: 420px;
+  /* background-size: cover; */
+  /* background-position: 0 -100px; */
+  /* background-image: url('https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'); */
+}
+.home_image {
+  background-size: cover;
+  background-position: 0 -100px;
+  background-image: url("https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
 }

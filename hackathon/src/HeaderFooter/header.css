@@ -65,7 +65,7 @@
     border-bottom: 1px solid rgba(8, 8, 8, 0.2);
     padding-bottom: 10px;
   }
-  header .pizza-svg {
+  header {
     width: 80px;
     overflow: visible;
     stroke: #fff;
@@ -74,3 +74,69 @@
     stroke-linecap: round;
   }
   
+  /* footer */
+  @import url("https://fonts.googleapis.com/css2?family=Roboto");
+.footerSection {
+  background-color: #000324;
+  /* height: 600px; */
+  /* transform: scaleY(.95); */
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  padding: 15px;
+}
+.footerEmail {
+  width: 230px;
+  height: 30px;
+  border-radius: 30px;
+  border: grey;
+  font-size: large;
+  padding: 10px 30px;
+  margin-right: 30px;
+}
+.footerSection h2 {
+  font-weight: 800;
+  text-transform: initial;
+  word-spacing: 2px;
+  letter-spacing: 1px;
+  font-size: 2.2rem;
+}
+.footerSection h5 {
+  letter-spacing: 3px;
+  color: grey;
+}
+.footerSection h6 {
+  color: grey;
+  text-transform: initial;
+  word-spacing: 2px;
+  letter-spacing: 0.7px;
+  font-size: 17px;
+}
+.footerSection li{
+  list-style: none;
+  padding: 4px;
+  font-weight: 600;
+  color: #dbdbdbe1;
+font-size: 1rem;
+}
+.footerSection p{
+  font-size: 1.6rem;
+border-top:solid 2px white;
+border-bottom:solid 2px white;
+width: max-content;
+padding: 5px 0px;
+}
+
+.footerAcmIcon{
+  width: 250px;
+  transform: translateY(-20px);
+}
+
+.iconsFooter{
+  margin: 8px;
+}
+
+.footerSocial a{
+color: #dbdbdbe1;
+cursor: pointer;
+}

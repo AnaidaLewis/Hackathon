@@ -1,107 +1,70 @@
+import { Button, Grid } from "@mui/material";
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles((theme) => ({
-  box:{
-    display:"grid",
-    gridTemplateColumns:"70% 30%",
-    height:"8vh",
-    width:"100%",
-    padding:"1vh",
-  },
-  mobile:{
-    display:"grid",
-    gridTemplateColumns:"50% 50%",
-    height:"8vh",
-    width:"100%",
-    padding:"1vh",
-  },
-  company:{
-    fontSize:"1.3rem",
-    padding:"2vh",
-    paddingRight:"50vh",
-    color:"black"
-  },
-  companyMobile:{
-    fontSize:"1.1rem",
-    padding:"2vh",
-    paddingRight:"10vh",
-    color:"black"
-  },
-  roots:{
-    "&.MuiAppBar-root":{
-        backgroundColor:"white",
-        boxShadow:"none",
-    },
-
-  },
-  button:{
-    "& .MuiButton-root":{
-      color:"white",
-      width:"120px" ,
-      height:"35px" , 
-      fontSize:"18px",
-      backgroundImage: "linear-gradient(to right,#2871FA, #0214FC)", 
-      padding:"2vh"
-    },
-  },
-  buttonsmobile:{
-    "& .MuiButton-root":{
-      color:"white",
-      width:"90px" ,
-      height:"30px" , 
-      fontSize:"15px",
-      backgroundImage: "linear-gradient(to right,#2871FA, #0214FC)",
-      padding:"2vh"
-    },
-  },
-}));
-
-export const  Footer = () =>{
-
-  const classes = useStyles();
-  
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-
+import { IconContext } from "react-icons";
+import { BsInstagram, BsFacebook, BsLinkedin } from "react-icons/bs";
+import { MdOutlineEmail } from "react-icons/md";
+// import image from "../Header/DJACMLOGO.png";
+import './header.css'
+const Footer = () => {
   return (
-
-    <div >
-      <AppBar className={classes.roots} style={{position:"relative"}}>
-      <Toolbar>
-        {isMobile ? (
-          <div className={classes.mobile}>
-            <div style={{padding:"2vh" , marginLeft:"-5vh" , fontSize:"0.9rem" ,color:"black"}}>
-            Privacy Policy
-            </div>
-            <div style={{padding:"2vh" ,fontSize:"0.8rem" ,color:"black"}} >
-            Copyright&copy;Tract 2021
-            </div>
-          </div>
-        ):(
-        <div className={classes.box}>
-          <div style={{padding:"2vh" , marginLeft:"-70vh" ,color:"black"}}>
-            Privacy Policy
-          </div>
-          <div style={{padding:"2vh" ,color:"black"}}>
-            Copyright&copy;Tract 2021
-          </div>
-        </div>
-        )}
-      </Toolbar>
-      </AppBar>
-
+    <div className="footerSection">
+      {/* first part */}
+      <div
+        style={{
+          height:'220px',
+          backgroundColor: "#000324",
+          color: "#dbdbdb",
+        }}
+      >
+        <center>
+          <Grid container spacing={1}>
+            <Grid style={{ backgroundColor: "#000324" }} item sm={4} xs={12}>
+              {/* <img className="footerAcmIcon" src={image} alt="acmIcon" /> */}
+            </Grid>
+            <Grid style={{ backgroundColor: "#000324" }} item sm={4} xs={12}>
+              <p>Get involved</p>
+              <li>PPT</li>
+              <li>BLOGS</li>
+              <li>EVENTS</li>
+              <li>CONTACT US</li>
+            </Grid>
+            <Grid style={{ backgroundColor: "#000324" }} item sm={4} xs={12}>
+              <p>Get in touch</p>
+              <IconContext.Provider
+                value={{ size: "1.7rem", className: "iconsFooter" }}
+              >
+                <li className="footerSocial">
+                  <a href="https://www.instagram.com/djsanghvi_acm/?hl=en">
+                    <BsInstagram />
+                  </a>
+                  {/* </li>
+                <li> */}
+                  <a href="https://www.facebook.com/djscoe.acm.5">
+                    <BsFacebook />
+                  </a>
+                  {/* </li>
+                <li> */}
+                  <a href="https://in.linkedin.com/company/dj-sanghvi-acm">
+                    <BsLinkedin />
+                  </a>
+                </li>
+              </IconContext.Provider>
+            </Grid>
+          </Grid>
+          {/* copyright */}
+          <h6
+            style={{ color: " #dbdbdb91", padding: "5px", fontSize: ".8rem" }}
+          >
+            &copy;
+            {new Date().getFullYear()} Food Mart -- All Rights Reserved
+          </h6>
+        </center>
+      </div>
     </div>
-     
   );
-}
+};
+
+export default Footer;
+
 
 
