@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserManager(BaseUserManager):
-    def create_superuser(self, email, phone, password=None ,is_active=True, is_staff=True, is_admin=True, is_verified=True, is_verifiedPhone=True, is_nottwostep=True):
+    def create_superuser(self, email, phone,Role, password=None, is_active=True, is_staff=True, is_admin=True, is_verified=True, is_verifiedPhone=True, is_nottwostep=True):
         if not email:
             raise ValueError("User must have an email address")
         if not phone:
@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
         )
         user_obj.set_password(password)
         user_obj.phone = phone
-        # user_obj.Role =  Role
+        user_obj.Role =  Role
         user_obj.staff = is_staff
         user_obj.admin = is_admin
         user_obj.active = is_active
@@ -30,16 +30,17 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self, email, phone, password=None):
+    def create_staffuser(self, email, phone, Role, password=None):
         user = self.create_superuser(
             email,
             phone,
+            Role,
             password=password,
             is_admin=False
         )
         return user
     
-    def create_user(self, email, phone, nottwostep, password=None):
+    def create_user(self, email, phone, Role, nottwostep, password=None):
         user = self.create_superuser(
             email,
             phone,
@@ -50,6 +51,7 @@ class UserManager(BaseUserManager):
             is_verified=False,
             is_verifiedPhone=False,
             is_nottwostep= not nottwostep,
+            Role = Role
 
         )
         return user
@@ -84,7 +86,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['phone']
+    REQUIRED_FIELDS = ['phone','Role']
 
     objects = UserManager()
 
