@@ -1,5 +1,5 @@
 import './App.css';
-import { Route , BrowserRouter , Routes} from "react-router-dom";
+import { Route , BrowserRouter , Switch} from "react-router-dom";
 import Login from "./LoginPage/Login";
 import Signin from "./LoginPage/Signin";
 import { Header } from './HeaderFooter/Header';
@@ -12,21 +12,23 @@ import Feedback from './Pages/Feedback';
 import HeaderFrontPage from './HeaderFooter/HeaderFrontPage';
 import { Navbar } from './Pages/Navbar';
 import NotFound from './notFound/NotFound';
-import Dashboard from './Homepage_smallCompany/Dashboard';
+import TwoStep from './LoginPage/TwoStep';
+// import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-        <Route exact path = "/" element={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
-        <Route path = "Login" element={<div className='sign'><HeaderFrontPage/><Login/></div>} />
-        <Route path = "Login/HomePage" element={<><Navbar/><HomeC/></>} />
-        <Route path = "/Page1" element={<><Navbar/><Page1/></>}/>
-        <Route path = "/Page2" element={<><Navbar/><Page2/></>} />
-        {/*<Route path = "/Feedback" element={<><Navbar/><Feedback/></>} />*/}
-        <Route element={<h1>not found</h1>} />
-        <Route path="*" element={<NotFound/>} />
-        </Routes>
+        <Switch>
+        <Route exact path = "/" children={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
+        <Route path = "/Login" children={<div className='sign'><HeaderFrontPage/><Login/></div>} />
+        <Route path= '/verfication' children={<TwoStep/>}></Route>
+        <Route path = "/HomePage" children={<><Navbar/><HomeC/></>} />
+        <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
+        <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
+        {/*<Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />*/}
+        {/* <Route children={<h1>not found</h1>} /> */}
+        <Route children={<NotFound/>} />
+        </Switch>
        
         </BrowserRouter>
     </div>

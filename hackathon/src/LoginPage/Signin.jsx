@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import "./Signin.css";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GoogleLogin } from "react-google-login";
+import { useHistory } from "react-router-dom";
+import swal from "sweetalert";
 
 import {
   Grid,
@@ -24,15 +26,23 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+
+var axios = require("axios");
+
 const Signin = () => {
+  const history = useHistory();
+
   const [values, setValues] = useState({
-    fname: "",
-    lname: "",
-    password: "",
-    password2: "",
+    fname: "bap",
+    lname: "bap",
+    password: "bhumika13@",
+    password2: "bhumika13@",
     email: "",
+    role: "SELLER",
+    phone: "",
     showPassword: false,
     showPassword2: false,
+    twostep: true,
   });
   const responseFacebook = (response) => {
     console.log(response);
@@ -59,17 +69,40 @@ const Signin = () => {
   const handleMouseDownPassword2 = (event) => {
     event.preventDefault();
   };
+
+  // signin integrated with backend
+  var data = JSON.stringify({
+    email: `${values.email}`,
+    phone: `${"+91"+values.phone}`,
+    password: `${values.password}`,
+    twostep: `${values.twostep}`,
+    Role: `${values.role}`,
+  });
+
+  var config = {
+    method: "post",
+    url: "https://community-buying.herokuapp.com/account/signup/",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  // Oauth
   async function authConfirm(token) {
     var item = { auth_token: token };
 
-    let result = await fetch("Anaida-hosted-website/account/google/", {
-      method: "POST",
-      body: JSON.stringify(item),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "/",
-      },
-    });
+    let result = await fetch(
+      "https://community-buying.herokuapp.com/account/google/",
+      {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+        },
+      }
+    );
     result = await result.json();
     console.log(result);
   }
@@ -117,7 +150,6 @@ const Signin = () => {
                   error={errors.firstName}
                   className="fields_space"
                   fullWidth
-                  style={{ backgroundColor: "#58971C" }}
                   variant="outlined"
                   value={values.fname}
                   name="fname"
@@ -168,31 +200,62 @@ const Signin = () => {
           </div>
 
           <div>
-            <TextField
-              id="outlined-basic"
-              label="Email"
-              type="email"
-              error={errors.email}
-              name="email"
-              variant="outlined"
-              value={values.email}
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <EmailIcon />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleChanges}
-            />
-            {errors.email ? (
-              <FormHelperText error>{errors.email}</FormHelperText>
-            ) : (
-              <FormHelperText style={{ visibility: "hidden" }}>
-                ..
-              </FormHelperText>
-            )}
+            <Grid container spacing={2}>
+              <Grid item md={6} sm={12} xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  type="email"
+                  error={errors.email}
+                  name="email"
+                  variant="outlined"
+                  value={values.email}
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <EmailIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChanges}
+                />
+                {errors.email ? (
+                  <FormHelperText error>{errors.email}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid item md={6} sm={12} xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="phone number"
+                  type="text"
+                  error={errors.phone}
+                  name="phone"
+                  variant="outlined"
+                  value={values.phone}
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <EmailIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChanges}
+                />
+                {errors.phone ? (
+                  <FormHelperText error>{errors.phone}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+            </Grid>
           </div>
           <div>
             <Grid container spacing={2}>
@@ -373,6 +436,11 @@ const Signin = () => {
                 ..
               </FormHelperText>
             )} */}
+            {/* <input
+              onChange={handleChanges}
+              name="twostep"
+              value={values.twostep}
+            ></input> */}
           </div>
           <Button
             fullWidth
@@ -385,6 +453,19 @@ const Signin = () => {
             variant="contained"
             onClick={() => {
               setErrors(Validation(values));
+
+              axios(config)
+                .then(function (response) {
+                  console.log(JSON.stringify(response.data));
+                  localStorage.setItem("number",values.phone)
+                  // localStorage.setItem("email",values.email)
+                  history.push(`/verfication`);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                  swal("Account already exists!", "Try logging in", "error");
+                });
+              // }
             }}
           >
             Create Account
