@@ -24,7 +24,7 @@ function App() {
         <Route exact path = "/" children={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
         <Route path = "/Login" children={<div className='sign'><HeaderFrontPage/><Login/></div>} />
         <Route path= '/verfication' children={<TwoStep/>}></Route>
-        <Route path = "/HomePage" children={<><Navbar/><HomeC/></>} />
+        <Route path = "/HomePage" children={<><HomeC/></>} />
         <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
         <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
         <Route path = "/SellerDashboard" children={<><Navbar/><Dashboard/></>} />

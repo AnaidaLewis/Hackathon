@@ -14,13 +14,13 @@ import sugar from "../Images/sugar.jpg";
 import oil from "../Images/sunflower oil.jpg";
 const DailyStaples = () => {
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "300px 20px" }}>
       <center>
-        <h2 >Your Daily Staples</h2>
+        <h2>Your Daily Staples</h2>
         <br />
       </center>
       <Grid container spacing={2}>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -34,7 +34,7 @@ const DailyStaples = () => {
             </Paper>
           </Link>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -44,11 +44,11 @@ const DailyStaples = () => {
               <center>
                 <img width="150" height="150" src={oil} alt="oil"></img>
               </center>
-              <p> &nbsp; Cooking oils & Ghee</p>
+              <p>Cooking oils & Ghee</p>
             </Paper>
           </Link>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -62,7 +62,7 @@ const DailyStaples = () => {
             </Paper>
           </Link>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -76,7 +76,7 @@ const DailyStaples = () => {
             </Paper>
           </Link>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -90,7 +90,7 @@ const DailyStaples = () => {
             </Paper>
           </Link>
         </Grid>
-        <Grid item md={2} sm={6} xs={12}>
+        <Grid item md={2} sm={6} xs={6}>
           <Link to="ca" className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
@@ -109,23 +109,64 @@ const DailyStaples = () => {
       <div className="about_quality">
         <center>
           <Grid container spacing={3}>
-            <Grid item xs={4}>
+            <Grid
+              component={motion.div}
+              initial={{ x: "-100vh" }}
+              animate={{ x: 0 }}
+              item
+              xs={4}
+            >
               <p>
                 <RiPlantFill />
               </p>
-              <h3>100% ORGANIC</h3>
+              <motion.h3
+                whileHover={{ textDecoration: "underline", scale: 1.2 }}
+              >
+                100% ORGANIC
+              </motion.h3>
+              <span style={{ padding: "5px" }}>
+                The more natural or eco-based products you can introduce into
+                your beauty regimen, the more beneficial it is for your skin.
+              </span>
             </Grid>
-            <Grid item xs={4}>
+            <Grid
+              component={motion.div}
+              initial={{ x: "-100vh" }}
+              animate={{ x: 0 }}
+              item
+              xs={4}
+            >
               <p>
                 <MdOutlineEmojiNature />
               </p>
-              <h3>NATURAL PROCESS</h3>
+              <motion.h3
+                whileHover={{ textDecoration: "underline", scale: 1.2 }}
+              >
+                NATURAL PROCESS
+              </motion.h3>
+              <span>
+                You are what you eat, so don’t be fast, cheap, easy, or fake.
+              </span>
             </Grid>
-            <Grid item xs={4}>
+            <Grid
+              component={motion.div}
+              initial={{ x: "-100vh" }}
+              animate={{ x: 0 }}
+              item
+              xs={4}
+            >
               <p>
                 <GiSlicedBread />
               </p>
-              <h3>HOMEGROWN GOODNESS</h3>
+              <motion.h3
+                whileHover={{ textDecoration: "underline", scale: 1.2 }}
+              >
+                HOMEGROWN GOODNESS
+              </motion.h3>
+              <span>
+                A society grows great when old men plant trees whose shade they
+                know they shall never sit in.
+              </span>
             </Grid>
           </Grid>
         </center>
