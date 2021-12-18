@@ -1,5 +1,6 @@
 const Validation = (value) => {
     console.log(value);
+    //localStorage.setItem('role',value);
     const emailRegex = /\S+@\S+\.\S+/;
     const passwordRegex= /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
     const numberRegex=/^[0-9]+$/

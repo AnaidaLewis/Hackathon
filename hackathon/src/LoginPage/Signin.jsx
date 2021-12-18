@@ -38,7 +38,7 @@ const Signin = () => {
     password: "bhumika13@",
     password2: "bhumika13@",
     email: "",
-    role: "SELLER",
+    Role: "SELLER",
     phone: "",
     showPassword: false,
     showPassword2: false,
@@ -78,7 +78,7 @@ const Signin = () => {
     twostep: `${values.twostep}`,
     Role: `${values.role}`,
   });
-
+  //localStorage.setItem("role", Role);
   var config = {
     method: "post",
     url: "https://community-buying.herokuapp.com/account/signup/",

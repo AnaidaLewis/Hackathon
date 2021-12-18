@@ -1,0 +1,39 @@
+.Dashboard{
+    display: grid;
+    grid-template-rows: 30% 70%;
+    /*border: 1px solid black;*/
+    /*background-color: aqua;*/
+    height: 200vh;
+    width:100%;
+    padding: 7vh;
+
+}
+.Box{
+    display: grid;
+    grid-template-rows: 40% 60%;
+
+}
+.inputfield{
+    width:100%;
+
+}
+/*.Form{
+    display: grid;
+    grid-template-rows:100%;
+    height:50vh;
+
+}*/
+@media (max-width:750px)
+{
+
+    .Box{
+        height: 300vh;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 50% 50%;
+
+    }
+    .List{
+        margin-top: 50vh;
+    }
+}
