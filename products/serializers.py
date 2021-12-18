@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Item,Address
+from .models import Product,Address
 
 User = get_user_model()
 
-class ItemSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = Product
         fields = '__all__'
 
 
