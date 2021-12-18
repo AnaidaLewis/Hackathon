@@ -1,0 +1,22 @@
+.cat_link {
+  text-decoration: none;
+}
+
+.about_quality {
+  margin: 2% 0%;
+  padding: 4%;
+  background-color: #e8e8cc;
+}
+.about_quality p {
+  font-size: 3.5rem;
+  color: #0b4619;
+}
+.about_quality h3 {
+  font-size: 1.4rem;
+  color: #0b4619;
+}
+.cat_link p {
+  color: #116530;
+  font-size: 1.1rem;
+  font-weight: 600;
+}

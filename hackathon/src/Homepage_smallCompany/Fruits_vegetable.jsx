@@ -7,10 +7,11 @@ import cranberry from "../Images/cranberry.jpg";
 import FruitsVeg from "../Images/fruits-and-vegetables-hd.jpg";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import './home.css'
 const Fruits_vegetable = () => {
   return (
     <div style={{ padding: "10%" }}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} className="fruitsVeg">
         <Grid item md={6} sm={12} xs={12}>
           <Paper elevation={3}>
             <img width="100%"  src={FruitsVeg} alt="exotic"></img>
@@ -19,7 +20,7 @@ const Fruits_vegetable = () => {
         <Grid item md={6} sm={12} xs={12}>
           <Grid container spacing={3}>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca">
+              <Link to="ca" className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -30,7 +31,7 @@ const Fruits_vegetable = () => {
                       width="200"
                       height="200"
                       src={carrot}
-                      alt="exotic"
+                      alt="veggies"
                     ></img>
                   </center>
                   <p> &nbsp;Fresh Veggies</p>
@@ -38,7 +39,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca">
+              <Link to="ca" className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -49,7 +50,7 @@ const Fruits_vegetable = () => {
                       width="200"
                       height="200"
                       src={cranberry}
-                      alt="exotic"
+                      alt="exotic fruits"
                     ></img>
                   </center>
                   <p> &nbsp;Exotic Fruits</p>
@@ -57,7 +58,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca">
+              <Link to="ca" className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -68,7 +69,7 @@ const Fruits_vegetable = () => {
                       width="200"
                       height="200"
                       src={apple}
-                      alt="exotic"
+                      alt="fruits"
                     ></img>
                   </center>
                   <p> &nbsp;Fresh Fruits</p>
@@ -76,7 +77,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca">
+              <Link to="ca" className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
