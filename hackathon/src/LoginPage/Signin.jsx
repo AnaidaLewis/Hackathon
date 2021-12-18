@@ -1,0 +1,525 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import "./Signin.css";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { GoogleLogin } from "react-google-login";
+
+import {
+  Grid,
+  OutlinedInput,
+  IconButton,
+  TextField,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  FormHelperText,
+  Tooltip,
+  Button,
+} from "@mui/material";
+import Validation from "./Validation";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import EmailIcon from "@mui/icons-material/Email";
+import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+const Signin = () => {
+  const [values, setValues] = useState({
+    fname: "",
+    lname: "",
+    password: "",
+    password2: "",
+    email: "",
+    showPassword: false,
+    showPassword2: false,
+  });
+  const responseFacebook = (response) => {
+    console.log(response);
+  };
+
+  const [errors, setErrors] = useState({});
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+  const handleClickShowPassword2 = () => {
+    setValues({ ...values, showPassword2: !values.showPassword2 });
+  };
+  const handleChanges = (event) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+    console.log(values);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseDownPassword2 = (event) => {
+    event.preventDefault();
+  };
+  async function authConfirm(token) {
+    var item = { auth_token: token };
+
+    let result = await fetch("Anaida-hosted-website/account/google/", {
+      method: "POST",
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "/",
+      },
+    });
+    result = await result.json();
+    console.log(result);
+  }
+
+  function responseGoogle(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Full Name: " + profile.getName());
+    console.log("Given Name: " + profile.getGivenName());
+    console.log("Family Name: " + profile.getFamilyName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var auth_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + auth_token);
+    authConfirm(auth_token);
+  }
+
+  return (
+    <div className="signin">
+      <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Sign In</div>
+      {/* <div style={{marginBottom:"5vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
+      <Grid container spacing={5}>
+        {/* inputs */}
+        <Grid
+          component={motion.div}
+          // style={{padding:'0 20%'}}
+          transition={{ type: "spring", stiffness: 40 }}
+          initial={{ y: "-100vw" }}
+          animate={{ y: 0 }}
+          item
+          md={12}
+          xs={12}
+        >
+          <div>
+            <Grid container spacing={2}>
+              <Grid item md={6} sm={12} xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="First Name"
+                  autoFocus
+                  color="secondary"
+                  error={errors.firstName}
+                  className="fields_space"
+                  fullWidth
+                  style={{ backgroundColor: "#58971C" }}
+                  variant="outlined"
+                  value={values.fname}
+                  name="fname"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PermContactCalendarIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChanges}
+                />
+                {errors.firstName ? (
+                  <FormHelperText error>{errors.firstName}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid item md={6} sm={12} xs={12}>
+                <TextField
+                  id="outlined-basic"
+                  label="Last Name"
+                  variant="outlined"
+                  fullWidth
+                  error={errors.lastName}
+                  name="lname"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <PermContactCalendarIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={values.lname}
+                  onChange={handleChanges}
+                />
+                {errors.lastName ? (
+                  <FormHelperText error>{errors.lastName}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              type="email"
+              error={errors.email}
+              name="email"
+              variant="outlined"
+              value={values.email}
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={handleChanges}
+            />
+            {errors.email ? (
+              <FormHelperText error>{errors.email}</FormHelperText>
+            ) : (
+              <FormHelperText style={{ visibility: "hidden" }}>
+                ..
+              </FormHelperText>
+            )}
+          </div>
+          <div>
+            <Grid container spacing={2}>
+              <Grid item md={6} sm={12} xs={12}>
+                <Tooltip
+                  title="Minimum eight characters, at least one letter, one number and one special character are required"
+                  arrow
+                >
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={values.showPassword ? "text" : "password"}
+                      value={values.password}
+                      error={errors.password}
+                      onChange={handleChanges}
+                      name="password"
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {values.showPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                  </FormControl>
+                </Tooltip>
+                {errors.password ? (
+                  <FormHelperText error>{errors.password}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid item md={6} sm={12} xs={12}>
+                <Tooltip
+                  title="Minimum eight characters, at least one letter, one number and one special character are required"
+                  arrow
+                >
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Confirm Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={values.showPassword2 ? "text" : "password"}
+                      value={values.password2}
+                      onChange={handleChanges}
+                      error={errors.Cpassword}
+                      name="password2"
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword2}
+                            onMouseDown={handleMouseDownPassword2}
+                            edge="end"
+                          >
+                            {values.showPassword2 ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Confirm Password"
+                    />
+                  </FormControl>
+                </Tooltip>
+                {errors.Cpassword ? (
+                  <FormHelperText error>{errors.Cpassword}</FormHelperText>
+                ) : (
+                  <FormHelperText style={{ visibility: "hidden" }}>
+                    ..
+                  </FormHelperText>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+          <div>
+            {/* <Tooltip
+              title="Minimum eight characters, at least one letter, one number and one special character are required"
+              arrow
+            >
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  error={errors.password}
+                  onChange={handleChanges}
+                  name="password"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+            </Tooltip>
+            {errors.password ? (
+              <FormHelperText error>{errors.password}</FormHelperText>
+            ) : (
+              <FormHelperText style={{ visibility: "hidden" }}>
+                ..
+              </FormHelperText>
+            )}
+          </div>
+          <div>
+            <Tooltip
+              title="Minimum eight characters, at least one letter, one number and one special character are required"
+              arrow
+            >
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Confirm Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={values.showPassword2 ? "text" : "password"}
+                  value={values.password2}
+                  onChange={handleChanges}
+                  error={errors.Cpassword}
+                  name="password2"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword2}
+                        onMouseDown={handleMouseDownPassword2}
+                        edge="end"
+                      >
+                        {values.showPassword2 ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Confirm Password"
+                />
+              </FormControl>
+            </Tooltip>
+            {errors.Cpassword ? (
+              <FormHelperText error>{errors.Cpassword}</FormHelperText>
+            ) : (
+              <FormHelperText style={{ visibility: "hidden" }}>
+                ..
+              </FormHelperText>
+            )} */}
+          </div>
+          <Button
+            fullWidth
+            component={motion.div}
+            whileHover={{
+              scale: 1.08,
+              textShadow: "0 0 4px rgb(255,255,255)",
+              transition: { duration: 0.3 },
+            }}
+            variant="contained"
+            onClick={() => {
+              setErrors(Validation(values));
+            }}
+          >
+            Create Account
+          </Button>
+          <div className="google">
+            <br />
+            <span className="or">______________</span>
+            <span>&nbsp; OR &nbsp;</span>
+            <span className="or">______________</span>
+            <br />
+            <br />
+            {/* <GoogleLogin
+              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+            <br /> <br /> */}
+            <GoogleLogin
+              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <Button
+                  size="small"
+                  startIcon={<GoogleIcon />}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  // style={{ padding: "13px", marginBottom: "20px" }}
+                  fullWidth
+                  variant="outlined"
+                  component={motion.div}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  &nbsp; Sign in with Google
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+            {/* <GoogleLogin
+              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <Button
+                  size="small"
+                  startIcon={<GoogleIcon />}
+                  // style={{ padding: "13px", marginBottom: "20px" }}
+                  fullWidth
+                  variant="outlined"
+                  onClick={renderProps.onClick} disabled={renderProps.disabled}
+                  component={motion.div}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  &nbsp; Sign in with Google
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            /> */}
+            {/* <Button
+              size="small"
+              startIcon={<GoogleIcon />}
+              // style={{ padding: "13px", marginBottom: "20px" }}
+              fullWidth
+              variant="outlined"
+              component={motion.div}
+              whileHover={{ scale: 1.1 }}
+            >
+              &nbsp; Sign in with Google
+            </Button> */}
+            <br />
+          </div>
+        </Grid>
+        {/* google facebook  */}
+        {/* <Grid
+          component={motion.div}
+          transition={{ type: "spring", stiffness: 40 }}
+          initial={{ x: "100vw" }}
+          animate={{ x: 0 }}
+          item
+          md={6}
+          xs={12}
+        >
+          <div className="social">
+            <Button
+              startIcon={<GoogleIcon />}
+              style={{ padding: "13px", marginBottom: "20px" }}
+              fullWidth
+              variant="outlined"
+              component={motion.div}
+              whileHover={{ scale: 1.1 }}
+            >
+              &nbsp; Sign in with Google
+            </Button>
+            <br />
+
+            <FacebookLogin
+              appId="443510297287588"
+              autoLoad
+              callback={responseFacebook}
+              render={(renderProps) => (
+                <Button
+                  onClick={renderProps.onClick}
+                  startIcon={<FacebookIcon />}
+                  style={{ padding: "13px", marginBottom: "20px" }}
+                  fullWidth
+                  variant="outlined"
+                  component={motion.div}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  &nbsp;Sign in with Facebook
+                </Button>
+              )}
+            />
+            <br />
+
+            <Button
+              startIcon={<TwitterIcon />}
+              style={{ padding: "13px", marginBottom: "20px" }}
+              fullWidth
+              variant="outlined"
+              component={motion.div}
+              whileHover={{ scale: 1.1 }}
+            >
+              &nbsp; Sign in with Twitter
+            </Button>
+           
+          </div>
+        </Grid> */}
+      </Grid>
+    </div>
+  );
+};
+
+export default Signin;

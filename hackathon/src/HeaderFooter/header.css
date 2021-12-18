@@ -1,0 +1,76 @@
+
+  
+  /* reset & common styles */
+  /* body, ul, h1, h2, h3, p, button, a, div{
+    margin: 0;
+    padding: 0;
+    /* background-color: blueviolet; */
+    /* letter-spacing: 2px;
+    color: black;
+    list-style-type: none;
+    text-decoration: none;
+  } */ */
+  body{
+    overflow: hidden;
+  }
+  .in{
+      padding: 10px 15px;
+      text-decoration: none;
+
+  }
+  .in:active,.in:hover,.in{
+      color: black;
+  }
+  .in:hover{
+      outline: 2px rgba(8, 8, 8, 0.2) solid;
+  }
+  /* button{
+    color: white;
+    padding: 10px 30px;
+    font-size: 1em;
+    background: transparent;
+    border-radius: 50px;
+    border: 1px solid white;
+    margin: 40px auto 0;
+    cursor: pointer;
+    opacity: 0.7;
+  } */
+  /* .container{
+    max-width: 300px;
+    margin: 100px auto 40px;
+  }
+  .container h3{
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .container li{
+    padding: 10px;
+    cursor: pointer;
+  } */
+  
+  /* header */
+  header{
+    display: flex;
+    padding: 35px;
+    align-items: center;
+  }
+  header .title{
+    flex-grow: 3;
+    text-align: right;
+    margin-right: 30px;
+    font-size: 0.6em;
+  }
+  header h1{
+    border-bottom: 1px solid rgba(8, 8, 8, 0.2);
+    padding-bottom: 10px;
+  }
+  header .pizza-svg {
+    width: 80px;
+    overflow: visible;
+    stroke: #fff;
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  

@@ -1,0 +1,38 @@
+.signin{
+    padding: 0% 30%;
+    /* height:90vh; */
+    transform: translateY(-50px);
+}
+.login{
+    padding: 4% 17%;
+    transform: translateY(-50px);
+  
+}
+.social{
+    margin: 25px 0;
+    transform:translateX(50px);
+    padding-top: 50px;
+}
+.social2{
+    transform:translateX(50px);
+}
+.or{
+    font-size: 1.3rem;
+    position: relative;
+    top: -10px;
+}
+.google{
+    color: rgb(97, 93, 93);
+}
+@media (max-width:900px){
+.social,.social2{
+    transform: translateX(0);
+    margin: 0;
+}
+
+}
+@media (min-width:600px){
+    .fields_space{
+        margin: 10px;
+    }
+}
