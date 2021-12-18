@@ -48,8 +48,9 @@ class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPI
 
             token = RefreshToken.for_user(user_data).access_token
             # token = Token.objects.get_or_create(user=user)
+            current_site = get_current_site(request).domain
             relative_link = reverse('EmailVerification')
-            abs_url = settings.FRONT_END_HOST + relative_link + "?token=" + str(token)
+            abs_url = current_site + relative_link + "?token=" + str(token)
             email_body = "Hiii! Use link below to verify your email \n"+ abs_url
             data ={'email_body': email_body, 'email_subject': "Verify your Email",'to_email':user_data.email}
             Util.send_email(data)
@@ -213,8 +214,9 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             #hashing the user id 
             token=PasswordResetTokenGenerator().make_token(user) 
             #this token becomes invalid once the user has reset the password
+            current_site = get_current_site(request).domain
             relative_link = reverse('password-reset-confirm',kwargs={'uidb64':uidb64,'token':token})
-            abs_url = settings.FRONT_END_HOST + relative_link
+            abs_url = current_site + relative_link
             email_body = "Hiii! Use link below to reset your password \n"+ abs_url
             data ={'email_body': email_body, 'email_subject': "reset your password",'to_email':user.email}
             Util.send_email(data)
