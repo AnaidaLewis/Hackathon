@@ -12,15 +12,14 @@ import Feedback from './Pages/Feedback';
 import HeaderFrontPage from './HeaderFooter/HeaderFrontPage';
 import { Navbar } from './Pages/Navbar';
 import NotFound from './notFound/NotFound';
-import Dashboard from './Homepage_smallCompany/Dashboard';
+import Dashboard from './Homepage_bigCompany/Dashboard';
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
         <Route exact path = "/" element={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
-        <Route path = "Login" element={<div className='sign'><HeaderFrontPage/><Login/></div>} />
-<<<<<<< HEAD
+        <Route path = "Login" element={<div className='sign'><HeaderFrontPage/><Login/></div>} /
         <Route path = "Login/HomePage" element={<><Navbar/><HomePage/></>} />
         <Route path = "/Page1" element={<><Navbar/><Page1/></>}/>
         <Route path = "/Page2" element={<><Navbar/><Page2/></>} />
