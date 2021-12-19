@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
     },
     card:{
       "& .MuiCard-root":{
-        height:"25vh",
+        height:"28vh",
       }
     },
     button:{
       "& .MuiButtonBase-root":{
-          width:"18rem",
+          width:"25rem",
           fontSize:"2rem",
       }
     }
@@ -64,13 +64,12 @@ const Dashboard = () => {
     const [price,setPrice] = useState("");
     const [companyname,setCompany] = useState("")
     const [category, setCategory] = useState("");
-    const [min_quantity,setMinqnty] = useState("");
-    const [max_quantity,setMaxqnty] = useState("");
-    const [below_min_discount, setMinDis] = useState(" ");
-    const [above_min_discount, setMaxDis] = useState(" ");
+    const [wholesale_price,setWholePrice] = useState("");
+    const [min_order,setMinOrder] = useState("");
+    const [total_stock, setTotalStock] = useState(" ");
     const [units,setUnits] = useState(" ");
     const [load,setLoadImage] = useState([]);
-
+var field='';
     useEffect(() => {
       loadList();
     },[load]);
@@ -88,10 +87,11 @@ const Dashboard = () => {
       formData.append("name", name);
       formData.append("image", image);
       formData.append("price", price);
-      formData.append("min_quantity", min_quantity);
-      formData.append("below_min_dis", below_min_discount);
-      formData.append("total_stock", max_quantity);
-      formData.append("above_min_dis", above_min_discount);
+      formData.append("category",category)
+      formData.append("wholesale_price", wholesale_price);
+      formData.append("min_order", min_order);
+      formData.append("total_stock", total_stock);
+      formData.append("units", units);
   
       
       await fetch(`http://communitybuying.pythonanywhere.com/main/product/1/`, {
@@ -120,10 +120,12 @@ const Dashboard = () => {
           cancelButtonText: 'Cancel'
       }).then(async (result) => {
           if (result.value) {
+           
               try {
                   
                   axios.delete(`http://communitybuying.pythonanywhere.com/main/product/${id}` , {
                     headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+                    
                   })
                       Swal.fire(
                           'Deleted !',
@@ -145,9 +147,44 @@ const Dashboard = () => {
     }
 
     const editImage = (id) =>{
-  
+      Swal.fire({
+          title: 'Select field validation',
+          input: 'select',
+          inputOptions: {
+            'company':'comapny',
+            'name':'name',
+            'image': 'image',
+            'price':'price',
+            'category':'category',
+            'wholesale_price':'wholesale_price',
+            'min_order':'min_order',
+            'total_stock':'total_stock',
+            'units':'units',
+        },
+        inputPlaceholder: 'Select a fruit',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          Swal.fire({
+            title: `Enter the new value for ${value}`,
+            input: 'text',
+            inputLabel: `${value}`,
+            inputValidator: (num) => {
+              if (num) {
+                console.log(value,field)
+                  var data = JSON.stringify({
+                    value : field
+                  });
+                  const res = axios.get(`http://communitybuying.pythonanywhere.com/main/product/${id}` , {
+                    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+                    body:data,
+                  })
+                  console.log(res);
+            }
+          }
+        })    
+        }
+      })
     }
-
 
     return (
         <div className='Dashboard'>
@@ -214,20 +251,29 @@ const Dashboard = () => {
               value={category}
               onChange={(e)=>setCategory(e.target.value)}
               style={{marginTop:"-5px"}}>
-              <MenuItem key="kg" value="kilogram">
-                Kilogram
+              <MenuItem key="Exotic vegetable" value="Exotic vegetable">
+              Exotic vegetable
               </MenuItem>
-              <MenuItem key="g" value="gram">
-                Gram
+              <MenuItem key="Meat/Seafood" value="Meat/Seafood">
+              Meat/Seafood
               </MenuItem>
-              <MenuItem key="l" value="litre">
-                litre
+              <MenuItem key="Daily essentials" value="Daily essentials">
+              Daily essentials
               </MenuItem>
-              <MenuItem key="ml" value="milli-litre">
-                Milli-Litre
+              <MenuItem key="Dairy Products" value="Dairy Products">
+              Dairy Products
               </MenuItem>
-              <MenuItem key="unit" value="unit">
-                Unit
+              <MenuItem key="Healthy Food" value="Healthy Food">
+              Healthy Food
+              </MenuItem>
+              <MenuItem key="fruits" value="fruits">
+              Fruits
+              </MenuItem>
+              <MenuItem key="Indian Grocery" value="Indian Grocery">
+              Indian Grocery
+              </MenuItem>
+              <MenuItem key="Bakery Items" value="Bakery Items">
+              Bakery Items
               </MenuItem>
               </Select>
             </FormControl>
@@ -271,12 +317,12 @@ const Dashboard = () => {
       <Grid item xs={12} sm={6} md={4} className = {classes.root} justify="center">
       <TextField 
                             className = {classes.inputbox}
-                            label="Minium - Quantity"
-                            name="minqnty"
+                            label="WholeSale Price"
+                            name="wholesale_price"
                             variant="outlined" 
-                            placeholder="min-qnty"
-                            value={min_quantity}
-                            onChange={(e)=>setMinqnty(e.target.value)}
+                            placeholder="WholeSale Price"
+                            value={wholesale_price}
+                            onChange={(e)=>setWholePrice(e.target.value)}
                             autoComplete="off"
                             InputProps={{
                                 endAdornment: (
@@ -289,11 +335,11 @@ const Dashboard = () => {
                          <TextField 
                             className = {classes.inputbox}
                             label="Total Quantity"
-                            name="max_quantity"
+                            name="total_stock"
                             variant="outlined" 
-                            placeholder="total quantity"
-                            value={max_quantity}
-                            onChange={(e)=>setMaxqnty(e.target.value)}
+                            placeholder="Total Quantity"
+                            value={total_stock}
+                            onChange={(e)=>setTotalStock(e.target.value)}
                             autoComplete="off"
                 InputProps={{
                     endAdornment: (
@@ -306,12 +352,12 @@ const Dashboard = () => {
 
                          <TextField 
                             className = {classes.inputbox}
-                            label="Minimum Discount offered"
-                            name="below_min_discount"
+                            label="Minimum order"
+                            name="min_order"
                             variant="outlined" 
-                            placeholder="Minimum Discount Offered"
-                            value={below_min_discount}
-                            onChange={(e)=>setMinDis(e.target.value)}
+                            placeholder="Minimum Order"
+                            value={min_order}
+                            onChange={(e)=>setMinOrder(e.target.value)}
                             autoComplete="off"
                             InputProps={{
                                 endAdornment: (
@@ -321,23 +367,7 @@ const Dashboard = () => {
                                 ),
                             }}
                          />
-                          <TextField 
-                            className = {classes.inputbox}
-                            label="Maximum Discount offered"
-                            name="above_min_discount"
-                            variant="outlined" 
-                            placeholder="above_min_discount"
-                            value={above_min_discount}
-                            onChange={(e)=>setMaxDis(e.target.value)}
-                            autoComplete="off"
-                InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                         <LocalOfferIcon/>
-                      </InputAdornment>
-                    ),
-                }}
-                         />
+
             
 
                          {/*<TextField 
@@ -364,16 +394,16 @@ const Dashboard = () => {
               value={units}
               onChange={(e)=>setUnits(e.target.value)}
               style={{marginTop:"-5px"}}>
-              <MenuItem key="kilogram" value="kg">
+              <MenuItem key="kg" value="kg">
                 Kilogram
               </MenuItem>
-              <MenuItem key="gram" value="g">
+              <MenuItem key="g" value="g">
                 Gram
               </MenuItem>
-              <MenuItem key="litre" value="l">
+              <MenuItem key="l" value="l">
                 litre
               </MenuItem>
-              <MenuItem key="milli-litre" value="ml">
+              <MenuItem key="ml" value="ml">
                 Milli-Litre
               </MenuItem>
               <MenuItem key="unit" value="unit">
@@ -381,12 +411,14 @@ const Dashboard = () => {
               </MenuItem>
               </Select>
             </FormControl>
+            <Button onClick={handleSubmission} className={classes.button,classes.inputbox} variant="contained" style={{
+          marginTop:"5vh",
+          marginLeft:"5vh",
+          marginBottom:"5vh"}}>Add Items in stock </Button>
                         
       </Grid>
       </Grid>
-      <Button onClick={handleSubmission} className={classes.button} variant="contained" style={{
-          marginTop:"5vh",
-          marginBottom:"5vh"}}>Add Items in stock </Button>
+    
 
         
     </div>
@@ -394,11 +426,11 @@ const Dashboard = () => {
                 </div>
                 <div className='List'>
                 <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={{ xs: 2, md: 8 }} columns={{ xs: 1, sm: 4, md: 8 }}>
+                <Grid container spacing={{ xs: 2, md: 9 }} columns={{ xs: 1, sm: 4, md: 9 }}>
                 {load.map((index) => (
                  <Grid item xs={2} sm={4} md={4} key={index} className={classes.card}>
                 
-                <Card sx={{ maxWidth: 620  }} className="card">
+                <Card sx={{ maxWidth: 630  }} className="card">
                 <div>
                 
                 
@@ -413,7 +445,7 @@ const Dashboard = () => {
                 </div>
                 <div className='card-cont'>
                 <div className="content">
-                <div className='cont-left'>
+                <div className='cont-right'>
                 <div className="cont-block">
                 <div className='head-1'>
                 <Typography gutterBottom variant="h5" component="div">
@@ -426,27 +458,13 @@ const Dashboard = () => {
                 </Typography>
                 </div>
                 </div>
-                <div className='cont-block'>
-                <div className='head-2'>
-                <Typography gutterBottom variant="h5" component="div">
-                
-                </Typography>
-                </div>
-                <div className='sub-2'>
-                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                
-                </Typography>
-                </div>
-                
-                </div>
-
                 </div>
                 <div className='cont-left'>
                 <div className="cont-block1">
                 <div className='head-3' >
-                <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.3rem" ,paddingTop:"1vh"}} className='sub-head-3'>
-                <div style={{color:"red"}}>{index.below_min_dis} {`%`}<ArrowDropDownIcon style={{marginTop:"2px", color:"red"}}/></div>
-                <div style={{color:"green"}}>{index.above_min_dis} {`%`}<ArrowDropUpIcon style={{marginTop:"2px"}}/></div>
+                <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
+                <div style={{color:"red"}}>{index.min_order}<ArrowDropDownIcon style={{marginTop:"2px", color:"red"}}/></div>
+                <div style={{color:"green"}}>{index.wholesale_price}<ArrowDropUpIcon style={{marginTop:"2px"}}/></div>
                 
                 </Typography>
                 </div>
@@ -470,8 +488,8 @@ const Dashboard = () => {
                 
                 <div className="button">
                 <CardActions>
-                <Button size="large" onClick={() => deleteImage(index.id)}>Delete</Button>
-                <Button size="large" onClick={() => editImage(index.id)}>Edit</Button>
+                {/*<Button size="large" onClick={() => deleteImage(index.id)}>Delete</Button>
+                <Button size="large" onClick={() => editImage(index.id)}>Edit</Button>*/}
                 </CardActions>
                 </div>
                 </div>

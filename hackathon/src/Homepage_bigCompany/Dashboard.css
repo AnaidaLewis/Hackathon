@@ -43,12 +43,12 @@
 }
 .sub-head-3{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
 }
 .List{
     margin-top: 10vh;
 }
-@media (max-width:750px)
+@media (max-width:1000px)
 {
 
     .Box{
@@ -60,5 +60,8 @@
     }
     .List{
         margin-top: 60vh;
+    }
+    .card{
+        margin: -2vh;
     }
 }

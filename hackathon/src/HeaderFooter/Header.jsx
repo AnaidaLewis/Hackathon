@@ -111,3 +111,69 @@ export const  Header = () =>{
   );
 }
 
+/*import React, { useState, useContext} from "react";
+import { Route,NavLink , useHistory } from "react-router-dom";
+import "./NavBar.css";
+const NavBar = () => {
+
+  const [click, setClick] = useState(false);
+
+  const handleClick = () => setClick(!click);
+  return (
+    <>
+      <nav className="navbar">
+        <div className="nav-container">
+          <NavLink exact to="/HomePage" className="nav-logo">
+            DAILY BLOGS
+          </NavLink>
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/HomePage"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}>
+                Home
+              </NavLink>
+            </li>
+            
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/SellerDashboard"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}>
+                 All Blogs
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/MyBlogs"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}>
+                My Blogs
+              </NavLink>
+            </li>
+            
+            
+            
+           
+            
+          </ul>
+          
+          <div className="nav-icon" onClick={handleClick}>
+            <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+}
+
+export default NavBar;
+*/
+
