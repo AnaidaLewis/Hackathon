@@ -24,11 +24,14 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import Validation from "./Validation";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 var axios = require("axios");
 
 const Login = () => {
   const history = useHistory();
 
+  const token = localStorage.getItem("Access");
+  const [code, setCode] = useState("");
   const [values, setValues] = useState({
     password: "bhumika13@",
     email: "",
@@ -112,6 +115,34 @@ const Login = () => {
     );
     console.log(res);
   };
+  const phoneverify = (num) =>{
+    Swal.fire({
+      title: 'Enter the Verification code',
+      input: 'text',
+      inputLabel: 'Phone Verification',
+      inputValidator: (num) => {
+        if (!num) {
+          return 'You need to write something!'
+        }
+        if (num) {
+          var data = JSON.stringify({
+            code: `${num}`,
+            phone: `${"+91" + values.phone}`,
+          });
+          console.log(values);
+          const res = axios.get(
+            "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+            { params: { token: token, code: code } }
+          );
+          console.log(res);
+        }
+      }
+
+    })}
+    
+  
+
+
   return (
     <div className="signin">
       <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Login</div>
@@ -213,12 +244,14 @@ const Login = () => {
 
                     // console.warn(response.data["is two step enabled"]);
                     // if (response.data["is two step enabled"] === true) {
-                    localStorage.setItem("Access", response.data.access);
-                    history.push("/verfication2");
-                    //   } else
-                    //     setTimeout(function () {
-                    //       history.push("/homePage");
-                    //     }, 50000);
+                 
+                      localStorage.setItem("Access",response.data.access)
+                      phoneverify();
+                      
+                  //   } else
+                  //     setTimeout(function () {
+                  //       history.push("/homePage");
+                  //     }, 50000);
                   }
                 })
                 .catch(function (error) {

@@ -59,7 +59,7 @@ const Selleraddress = () => {
       },[load]);
      
       const loadList = async () => {
-        const result = await axios.get("https://community-buying.herokuapp.com/main/address/",{
+        const result = await axios.get("http://communitybuying.pythonanywhere.com/main/address/",{
           headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
         });
         setLoadImage(result);
@@ -80,14 +80,14 @@ const Selleraddress = () => {
         formData.append("pinCode", pincode);
         formData.append("state", state);
         formData.append("country", country);
-    await fetch("https://community-buying.herokuapp.com/main/address/", {
+    await fetch("http://communitybuying.pythonanywhere.com/main/address/", {
       method: "POST",
       body: formData,
       headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw` },
     })
     .then((result)=>{
         var data = result.data;
-        console.log(result);
+        console.log(result.data);
         //console.log(result.data);
       loadList();
     })
@@ -111,7 +111,7 @@ const Selleraddress = () => {
             if (result.value) {
                 try {
                     
-                    axios.delete("https://community-buying.herokuapp.com/main/address/" , {
+                    axios.delete("http://communitybuying.pythonanywhere.com/main/address/" , {
                       headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
                     })
                         Swal.fire(
@@ -120,7 +120,14 @@ const Selleraddress = () => {
                             'success'
                         )
                         //loadList();
-                        window.reload();
+                        //window.reload();
+                        window.localStorage.removeItem('city');
+                        window.localStorage.removeItem('address');
+                        window.localStorage.removeItem('country');
+                        window.localStorage.removeItem('pincode');
+                        window.localStorage.removeItem('state');
+                       
+                        window.location.reload();
                 }
                 catch (error) {
                     console.log(error);
@@ -140,6 +147,8 @@ const Selleraddress = () => {
           transition={{ type: "spring", stiffness: 40 }}
           initial={{ x: "-100vw" }}
           animate={{ x: 0 }}
+         //transition={ {duration:10 , yoyo:"5"}}
+
           item xs={12} sm={6} md={4} className = {classes.root} justify="center">
       <TextField 
                             
@@ -204,6 +213,7 @@ const Selleraddress = () => {
            
 
                 <Grid item md={3}>
+                    <div>
                 <Card  component={motion.div}
           transition={{ type: "spring", stiffness: 40 }}
           initial={{ x: "100vw" }}
@@ -230,6 +240,7 @@ const Selleraddress = () => {
                   <Button size="small"  style={{textDecoration:"none" , color:"#084619", fontSize:"1.1rem"}}>Edit</Button>
                 </CardActions>
                 </Card>
+                </div>
                 </Grid>
             </div>
             

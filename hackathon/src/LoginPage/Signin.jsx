@@ -28,7 +28,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
-
+import Swal from "sweetalert2";
 var axios = require("axios");
 
 const Signin = () => {
@@ -136,7 +136,56 @@ const Signin = () => {
     authConfirm(auth_token);
   }
 
+const phoneverify = (num) =>{
+  Swal.fire({
+    title: 'Enter the Verification code',
+    input: 'text',
+    inputLabel: 'Phone Verification',
+    inputValidator: (num) => {
+      if (!num) {
+        return 'You need to write something!'
+      }
+      if (num) {
+        var data = JSON.stringify({
+          code: `${num}`,
+          phone: `${"+91" + values.phone}`,
+        });
+        console.log(values);
+        var config = {
+          method: "post",
+          url: "http://communitybuying.pythonanywhere.com/account/phone-verify/",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: data,
+        };
+        axios(config)
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Verified',
+                  text: ' Email verification pending ',
+                  showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+                  },
+                  hideClass: {
+                  popup: 'animate__animated animate__fadeOutUp'
+                  }
+                })
+                history.push("/login");
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+      }
+    }
+    
+  })
+  
 
+}
   
   return (
     <div className="signin">
@@ -543,8 +592,9 @@ const Signin = () => {
                   .then(function (response) {
                     console.log(JSON.stringify(response.data));
                     localStorage.setItem("number", values.phone);
+                    phoneverify();
                     // localStorage.setItem("email",values.email)
-                    history.push(`/verfication`);
+                    
                   })
                   .catch(function (error) {
                     console.log(error);
