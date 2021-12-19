@@ -13,8 +13,10 @@ import HeaderFrontPage from './HeaderFooter/HeaderFrontPage';
 import { Navbar } from './Pages/Navbar';
 import NotFound from './notFound/NotFound';
 import TwoStep from './LoginPage/TwoStep';
+import Dashboard from './Homepage_bigCompany/Dashboard';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
+  var role = 'Buyer';
   return (
     <div className="App">
       <BrowserRouter>
@@ -26,7 +28,8 @@ function App() {
         <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
         <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
         <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />
-        {/* <Route children={<h1>not found</h1>} /> */}
+        <Route path = "/SellerDashboard" children={<><Navbar/><Dashboard/></>} />
+        {/* <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} /> */}
         <Route children={<NotFound/>} />
         </Switch>
        
