@@ -32,6 +32,8 @@ var axios = require("axios");
 const Signin = () => {
   const history = useHistory();
 
+  const [notValid, setCorrectData] = useState(true);
+
   const [values, setValues] = useState({
     fname: "bap",
     lname: "bap",
@@ -70,13 +72,15 @@ const Signin = () => {
     event.preventDefault();
   };
 
+  const [role, setRole] = useState("");
+
   // signin integrated with backend
   var data = JSON.stringify({
     email: `${values.email}`,
-    phone: `${"+91"+values.phone}`,
+    phone: `${"+91" + values.phone}`,
     password: `${values.password}`,
     twostep: `${values.twostep}`,
-    Role: `${values.role}`,
+    Role: `${role}`,
   });
   //localStorage.setItem("role", Role);
   var config = {
@@ -91,7 +95,6 @@ const Signin = () => {
   // Oauth
   async function authConfirm(token) {
     var item = { auth_token: token };
-
     let result = await fetch(
       "https://community-buying.herokuapp.com/account/google/",
       {
@@ -123,6 +126,8 @@ const Signin = () => {
     authConfirm(auth_token);
   }
 
+
+  
   return (
     <div className="signin">
       <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Sign In</div>
@@ -145,6 +150,7 @@ const Signin = () => {
                 <TextField
                   id="outlined-basic"
                   label="First Name"
+                  required
                   autoFocus
                   color="secondary"
                   error={errors.firstName}
@@ -177,6 +183,7 @@ const Signin = () => {
                   variant="outlined"
                   fullWidth
                   error={errors.lastName}
+                  required
                   name="lname"
                   InputProps={{
                     endAdornment: (
@@ -198,7 +205,7 @@ const Signin = () => {
               </Grid>
             </Grid>
           </div>
-
+          <br />
           <div>
             <Grid container spacing={2}>
               <Grid item md={6} sm={12} xs={12}>
@@ -208,6 +215,7 @@ const Signin = () => {
                   type="email"
                   error={errors.email}
                   name="email"
+                  required
                   variant="outlined"
                   value={values.email}
                   fullWidth
@@ -236,6 +244,7 @@ const Signin = () => {
                   error={errors.phone}
                   name="phone"
                   variant="outlined"
+                  required
                   value={values.phone}
                   fullWidth
                   InputProps={{
@@ -257,6 +266,7 @@ const Signin = () => {
               </Grid>
             </Grid>
           </div>
+          <br />
           <div>
             <Grid container spacing={2}>
               <Grid item md={6} sm={12} xs={12}>
@@ -273,6 +283,7 @@ const Signin = () => {
                       type={values.showPassword ? "text" : "password"}
                       value={values.password}
                       error={errors.password}
+                      required
                       onChange={handleChanges}
                       name="password"
                       endAdornment={
@@ -316,6 +327,7 @@ const Signin = () => {
                       id="outlined-adornment-password"
                       type={values.showPassword2 ? "text" : "password"}
                       value={values.password2}
+                      required
                       onChange={handleChanges}
                       error={errors.Cpassword}
                       name="password2"
@@ -445,6 +457,7 @@ const Signin = () => {
           <Button
             fullWidth
             component={motion.div}
+            disabled={!notValid}
             whileHover={{
               scale: 1.08,
               textShadow: "0 0 4px rgb(255,255,255)",
@@ -453,19 +466,74 @@ const Signin = () => {
             variant="contained"
             onClick={() => {
               setErrors(Validation(values));
+              console.log(role);
+              setRole(prompt("ADD role"));
+            }}
+            onMouseOver={() => {
+              console.log(errors);
+              if (
+                errors.fname == "" &&
+                errors.lname == "" &&
+                errors.phone == "" &&
+                errors.email == "" &&
+                errors.Cpassword == "" &&
+                errors.password == ""
+              ) {
+                setCorrectData(false);
+              }
+            }}
+            // if(role==''){
+            //   alert("Error")
+            // }
+            // else{
+            // axios(config)
+            //   .then(function (response) {
+            //     console.log(JSON.stringify(response.data));
+            //     localStorage.setItem("number",values.phone)
+            //     // localStorage.setItem("email",values.email)
+            //     history.push(`/verfication`);
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //     swal("Account already exists!", "Try logging in", "error");
+            //   });
+            // }
+            // }}}
+          >
+            Submit
+          </Button>
+          <Button
+            fullWidth
+            component={motion.div}
+            disabled={notValid}
+            whileHover={{
+              scale: 1.08,
+              textShadow: "0 0 4px rgb(255,255,255)",
+              transition: { duration: 0.3 },
+            }}
+            variant="contained"
+            onClick={() => {
+              // setErrors(Validation(values));
+              console.log(role);
+              // setRole(prompt("ADD role"))
+              console.warn(errors);
 
-              axios(config)
-                .then(function (response) {
-                  console.log(JSON.stringify(response.data));
-                  localStorage.setItem("number",values.phone)
-                  // localStorage.setItem("email",values.email)
-                  history.push(`/verfication`);
-                })
-                .catch(function (error) {
-                  console.log(error);
-                  swal("Account already exists!", "Try logging in", "error");
-                });
-              // }
+              if (role == "") {
+                alert("Error");
+              } else {
+                axios(config)
+                  .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    localStorage.setItem("number", values.phone);
+                    // localStorage.setItem("email",values.email)
+                    history.push(`/verfication`);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                    swal("Account already exists!", "Try logging in", "error");
+                  });
+                // }
+              }
             }}
           >
             Create Account

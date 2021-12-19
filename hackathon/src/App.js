@@ -28,10 +28,9 @@ function App() {
         <Route path = "/HomePage" children={<><HomeC/></>} />
         <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
         <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
+        <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />
         <Route path = "/SellerDashboard" children={<><Navbar/><Dashboard/></>} />
         <Route path = '/Address' children={<><Navbar/><Selleraddress/></>} />
-        {/*<Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />*/}
-        {/* <Route children={<h1>not found</h1>} /> */}
         <Route children={<NotFound/>} />
         </Switch>
        

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto");
 
   
   /* reset & common styles */
@@ -75,7 +76,6 @@
   }
   
   /* footer */
-  @import url("https://fonts.googleapis.com/css2?family=Roboto");
 .footerSection {
   background-color: #000324;
   /* height: 600px; */
@@ -139,4 +139,19 @@ padding: 5px 0px;
 .footerSocial a{
 color: #dbdbdbe1;
 cursor: pointer;
+}
+
+.assurance{
+  background-color: #ffec1d;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+
+}
+.assurance p{
+  font-size: .8rem;
+  color: #116530;
+}
+.assurance_head{
+  color: #116530;
+font-size: 2rem;
 }

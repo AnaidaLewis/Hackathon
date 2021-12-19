@@ -7,12 +7,12 @@ const Validation = (value) => {
     let errors={};
 
     // Full name
-    if(!value.name ){
-        errors.name="Name is required"
-    }
-    else{
-        errors.name=''
-    }
+    // if(!value.name ){
+    //     errors.name="Name is required"
+    // }
+    // else{
+    //     errors.name=''
+    // }
 
     // email
     if(!value.email){
@@ -36,10 +36,11 @@ const Validation = (value) => {
         errors.password=''
     }
 
+    console.log(value.Cpassword);
     // confirm pw
-    if(!value.Cpassword){
+    if(!value.password2){
         errors.Cpassword="Password is required"
-    }else if(value.Cpassword!==value.password){
+    }else if(value.password!==value.password2){
         errors.Cpassword="Password doesn't match"
     }
     else{
@@ -62,14 +63,15 @@ const Validation = (value) => {
         errors.lname=''
     }
 
-    // // phone Number
-    // if(value.phoneNumber.length===0){
-    //     errors.phoneNumber=""
-    // }else if(!numberRegex.test(value.phoneNumber)){
-    //     errors.phoneNumber="Invalid Phone Number"
-    // }else if(value.phoneNumber.length!==10){
-    //     errors.phoneNumber="Invalid Phone Number"
-    // }
+    // phone Number
+   
+    if(!numberRegex.test(value.phone)){
+        errors.phone="Invalid Phone Number"
+    }else if(value.phone.length!==10){
+        errors.phone="Invalid Phone Number"
+    } else{
+        errors.phone=''
+    }
 
     // age
     // console.log(value.birthday);
