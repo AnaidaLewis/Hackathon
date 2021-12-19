@@ -14,7 +14,7 @@ from django.urls import reverse
 import jwt
 from drf_yasg.utils import swagger_auto_schema
 
-from Accounts.serializers import GoogleSocialAuthSerializer, UserSerializer, EmailVerificationSerializer, SendTwoStepVerificationSerializer,TwoStepVerificationSerializer, PhoneVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer,SetNewPasswordSerializer, LogoutSerializer
+from Accounts.serializers import GoogleSocialAuthSerializer, UserSerializer, EmailVerificationSerializer, SendTwoStepVerificationSerializer,TwoStepVerificationSerializer, PhoneVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer,SetNewPasswordSerializer, LogoutSerializer,UserUpdateSerializer
 from .models import User
 from rest_framework import status
 from rest_framework.response import Response
@@ -186,44 +186,33 @@ class GoogleSocialAuthView(GenericAPIView):
 
 
 
-# class BuyerOrSeller(APIView):
+class BuyerOrSeller(APIView):
 
-#     serializer_class = UserSerializer
+    serializer_class = EmailVerificationSerializer
 
-#     def put(self, request):
-#         user = User.objects.get(email = request.user)
-#         try:
-# 	        user_update = User.objects.get(user = user.id)
+    token_param_config = openapi.Parameter('token',in_=openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Enter token here")
 
-#         except User.DoesNotExist:
-#             content = {'detail': 'User does not exist'}
-#             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-#         serializer = UserSerializer(instance = user_update, data=request.data, partial = True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
-#         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-    
-    
-#     def put(self, request, *args, **kwargs):
-#         # token = self.kwargs['pk']
-#         serializer = self.serializer_class(data=request.data)
-#         token = request.data.get('token', '')
-#         try:
-#             payload = jwt.decode(token,settings.SECRET_KEY, algorithms=['HS256'])
-#             try:
-#                 user = User.objects.get(id=payload['user_id'])
-#             except User.DoesNotExist:
-#                 content = {'detail': 'User not Signed Up'}
-#                 return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-#             serializer = UserSerializer(instance = user, data=request.data, partial = True)
-#             if serializer.is_valid():
-#                 serializer.save()
-#             return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-#         except jwt.ExpiredSignatureError as identifier:
-#             return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)
-#         except jwt.exceptions.DecodeError as identifier:
-#             return JsonResponse({'error':"Invalid Token"}, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(manual_parameters=[token_param_config])
+    def get(self, request, *args, **kwargs):
+        # token = self.kwargs['pk']
+        token = request.GET.get('token')
+        
+        try:
+            payload = jwt.decode(token,settings.SECRET_KEY, algorithms=['HS256'])
+            try:
+                user = User.objects.get(id=payload['user_id'])
+                print(user)
+            except User.DoesNotExist:
+                content = {'detail': 'User not Signed Up'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+            serializer = UserUpdateSerializer(instance = user, data=request.data, partial = True)
+            if serializer.is_valid():
+                serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as identifier:
+            return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifier:
+            return JsonResponse({'error':"Invalid Token"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

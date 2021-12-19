@@ -42,6 +42,17 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['Role']
+    
+    # def save_user(self, validated_data):
+    #     user = User.objects.create_user(
+    #                             Role = validated_data.get('Role'))
+    #     user.save()
+    #     return user
+
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=666)

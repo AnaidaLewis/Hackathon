@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GoogleSocialAuthView, Login, LogoutAPIView, SignUp, VerifyEmail, PasswordTokenCheckAPI, RequestPasswordResetEmail,SetNewPasswordAPIView, VerifyPhone, TwoStep, sendTwoStep
+from .views import GoogleSocialAuthView, Login, LogoutAPIView, SignUp, VerifyEmail, PasswordTokenCheckAPI, RequestPasswordResetEmail,SetNewPasswordAPIView, VerifyPhone, TwoStep, sendTwoStep,BuyerOrSeller
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -17,5 +17,5 @@ urlpatterns = [
     path('phone-verify/', VerifyPhone.as_view(), name = "verifyPhone"),
     path('send-twostep/', sendTwoStep.as_view(), name = "SendTwoStep"),
     path('twostep-verify/', TwoStep.as_view(), name = "TwoStep"),
-    # path('buyer-seller/', BuyerOrSeller.as_view(), name = "BuyerOrSeller"),
+    path('buyer-seller/', BuyerOrSeller.as_view(), name = "BuyerOrSeller"),
 ]
