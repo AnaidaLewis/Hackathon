@@ -8,12 +8,13 @@ import HomeC from './Homepage_smallCompany/HomeC';
 import Page1 from './Pages/Page1';
 import Page2 from './Pages/Page2';
 import Feedback from './Pages/Feedback';
-
+import TwoStep2 from './LoginPage/TwoStep2';
 import HeaderFrontPage from './HeaderFooter/HeaderFrontPage';
 import { Navbar } from './Pages/Navbar';
 import NotFound from './notFound/NotFound';
 import TwoStep from './LoginPage/TwoStep';
 import Dashboard from './Homepage_bigCompany/Dashboard';
+import Cart from './Cart/Cart';
 import Selleraddress from './Homepage_bigCompany/Selleraddress';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
@@ -25,6 +26,8 @@ function App() {
         <Route exact path = "/" children={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
         <Route path = "/Login" children={<div className='sign'><HeaderFrontPage/><Login/></div>} />
         <Route path= '/verfication' children={<TwoStep/>}></Route>
+        <Route path= '/verfication2' children={<TwoStep2/>}></Route>
+        <Route path='/cart' children={<Cart/>}/>
         <Route path = "/HomePage" children={<><HomeC/></>} />
         <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
         <Route path = "/Page2" children={<><Navbar/><Page2/></>} />

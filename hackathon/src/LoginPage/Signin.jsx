@@ -95,6 +95,7 @@ const Signin = () => {
   // Oauth
   async function authConfirm(token) {
     var item = { auth_token: token };
+    
     let result = await fetch(
       "http://communitybuying.pythonanywhere.com/account/google/",
       {
@@ -106,8 +107,13 @@ const Signin = () => {
         },
       }
     );
-    result = await result.json();
-    console.log(result);
+    try{
+      result = await result;
+      console.log(result);
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 
   function responseGoogle(googleUser) {
