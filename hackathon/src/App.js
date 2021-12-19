@@ -15,6 +15,7 @@ import NotFound from './notFound/NotFound';
 import TwoStep from './LoginPage/TwoStep';
 import Dashboard from './Homepage_bigCompany/Dashboard';
 import Cart from './Cart/Cart';
+import Selleraddress from './Homepage_bigCompany/Selleraddress';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
   var role = 'Buyer';
@@ -32,7 +33,7 @@ function App() {
         <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
         <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />
         <Route path = "/SellerDashboard" children={<><Navbar/><Dashboard/></>} />
-        {/* <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} /> */}
+        <Route path = '/Address' children={<><Navbar/><Selleraddress/></>} />
         <Route children={<NotFound/>} />
         </Switch>
        
