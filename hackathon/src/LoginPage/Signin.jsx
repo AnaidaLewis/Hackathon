@@ -85,7 +85,7 @@ const Signin = () => {
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
-    url: "https://community-buying.herokuapp.com/account/signup/",
+    url: "http://communitybuying.pythonanywhere.com/account/signup/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -95,8 +95,9 @@ const Signin = () => {
   // Oauth
   async function authConfirm(token) {
     var item = { auth_token: token };
+    
     let result = await fetch(
-      "https://community-buying.herokuapp.com/account/google/",
+      "http://communitybuying.pythonanywhere.com/account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -106,8 +107,13 @@ const Signin = () => {
         },
       }
     );
-    result = await result.json();
-    console.log(result);
+    try{
+      result = await result;
+      console.log(result);
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 
   function responseGoogle(googleUser) {

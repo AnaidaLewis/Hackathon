@@ -4,40 +4,23 @@ import { useHistory } from "react-router-dom";
 
 var axios = require("axios");
 
-const TwoStep = () => {
+const TwoStep2 = () => {
   const history = useHistory();
   const number = localStorage.getItem("number");
+  const token = localStorage.getItem("Access");
   //   const email = localStorage.getItem("email");
-  console.log(number);
+  //   console.log(number);
 
-  const [phone,setPhone]=useState('+91'+number)
-  const [code,setCode]=useState('')
-  const [values, setValues] = useState({
-    code: "",
-    phone:number,
-  });
-  var data = JSON.stringify({
-    code: `${code}`,
-    phone: `${phone}`,
-  });
-  console.log(values);
-  var config = {
-    method: "post",
-    url: "http://communitybuying.pythonanywhere.com/account/phone-verify/",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
- 
- 
+  //   const [phone,setPhone]=useState('+91'+number)
+  const [code, setCode] = useState("");
+
   return (
     <div>
       <br />
       <br />
       <center>
         <TextField
-          onChange={(e)=>setCode(e.target.value)}
+          onChange={(e) => setCode(e.target.value)}
           type="text"
           label="Code"
         ></TextField>
@@ -58,15 +41,14 @@ const TwoStep = () => {
           // style={{ fontSize: '1.1rem', marginRight: '15px' }}
           color="secondary"
           sx={{ mt: 3, mb: 2 }}
-          onClick={() => {
-            axios(config)
-              .then(function (response) {
-                console.log(JSON.stringify(response.data));
-                history.push("/login");
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+          onClick={async () => {
+            console.log(token);
+            console.log(code);
+            const res = await axios.get(
+              "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+              { params: { token: token, code: code } }
+            );
+            console.log(res);
           }}
         >
           Create account
@@ -77,4 +59,4 @@ const TwoStep = () => {
   );
 };
 
-export default TwoStep;
+export default TwoStep2;

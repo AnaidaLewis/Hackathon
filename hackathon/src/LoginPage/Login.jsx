@@ -58,13 +58,20 @@ const Login = () => {
 
   var config = {
     method: "post",
-    url: "https://community-buying.herokuapp.com/account/login/",
+    url: "http://communitybuying.pythonanywhere.com/account/login/",
     headers: {
       "Content-Type": "application/json",
     },
     data: data,
   };
 
+
+
+  const otp= async (response)=>{
+    const res = await axios.get('http://communitybuying.pythonanywhere.com/account/send-twostep/', { params: {token:response} });
+    console.log(res);
+
+  }
   return (
     <div className="signin">
       <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Login</div>
@@ -160,23 +167,20 @@ const Login = () => {
                 .then(function (response) {
                   console.log(JSON.stringify(response.data));
                   console.log(response.status);
-                  // setTimeout(function () {
                   if (response.status == 200) {
-                    console.warn(response.data["is two step enabled"]);
-                    if (response.data["is two step enabled"] === true) {
-                      history.push("/verfication");
-                    } else
-                      setTimeout(function () {
-                        history.push("/homePage");
-                      }, 50000);
+                      otp(response.data.access)
+                      console.log(response.data.access)
+                    
+                    // console.warn(response.data["is two step enabled"]);
+                    // if (response.data["is two step enabled"] === true) {
+                      localStorage.setItem("Access",response.data.access)
+                      history.push("/verfication2");
+                  //   } else
+                  //     setTimeout(function () {
+                  //       history.push("/homePage");
+                  //     }, 50000);
                   }
-                  //   setTimeout(()=>{
-                  //   if(response.status==200)
-                  //   history.push("/homePage");
-                  //   else
-                  //   alert('error bro')
-                  //   }
-                  // ,[3000]
+              
                 })
                 .catch(function (error) {
                   console.log(error);
