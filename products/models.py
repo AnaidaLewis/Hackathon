@@ -43,6 +43,7 @@ class Product(models.Model):
     units          = models.CharField(max_length=255,choices=UNIT_CHOICES,default='kilogram') #for setting a new order values just user update
     countInStock   = models.IntegerField(default=0)
     published      = models.BooleanField(default=True)
+    
     def __str__(self):
         return self.name
 
