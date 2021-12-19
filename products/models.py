@@ -8,10 +8,10 @@ def upload_path_handler(instance, filename):
     )
 
 UNIT_CHOICES=(
-    ('kilogram','kg'),
-    ('gram','g'),
-    ('litre','l'),
-    ('milli-litre','ml'),
+    ('kg','kg'),
+    ('g','g'),
+    ('l','l'),
+    ('ml','ml'),
     ('unit','unit'),
     
 )
@@ -28,26 +28,27 @@ CATEGORY_CHOICES=(
     ('Bakery Items','Bakery Items'),
 )
 
+
 class Product(models.Model):
     user           = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, null = True)
     company        = models.CharField(max_length = 200,null = False, blank = False)
     name           = models.CharField(max_length = 200,null = False, blank = False)
     image          = models.ImageField(upload_to=upload_path_handler)
     price          = models.DecimalField(max_digits = 7, decimal_places = 2) #should be written per kg
-    createdAt      = models.DateTimeField(auto_now_add = True)
-    category       = models.CharField(max_length=255,choices=CATEGORY_CHOICES,default='Exotic vegetable') #for setting a new order values just user update
-    min_quantity   = models.IntegerField() #for setting a new order values just user update
-    below_min_dis  = models.CharField(max_length = 5) #should be written per kg
+    wholesale_price  = models.DecimalField(max_digits = 7, decimal_places = 2)
+    min_order      = models.IntegerField() #for setting a new order values just user update
     total_stock    = models.IntegerField() #for setting a new order values just user update
-    above_min_dis  = models.CharField(max_length = 5) #should be written per kg
-    units          = models.CharField(max_length=255,choices=UNIT_CHOICES,default='kilogram') #for setting a new order values just user update
-    countInStock   = models.IntegerField(default=0)
+    products_ordered = models.IntegerField(default=0)
+    category       = models.CharField(max_length=255,choices=CATEGORY_CHOICES) #for setting a new order values just user update
+    units          = models.CharField(max_length=255,choices=UNIT_CHOICES) #for setting a new order values just user update
     published      = models.BooleanField(default = True)
+    createdAt      = models.DateTimeField(auto_now_add = True)
     
     def __str__(self):
         return self.name
 
-
+    def leftInStock(self):
+        return self.total_stock - self.products_ordered
 
 class Address(models.Model):
     user          = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, null = True)
@@ -62,17 +63,30 @@ class Address(models.Model):
 
 
 
-# class Order(models.Model):
-#     id            = models.IntegerField(primary_key=True)
-#     user          = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = 'cart')
-#     date_ordered  = models.DateTimeField(auto_now_add=True)
-#     complete      = models.BooleanField(default=False)
+class Cart(models.Model):
+    user           = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = 'cart',null = True)
+    totalCartItem  = models.IntegerField(default=0)
+    totalCartItemFromSameManufacturer  = models.IntegerField(default=0)
+    manufacturer_name = models.CharField(max_length = 200, blank = True)
+    taxPrice       = models.DecimalField(max_digits = 7, decimal_places = 2, default = 18)
+    final_price    = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    isPaid         = models.BooleanField(default = False)
+    paidAt         = models.DateTimeField(auto_now_add = False, null = True, blank = True)
+    isDelivered    = models.BooleanField(default = False)
+    deliveredAt    = models.DateTimeField(auto_now_add = False, null = True, blank = True)
+    createdAt      = models.DateTimeField(auto_now_add = True, blank = False)
 
-#     def __str__(self):
-#         return self.user
+    def __str__(self):
+        return str(self.user)
 
-# class orderItems(models.Model):
-#     id            = models.IntegerField(primary_key=True)
-#     user          = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = 'cartItem')
-#     order         = models.ForeignKey(Order, on_delete = models.CASCADE)
-#     items         = models.ForeignKey(Order, on_delete = models.CASCADE)
+
+
+class CartItem(models.Model):
+    cart          = models.ForeignKey(Cart, on_delete = models.CASCADE, null = True)
+    item          = models.ForeignKey(Product, on_delete = models.CASCADE, null = True)
+    qty           = models.IntegerField(blank = False)
+    wholesale_price= models.BooleanField(default = False)
+    price         = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.item)

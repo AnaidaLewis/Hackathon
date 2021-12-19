@@ -250,7 +250,8 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             email_body = "Hiii! Use link below to reset your password \n"+ abs_url
             data ={'email_body': email_body, 'email_subject': "reset your password",'to_email':user.email}
             Util.send_email(data)
-        return Response({'success': 'We have sent you a link to your email to reset your password'}, status=status.HTTP_200_OK)
+            return Response({'success': 'We have sent you a link to your email to reset your password'}, status=status.HTTP_200_OK)
+        return Response({'Error': 'No such email id exists'}, status=status.HTTP_200_OK)
 
 
 
