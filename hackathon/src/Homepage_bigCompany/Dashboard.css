@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@200&family=Libre+Baskerville&family=Source+Serif+4:wght@300&display=swap");
+
 .Dashboard{
+    font-family: "Libre Baskerville", serif;
     display: grid;
     grid-template-rows: 30% 70%;
     /*border: 1px solid black;*/
@@ -17,12 +20,34 @@
     width:100%;
 
 }
-/*.Form{
+.card{
     display: grid;
-    grid-template-rows:100%;
-    height:50vh;
+    grid-template-columns: 40% 60%;
 
-}*/
+}
+.card-cont{
+    display: grid;
+    grid-template-rows: 70% 30%;
+    font-family: "Archivo", sans-serif;
+    /*border:1px solid black;*/
+}
+.content{
+
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+.cont-left{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    
+}
+.sub-head-3{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.List{
+    margin-top: 10vh;
+}
 @media (max-width:750px)
 {
 
@@ -34,6 +59,6 @@
 
     }
     .List{
-        margin-top: 50vh;
+        margin-top: 60vh;
     }
 }
