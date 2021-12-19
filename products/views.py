@@ -7,11 +7,12 @@ from products.serializers import ProductSerializer, AddressSerializer
 from .models import Product,Address
 from django.contrib.auth import get_user_model
 from .models import Product,Address,Cart,CartItem
-from .serializers import CartSerializer,CartItemSerializer
+from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer
 # Create your views here.
 
 User = get_user_model()
 
+#PRODUCTS ***********************************************************************
 class ProductList(APIView):
     
     serializer_class = ProductSerializer
@@ -88,7 +89,7 @@ class ProductList(APIView):
         return JsonResponse({'Response': 'Product succsesfully delete!'},status = status.HTTP_200_OK)
 
 
-
+#ADDRESS************************************************************************************************
 class AddressList(APIView):
     
     serializer_class = AddressSerializer
@@ -147,7 +148,7 @@ class AddressList(APIView):
 
 
 
-# BUYER POV
+# BUYER POV********************************************************************
 class BuyerCart(APIView):
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
@@ -170,10 +171,9 @@ class BuyerCart(APIView):
                 content = {'detail': 'User does not have a cart hence new cart created', 'New Cart':serializer.data}
                 return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
             return JsonResponse('new cart not created', status = status.HTTP_404_NOT_FOUND)
-        for i in CartItem.objects.filter(cart = cart.id):
-            data = {}
-            data['item f{i}'] = i
-        return JsonResponse({'Cart':user.email, 'cart Items':data}, status = status.HTTP_200_OK )
+        all_cart_items = CartItem.objects.filter(cart = cart.id)
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK )
             
 
     # 'message':'dont forget to pass qty'
@@ -202,6 +202,9 @@ class BuyerCart(APIView):
         try:
             is_item_in_cart = CartItem.objects.get(cart = cart, item = item)
         except CartItem.DoesNotExist:
+            if item.total_stock == 0:
+                content = {'Sorry': 'No more items left in Stock'}
+                return JsonResponse(content, status = status.HTTP_204_NO_CONTENT)
             cart_item = CartItem(cart = cart, item = item, price = item.price)
             serializer = CartItemSerializer(cart_item,data=request.data)
             if serializer.is_valid(raise_exception=True):
@@ -210,6 +213,7 @@ class BuyerCart(APIView):
                 cart.save()
                 product = Product.objects.get(id = pk)
                 product.products_ordered += 1
+                product.total_stock -= 1
                 product.save() 
                 return JsonResponse({'Message': 'Item added to cart'}, status = status.HTTP_200_OK )
         content = {'detail': 'This item is already added to cart, to update item quantity go to PUT','message':'dont forget to pass qty'}
@@ -252,8 +256,40 @@ class BuyerCart(APIView):
         cart.save()
         product = Product.objects.get(id = cart_item.item.id)
         product.products_ordered -= 1
+        product.total_stock += 1
         product.save() 
         cart_item.delete()
         return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
             
 
+#BUYER*****************************************************************
+class PlaceOrder(APIView):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = User.objects.get(email = request.user)
+        # try:
+        try:
+            address = Address.objects.get(user = user.id)
+        except Address.DoesNotExist:
+            content = {'detail': 'Address not created, First create address then create cart then place order'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            cart = Cart.objects.get(user = user.id)
+        except Cart.DoesNotExist:
+            content = {'detail': 'No items Added to cart'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        
+        all_cart_items = CartItem.objects.filter(cart = cart.id)
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        for i in range(len(displaySerializer.data)):
+            products = Product.objects.get(id = displaySerializer.data[i]['item'])
+            if products.products_ordered > products.min_order:
+                cart_item = CartItem.objects.get(item = products)
+                cart_item.wholesale_price = True
+                cart_item.price = products.wholesale_price
+                cart_item.save()
+                displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK )
+           
