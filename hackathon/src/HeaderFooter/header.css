@@ -157,3 +157,77 @@ cursor: pointer;
   color: #116530;
 font-size: 2rem;
 }
+
+
+/* nav */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto");
+.socialLinks {
+  text-decoration: none;
+  /* color: #dbdbdb; */
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  /* margin-left: 50px; */
+}
+.iconPosition {
+  transform: translateY(3px);
+}
+.HeaderSocial {
+  background-color: yellow;
+  padding: 3px;
+  transform: translateY(-10px);
+  border-bottom: 2px solid #201F45;
+}
+.navBar {
+  /* transform: translateY(-0px); */
+  /* position: sticky; */
+}
+.navBar Button {
+  /* margin-left: 10px; */
+  font-size: 1rem;
+  font-weight: 700;
+}
+.navBar span button:hover {
+  border-bottom: 2px solid rgb(60, 247, 251);
+}
+.headerLinks {
+  text-decoration: none;
+  /* color: #dbdbdb; */
+
+}
+.headerLinks:active,
+.headerLinks:hover {
+  color: rgb(60, 247, 251);
+}
+.btn {
+  background:transparent ;
+  transform: translateY(-30px);
+  border-bottom: 2px solid white;
+
+  /* color: #dbdbd; */
+  /* background-color: #0A0E2A; */
+  border: none;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  /* border-bottom: 2px solid #0A0E2A; */
+
+}
+.btn:hover {
+  border-bottom: 2px solid rgb(60, 247, 251);
+}
+
+
+.mobileNav{
+background-color: #000324;
+color: white;
+border-bottom: 1.3px solid rgb(60, 247, 251);
+}
+
+@media (max-width:610px){
+  .HeaderSocial{
+    font-size: 10px;
+  }
+}

@@ -9,11 +9,12 @@ import { Navbar } from "../Pages/Navbar";
 import CategoryC from "./Category";
 import CategoryHome from "./CategoryHome";
 import Footer from "../HeaderFooter/Footer";
+import HeaderN from "../HeaderFooter/HeaderN";
 const home = () => {
   return (
     <div className="home">
       <div className="home_image">
-        <Navbar />
+        <HeaderN/>
         <MainHomeScreen />
       </div>
       <CategoryHome/>
