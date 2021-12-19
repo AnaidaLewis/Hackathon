@@ -4,6 +4,8 @@ import "./Signin.css";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GoogleLogin } from "react-google-login";
 import { useHistory } from "react-router-dom";
+import Select from "react-select";
+
 import swal from "sweetalert";
 
 import {
@@ -73,7 +75,9 @@ const Signin = () => {
   };
 
   const [role, setRole] = useState("");
-
+  const options=[{value:'BUYER',label:'Buyer'},
+  {value:'SELLER',label:'Seller'}
+ ]
   // signin integrated with backend
   var data = JSON.stringify({
     email: `${values.email}`,
@@ -460,6 +464,14 @@ const Signin = () => {
               value={values.twostep}
             ></input> */}
           </div>
+          <Select
+          placeholder="ROLE"
+          value={role}
+          onChange={(e)=>{
+            setRole(e)
+          }}
+          options={options}
+        />
           <Button
             fullWidth
             component={motion.div}

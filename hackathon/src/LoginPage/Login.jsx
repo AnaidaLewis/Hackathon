@@ -3,6 +3,7 @@ import "./Signin.css";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import { GoogleLogin } from "react-google-login";
 
 import {
   Grid,
@@ -65,13 +66,52 @@ const Login = () => {
     data: data,
   };
 
+  // Oauth
+  async function authConfirm(token) {
+    var item = { auth_token: token };
 
-
-  const otp= async (response)=>{
-    const res = await axios.get('http://communitybuying.pythonanywhere.com/account/send-twostep/', { params: {token:response} });
-    console.log(res);
-
+    let result = await fetch(
+      "http://communitybuying.pythonanywhere.com/account/google/",
+      {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+        },
+      }
+    );
+    try {
+      result = await result;
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
   }
+
+  function responseGoogle(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Full Name: " + profile.getName());
+    console.log("Given Name: " + profile.getGivenName());
+    console.log("Family Name: " + profile.getFamilyName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var auth_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + auth_token);
+    authConfirm(auth_token);
+  }
+
+  const otp = async (response) => {
+    const res = await axios.get(
+      "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+      { params: { token: response } }
+    );
+    console.log(res);
+  };
   return (
     <div className="signin">
       <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Login</div>
@@ -168,19 +208,18 @@ const Login = () => {
                   console.log(JSON.stringify(response.data));
                   console.log(response.status);
                   if (response.status == 200) {
-                      otp(response.data.access)
-                      console.log(response.data.access)
-                    
+                    otp(response.data.access);
+                    console.log(response.data.access);
+
                     // console.warn(response.data["is two step enabled"]);
                     // if (response.data["is two step enabled"] === true) {
-                      localStorage.setItem("Access",response.data.access)
-                      history.push("/verfication2");
-                  //   } else
-                  //     setTimeout(function () {
-                  //       history.push("/homePage");
-                  //     }, 50000);
+                    localStorage.setItem("Access", response.data.access);
+                    history.push("/verfication2");
+                    //   } else
+                    //     setTimeout(function () {
+                    //       history.push("/homePage");
+                    //     }, 50000);
                   }
-              
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -190,16 +229,7 @@ const Login = () => {
               // }
             }}
           >
-            <Link
-              to="HomePage"
-              style={{
-                textDecoration: "none",
-                color: "white",
-                fontSize: "18px",
-              }}
-            >
-              Login in Your Account
-            </Link>
+            Login in Your Account
           </Button>
           <div className="google">
             <br />
@@ -208,17 +238,28 @@ const Login = () => {
             <span className="or">______________</span>
             <br />
             <br />
-            <Button
-              size="small"
-              startIcon={<GoogleIcon />}
-              // style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              variant="outlined"
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-            >
-              &nbsp; log in with Google
-            </Button>
+            <GoogleLogin
+              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <Button
+                  size="small"
+                  startIcon={<GoogleIcon />}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  // style={{ padding: "13px", marginBottom: "20px" }}
+                  fullWidth
+                  variant="outlined"
+                  component={motion.div}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  &nbsp; Sign in with Google
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
             <br />
           </div>
         </Grid>
