@@ -124,6 +124,7 @@ class LoginSerializer(serializers.ModelSerializer):
         abs_url = "https://community-buying.herokuapp.com" + relative_link 
         return {
             'email': auth_user.email,
+            'Role' : auth_user.Role,
             'refresh': str(tokens),
             'access': access_token,
             'is two step enabled': not auth_user.is_nottwostep,
