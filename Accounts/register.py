@@ -26,13 +26,18 @@ def register_social_user(provider, user_id, email):
     else:
         user = {
             'email': email,
-            'password': config('SOCIAL_SECRET')}
+            'password': config('SOCIAL_SECRET'),
+            'phone':'23535746',
+            'Role':'BUYER',
+            'nottwostep': True,
+            }
         user = User.objects.create_user(**user)
         user.verified = True
         user.verifiedPhone = True
         user.nottwostep = True
         user.login2stepverify = True
         user.auth_provider = provider
+        print("saveuser")
         user.save()
 
         new_user = authenticate(
