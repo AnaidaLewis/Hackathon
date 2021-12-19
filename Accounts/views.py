@@ -58,12 +58,10 @@ class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPI
             
             verifyPhone.send(user_data.phone)
 
-            #for two step auth
-            # user = User.objects.get(email=user_data.email)
-            # if user_data.twostep :
-            #     user.twostep = False
+            role_link = reverse('BuyerOrSeller')
+            role_url = current_site + role_link + "?token=" + str(token)
 
-            return JsonResponse({'status': 'created', 'token': str(token), 'phone':str(user_data.phone)}, status=status.HTTP_201_CREATED)
+            return JsonResponse({'status': 'created', 'token': str(token), 'phone':str(user_data.phone), 'buyerOrSeller':role_url}, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
