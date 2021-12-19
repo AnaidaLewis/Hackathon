@@ -16,6 +16,8 @@ import TwoStep from './LoginPage/TwoStep';
 import Dashboard from './Homepage_bigCompany/Dashboard';
 import Cart from './Cart/Cart';
 import Selleraddress from './Homepage_bigCompany/Selleraddress';
+import CategoryHome from './Homepage_smallCompany/CategoryHome';
+import CategoryPage from './CategoryPage/CategoryPage';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
   var role = 'Buyer';
@@ -25,12 +27,15 @@ function App() {
         <Switch>
         <Route exact path = "/" children={<div className='sign'><HeaderFrontPage/><Signin/></div>}/>
         <Route path = "/Login" children={<div className='sign'><HeaderFrontPage/><Login/></div>} />
-        <Route path= '/verfication' children={<TwoStep/>}></Route>
-        <Route path= '/verfication2' children={<TwoStep2/>}></Route>
+        {/* <Route path= '/verfication' children={<TwoStep/>}></Route>
+        <Route path= '/verfication2' children={<TwoStep2/>}></Route> */}
+        <Route path={'/category/:type'}>
+          <CategoryPage/>
+        </Route>
         <Route path='/cart' children={<Cart/>}/>
         <Route path = "/HomePage" children={<><HomeC/></>} />
-        <Route path = "/Page1" children={<><Navbar/><Page1/></>}/>
-        <Route path = "/Page2" children={<><Navbar/><Page2/></>} />
+        {/* <Route path = "/Page1" children={<><Navbar/><Page1/></>}/> */}
+        {/* <Route path = "/Page2" children={<><Navbar/><Page2/></>} /> */}
         <Route path = "/Feedback" children={<><Navbar/><Feedback/></>} />
         <Route path = "/SellerDashboard" children={<><Navbar/><Dashboard/></>} />
         <Route path = '/Address' children={<><Navbar/><Selleraddress/></>} />

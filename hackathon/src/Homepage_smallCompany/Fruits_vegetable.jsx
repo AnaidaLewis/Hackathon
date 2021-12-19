@@ -16,19 +16,21 @@ const Fruits_vegetable = () => {
           <Paper elevation={3}>
             <h2>Get 25% off on your First order</h2>
             <img width="100%" src={FruitsVeg} alt="exotic"></img>
-            <br/>
-            <Button
+            <img width='150' src="https://i.pinimg.com/originals/ed/fc/7a/edfc7a895125803dea238a73d3e63b44.gif"></img>
+            <img width='150' src="https://i.pinimg.com/originals/ed/fc/7a/edfc7a895125803dea238a73d3e63b44.gif"></img>
+            <img width='150' src="https://i.pinimg.com/originals/ed/fc/7a/edfc7a895125803dea238a73d3e63b44.gif"></img>
+            {/* <Button
               variant="contained"
               color="warning"
             >
               Shop now
-            </Button>
+            </Button> */}
           </Paper>
         </Grid>
         <Grid item md={6} sm={12} xs={12}>
           <Grid container spacing={3}>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca" className="cat_link">
+              <Link to={`category/Healthy Food`} className="cat_link">
                 <Paper
                   whileHover={{
                     scale: 1.1,
@@ -49,7 +51,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca" className="cat_link">
+              <Link to={`category/Exotic vegetables`} className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -68,7 +70,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca" className="cat_link">
+              <Link to={`category/Healthy Food`} className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -87,7 +89,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to="ca" className="cat_link">
+              <Link to={`category/Exotic vegetables`} className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}

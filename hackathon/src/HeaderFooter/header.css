@@ -142,7 +142,9 @@ cursor: pointer;
 }
 
 .assurance{
-  background-color: #ffec1d;
+  color: #116530;
+
+  background-color: #d1c75a;
   padding: 20px;
   font-family: "Roboto", sans-serif;
 

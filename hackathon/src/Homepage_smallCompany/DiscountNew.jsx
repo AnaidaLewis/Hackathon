@@ -25,25 +25,25 @@ const DiscountNew = () => {
               <img width="200" height="200" src={beetroot} alt="##"></img>
               <br />
               <span>Beetroot</span>
-              <p className="price"> &#8377; 00</p>
+              <p className="price"> &#8377; 40</p>
             </Grid>
             <Grid item xs={3}>
               <img width="200" height="200" src={cucumber} alt="##"></img>
               <br />
               <span>cucumber</span>
-              <p className="price"> &#8377; 00</p>
+              <p className="price"> &#8377; 40</p>
             </Grid>
             <Grid item xs={3}>
               <img width="200" height="200" src={capsicum} alt="##"></img>
               <br />
               <span>capsicum</span>
-              <p className="price"> &#8377; 00</p>
+              <p className="price"> &#8377; 40</p>
             </Grid>
             <Grid item xs={3}>
               <img width="200" height="200" src={brinjal} alt="##"></img>
               <br />
               <span>brinjal</span>
-              <p className="price"> &#8377; 00</p>
+              <p className="price"> &#8377; 40</p>
             </Grid>
           </Grid>
         </Paper>
