@@ -14,14 +14,14 @@ import sugar from "../Images/sugar.jpg";
 import oil from "../Images/sunflower oil.jpg";
 const DailyStaples = () => {
   return (
-    <div style={{ padding: "300px 20px" }}>
+    <div style={{ padding: "300px 0px 20px" }}>
       <center>
         <h2>Your Daily Staples</h2>
         <br />
       </center>
       <Grid container spacing={2}>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Daily essentials`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -35,7 +35,7 @@ const DailyStaples = () => {
           </Link>
         </Grid>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Daily essentials`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -49,7 +49,7 @@ const DailyStaples = () => {
           </Link>
         </Grid>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Daily essentials`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -63,7 +63,7 @@ const DailyStaples = () => {
           </Link>
         </Grid>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Healthy Food`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -77,7 +77,7 @@ const DailyStaples = () => {
           </Link>
         </Grid>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Indian Grocery`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -91,7 +91,7 @@ const DailyStaples = () => {
           </Link>
         </Grid>
         <Grid item md={2} sm={6} xs={6}>
-          <Link to="ca" className="cat_link">
+          <Link to={`category/Daily essentials`} className="cat_link">
             <Paper
               whileHover={{ scale: 1.1 }}
               component={motion.div}

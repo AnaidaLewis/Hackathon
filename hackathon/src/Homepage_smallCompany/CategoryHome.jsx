@@ -8,7 +8,7 @@ const CategoryHome = () => {
       label: "Exotic vegetables",
     },
     {
-      label: "Meat/Seafood",
+      label: "Meat & Seafood",
     },
     {
       label: "Daily essentials",

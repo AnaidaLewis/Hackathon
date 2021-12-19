@@ -1,15 +1,21 @@
 import { Button, Grid } from "@mui/material";
 import React from "react";
 import { IconContext } from "react-icons";
+import { FaShippingFast } from "react-icons/fa";
+import { FiPackage } from "react-icons/fi";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import { BsInstagram, BsFacebook, BsLinkedin } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
+
 // import image from "../Header/DJACMLOGO.png";
 import "./header.css";
 const Footer = () => {
   return (
-    <center>
-      <h2>@Follow us on instagram</h2>
-      <Grid container spacing={0}>
+    <div>
+      <center>
+        <h1>@Follow us on instagram</h1>
+      </center>
+      <Grid container spacing={0} style={{ width: "97%" }}>
         <Grid item md={6} sm={12} xs={12}>
           <Grid container spacing={0}>
             <Grid item md={3} sm={6} xs={6}>
@@ -85,22 +91,32 @@ const Footer = () => {
           </Grid>
         </Grid>
       </Grid>
+      <center>
+        <Grid container spacing={3} className="assurance">
+          <Grid item sm={4} xs={12}>
+            <FaShippingFast style={{ fontSize: "5rem" }} />
+            {/* <img width='100' src='https://cdn-icons.flaticon.com/png/512/2203/premium/2203124.png?token=exp=1639938938~hmac=7907209bd8c87b1b821ea0a2ead41f14' alt="##"></img> */}
+            <h3 className="assurance_head">FREE SHIPPING</h3>
+            <p>On all orders above &#8377;500</p>
+          </Grid>
+          <Grid item sm={4} xs={12}>
+            <FiPackage style={{ fontSize: "5rem" }} />
 
-      <Grid container spacing={3} className="assurance">
-        <Grid item sm={4} xs={12}>
-          <h3 className="assurance_head">FREE SHIPPING</h3>
-          <p>On all orders above &#8377;500</p>
+            <h3 className="assurance_head">7 DAYS RETURN</h3>
+            <p>
+              Simple return in within 24h for an exchange
+              <br /> T&C Applied
+            </p>
+          </Grid>
+          <Grid item sm={4} xs={12}>
+            <RiCustomerService2Fill style={{ fontSize: "5rem" }} />
+
+            <h3 className="assurance_head">SUPPORT 24/7</h3>
+            <p>contact us 24hours a day, 7 days a week</p>
+          </Grid>
         </Grid>
-        <Grid item sm={4} xs={12}>
-          <h3 className="assurance_head">7 DAYS RETURN</h3>
-          <p>Simple return in within 24h for an exchange<br/> T&C Applied</p>
-        </Grid>
-        <Grid item sm={4} xs={12}>
-          <h3 className="assurance_head">SUPPORT 24/7</h3>
-          <p>contact us 24hours a day, 7 days a week</p>
-        </Grid>
-      </Grid>
-    </center>
+      </center>
+    </div>
   );
 };
 

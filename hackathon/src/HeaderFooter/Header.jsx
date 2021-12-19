@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   box:{
     display:"grid",
     gridTemplateColumns:"70% 30%",
-    height:"8vh",
+    height:"40px",
     width:"100%",
     padding:"1vh",
   },

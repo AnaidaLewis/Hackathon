@@ -1,7 +1,7 @@
 .signin{
-    padding: 0% 30%;
+    padding:0% 5%;
     /* height:90vh; */
-    transform: translateY(-50px);
+    transform: translateY(-70px);
 }
 .login{
     padding: 4% 17%;
@@ -24,6 +24,10 @@
 .google{
     color: rgb(97, 93, 93);
 }
+
+.loginImg{
+    background-image: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60');
+}
 @media (max-width:900px){
 .social,.social2{
     transform: translateX(0);
@@ -36,3 +40,5 @@
         margin: 10px;
     }
 }
+
+

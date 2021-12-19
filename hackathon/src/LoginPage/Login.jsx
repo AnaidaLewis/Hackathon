@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   IconButton,
   TextField,
+  Paper,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -24,7 +25,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import Validation from "./Validation";
 import { Link } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 var axios = require("axios");
 
 const Login = () => {
@@ -109,241 +110,228 @@ const Login = () => {
   }
 
   const otp = async (response) => {
+    console.warn(response);
     const res = await axios.get(
       "http://communitybuying.pythonanywhere.com/account/send-twostep/",
       { params: { token: response } }
     );
-    console.log(res);
+    console.warn(res);
   };
-  const phoneverify = (num) =>{
+  const phoneverify = async () => {
     Swal.fire({
-      title: 'Enter the Verification code',
-      input: 'text',
-      inputLabel: 'Phone Verification',
-      inputValidator: (num) => {
+      title: "Enter the Verification code",
+      input: "text",
+      inputLabel: "Phone Verification",
+      inputValidator: async (num) => {
+        console.log(num);
         if (!num) {
-          return 'You need to write something!'
+          return "You need to write something!";
         }
         if (num) {
           var data = JSON.stringify({
             code: `${num}`,
             phone: `${"+91" + values.phone}`,
           });
-          console.log(values);
-          const res = axios.get(
+          console.log(values.phone);
+          console.log(num);
+
+          const res = await axios.get(
             "http://communitybuying.pythonanywhere.com/account/send-twostep/",
             { params: { token: token, code: code } }
           );
+
+          history.push("/homePage");
+
           console.log(res);
         }
-      }
-
-    })}
-    
-  
-
+      },
+    });
+  };
 
   return (
     <div className="signin">
       <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Login</div>
       {/* <div style={{marginBottom:"6vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
-      <Grid container spacing={5}>
-        {/* inputs */}
+      <Paper elevation={3} className="imgL">
+        <Grid container spacing={5}>
+          {/* inputs */}
 
-        <Grid
-          component={motion.div}
-          transition={{ type: "spring", stiffness: 40 }}
-          initial={{ y: "-100vw" }}
-          animate={{ y: 0 }}
-          item
-          md={12}
-          xs={12}
-        >
-          <div style={{ marginBottom: "7px" }}>
-            <TextField
-              id="outlined-basic"
-              label="Email"
-              type="email"
-              name="email"
-              variant="outlined"
-              error={errors.email}
-              value={values.email}
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <EmailIcon />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleChanges}
-            />
-            {errors.email ? (
-              <FormHelperText error>{errors.email}</FormHelperText>
+          <Grid
+            style={{ padding: "7%" }}
+            component={motion.div}
+            transition={{ type: "spring", stiffness: 40 }}
+            initial={{ x: "-100vw" }}
+            animate={{ x: 0 }}
+            item
+            md={6}
+            xs={12}
+          >
+            <div style={{ marginBottom: "7px" }}>
+              <TextField
+                id="outlined-basic"
+                label="Email"
+                autoFocus
+                type="email"
+                name="email"
+                variant="outlined"
+                color="secondary"
+                error={errors.email}
+                value={values.email}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <EmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={handleChanges}
+              />
+              {errors.email ? (
+                <FormHelperText error>{errors.email}</FormHelperText>
+              ) : (
+                <FormHelperText style={{ visibility: "hidden" }}>
+                  ..
+                </FormHelperText>
+              )}
+            </div>
+            <div style={{ transform: "translateX(-8px)" }}>
+              <FormControl
+                color="secondary"
+                fullWidth
+                sx={{ m: 1 }}
+                variant="outlined"
+              >
+                <InputLabel
+                  color="secondary"
+                  htmlFor="outlined-adornment-password"
+                >
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  error={errors.password}
+                  color="secondary"
+                  onChange={handleChanges}
+                  name="password"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+            </div>
+            {errors.password ? (
+              <FormHelperText error>{errors.password}</FormHelperText>
             ) : (
-              <FormHelperText style={{ visibility: "hidden" }}>
-                ..
+              <FormHelperText style={{ fontSize: ".6rem" }}>
+                Minimum eight characters, at least one letter, one number and
+                one special character are required
               </FormHelperText>
             )}
-          </div>
-          <div style={{ transform: "translateX(-8px)" }}>
-            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                error={errors.password}
-                onChange={handleChanges}
-                name="password"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-            </FormControl>
-          </div>
-          {errors.password ? (
-            <FormHelperText error>{errors.password}</FormHelperText>
-          ) : (
-            <FormHelperText style={{ fontSize: ".6rem" }}>
-              Minimum eight characters, at least one letter, one number and one
-              special character are required
-            </FormHelperText>
-          )}
-          <br />
-          <Button
-            fullWidth
-            component={motion.div}
-            whileHover={{
-              scale: 1.08,
-              textShadow: "0 0 8px rgb(255,255,255)",
-              transition: { duration: 0.3 },
-            }}
-            variant="contained"
-            onClick={() => {
-              setErrors(Validation(values));
-              axios(config)
-                .then(function (response) {
-                  console.log(JSON.stringify(response.data));
-                  console.log(response.status);
-                  if (response.status == 200) {
-                    otp(response.data.access);
-                    console.log(response.data.access);
+            <br />
+            <Button
+              fullWidth
+              component={motion.div}
+              whileHover={{
+                scale: 1.08,
+                textShadow: "0 0 8px rgb(255,255,255)",
+                transition: { duration: 0.3 },
+              }}
+              color="secondary"
+              variant="contained"
+              onClick={() => {
+                setErrors(Validation(values));
+                axios(config)
+                  .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    console.log(response.status);
+                    if (response.status == 200) {
+                      otp(response.data.access);
+                      console.log(response.data.access);
 
-                    // console.warn(response.data["is two step enabled"]);
-                    // if (response.data["is two step enabled"] === true) {
-                 
-                      localStorage.setItem("Access",response.data.access)
+                      // console.warn(response.data["is two step enabled"]);
+                      // if (response.data["is two step enabled"] === true) {
+
+                      localStorage.setItem("Access", response.data.access);
                       phoneverify();
-                      
-                  //   } else
-                  //     setTimeout(function () {
-                  //       history.push("/homePage");
-                  //     }, 50000);
-                  }
-                })
-                .catch(function (error) {
-                  console.log(error);
-                  swal("Account already exists!", "Try logging in", "error");
-                  history.push("/login");
-                });
-              // }
-            }}
-          >
-            Login in Your Account
-          </Button>
-          <div className="google">
-            <br />
-            <span className="or">______________</span>
-            <span>&nbsp; OR &nbsp;</span>
-            <span className="or">______________</span>
-            <br />
-            <br />
-            <GoogleLogin
-              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <Button
-                  size="small"
-                  startIcon={<GoogleIcon />}
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  // style={{ padding: "13px", marginBottom: "20px" }}
-                  fullWidth
-                  variant="outlined"
-                  component={motion.div}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  &nbsp; Sign in with Google
-                </Button>
-              )}
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-            />
-            <br />
-          </div>
+
+                      //   } else
+                      //     setTimeout(function () {
+                      //       history.push("/homePage");
+                      //     }, 50000);
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                    swal("Account already exists!", "Try logging in", "error");
+                    history.push("/login");
+                  });
+                // }
+              }}
+            >
+              Login in Your Account
+            </Button>
+            <div className="google">
+              <br />
+              <span className="or">______________</span>
+              <span>&nbsp; OR &nbsp;</span>
+              <span className="or">______________</span>
+              <br />
+              <br />
+              <GoogleLogin
+                clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <Button
+                    size="small"
+                    startIcon={<GoogleIcon />}
+                    color="secondary"
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    // style={{ padding: "13px", marginBottom: "20px" }}
+                    fullWidth
+                    variant="outlined"
+                    component={motion.div}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    &nbsp; Sign in with Google
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
+              <br />
+            </div>
+          </Grid>
+          <Grid
+            component={motion.div}
+            transition={{ type: "spring", stiffness: 40 }}
+            initial={{ x: "100vw" }}
+            animate={{ x: 0 }}
+            item
+            md={6}
+            xs={12}
+            className="loginImg"
+          ></Grid>
         </Grid>
-
-        {/* google facebook 
-        <Grid
-          component={motion.div}
-          transition={{ type: "spring", stiffness: 40 }}
-          initial={{ x: "100vw" }}
-          animate={{ x: 0 }}
-          item
-          md={6}
-          xs={12}
-        >
-          <div className="social2">
-            <Button
-              startIcon={<GoogleIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-              variant="outlined"
-            >
-              &nbsp; Sign up with Google
-            </Button>
-            <br />
-            <Button
-              startIcon={<FacebookIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-              variant="outlined"
-            >
-              &nbsp;Sign up with Facebook
-            </Button>
-            <br />
-
-            <Button
-              startIcon={<TwitterIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-              variant="outlined"
-            >
-              &nbsp; Sign up with Twitter
-            </Button>
-          </div>
-        </Grid> */}
-      </Grid>
+      </Paper>
     </div>
   );
 };
