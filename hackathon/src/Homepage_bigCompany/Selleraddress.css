@@ -1,0 +1,22 @@
+.box-add{
+    padding:5vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.box-right-add{
+    justify-content: center;
+}
+@media (max-width:750px) {
+    .box-add{
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 50% 50%;
+        padding: 5vh;
+    }
+    .box-right-add{
+        padding-left: -15vh;
+    }
+    .box-left-detail{
+        margin-top: 10vh;
+    }
+}
