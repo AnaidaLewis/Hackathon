@@ -6,16 +6,13 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu,GiFruitBowl } from "react-icons/gi";
+import { GiHamburgerMenu, GiFruitBowl } from "react-icons/gi";
 import image from "../Images/beetroot.jpg";
-
-// import MenuIcon from '@mui/icons-material/Menu';
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 
-const Nav = (activePage) => {
+const NavBar_loginSignup = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
- 
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,17 +36,7 @@ const Nav = (activePage) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-           <GiFruitBowl style={{fontSize:'3rem',color:'black'}} />
-            {/* <img
-              style={
-                {
-                  transform: "translateY(-30px)",
-                }
-              }
-              width="60"
-              src={image}
-              alt="##"
-            /> */}
+            <GiFruitBowl style={{ fontSize: "3rem", color: "black" }} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -61,7 +48,7 @@ const Nav = (activePage) => {
               onClick={handleOpenNavMenu}
               // color="inherit"
             >
-              <GiHamburgerMenu style={{fontColor:'black'}} />
+              <GiHamburgerMenu style={{ fontColor: "black" }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -81,7 +68,7 @@ const Nav = (activePage) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <span >
+              <span>
                 <Link className="headerLinks" to="/">
                   <MenuItem className="mobileNav" onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">Sign up</Typography>
@@ -90,22 +77,6 @@ const Nav = (activePage) => {
                 <Link className="headerLinks" to="/login">
                   <MenuItem className="mobileNav" onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">Login</Typography>
-                  </MenuItem>
-                </Link>
-                <Link className="headerLinks" to="/HomePage">
-                  <MenuItem className="mobileNav" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Home</Typography>
-                  </MenuItem>
-                </Link>
-
-                <Link className="headerLinks" to="/category">
-                  <MenuItem className="mobileNav" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Category</Typography>
-                  </MenuItem>
-                </Link>
-                <Link className="headerLinks" to="/cart">
-                  <MenuItem className="mobileNav" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">cart</Typography>
                   </MenuItem>
                 </Link>
               </span>
@@ -120,54 +91,12 @@ const Nav = (activePage) => {
             <img width="60" src={image} alt="acmIcon" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <div style={{margin:'auto'}} >
-              <Link  className="headerLinks" to="/login">
-                <button  className="btn">
-                  Login
-                </button>
+            <div style={{ margin: "auto" }}>
+              <Link className="headerLinks" to="/">
+                <button className="btn">Signup</button>
               </Link>
-              <Link  className="headerLinks" to="/">
-                <button  className="btn">
-                  Signup
-                </button>
-              </Link>
-              <Link
-                className="headerLinks"
-                to="/homePage"
-              >
-                <button  className="btn">
-                  Home
-                </button>
-              </Link>
-              {/* <Link
-                disabled={value.Resources}
-                className="headerLinks"
-                to="/Resources"
-              >
-                <button disabled={value.Resources} className="btn">
-                  Resources
-                </button>
-              </Link> */}
-              {/* <Link disabled={value.Blogs} className="headerLinks" to="/Blogs">
-                <button disabled={value.Blogs} className="btn">
-                  Blogs
-                </button>
-              </Link> */}
-              <Link
-                className="headerLinks"
-                to="/category"
-              >
-                <button className="btn">
-                  Category
-                </button>
-              </Link>
-              <Link
-                className="headerLinks"
-                to="/cart"
-              >
-                <button className="btn">
-                  Cart
-                </button>
+              <Link className="headerLinks" to="/login">
+                <button className="btn">Login</button>
               </Link>
             </div>
           </Box>
@@ -176,4 +105,4 @@ const Nav = (activePage) => {
     </AppBar>
   );
 };
-export default Nav;
+export default NavBar_loginSignup;

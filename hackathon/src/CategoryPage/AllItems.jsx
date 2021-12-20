@@ -9,6 +9,8 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import { useHistory } from "react-router-dom";
+
 import { MdOutlineAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
 import React from "react";
@@ -31,11 +33,11 @@ const AllItems = () => {
     all_items();
   }, []);
   //   const [itemCount, setItemCount] = React.useState(0);
-
+  const history = useHistory();
   var FormData = require("form-data");
   var data = new FormData();
   //   data.append("qty", itemCount);
-
+  const Access=localStorage.getItem('Access')
   const addToCart = async (id, ordered, total) => {
     Swal.fire({
       title: "Update the Quantity",
@@ -48,67 +50,51 @@ const AllItems = () => {
           //   setItemCount(num);
           console.log(num);
           if (total < num) {
-              Swal.fire("Enter Valid Data");
-        } else {
+            Swal.fire("Enter Valid Data");
+          } else {
             data.append("qty", num);
-          console.log(data);
-          //   console.log(itemCount);
-          axios(config)
-            .then(function (response) {
-              console.log(JSON.stringify(response.data));
-              Swal.fire({
-                icon: "success",
-                title: "Added to Cart",
-                showClass: {
-                  popup: "animate__animated animate__fadeInDown",
-                },
-                hideClass: {
-                  popup: "animate__animated animate__fadeOutUp",
-                },
+            console.log(data);
+            //   console.log(itemCount);
+            axios(config)
+              .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                Swal.fire({
+                  icon: "success",
+                  title: "Added to Cart",
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+                Swal.fire({
+                  text: "Item already exist in cart",
+                  title: "Oopsss !",
+                  icon: "error'",
+                  showCancelButton: true,
+                  confirmButtonColor: "#116530 ",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Cart",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    history.push("/cart");
+                  }
+                });
               });
-            })
-            .catch(function (error) {
-              const numm = Number(Number(ordered) + Number(num));
-              console.log(numm);
-              if (total < num) {
-                Swal.fire("Enter Valid Data");
-              } else {
-                data.append("qty", numm);
-                 axios(config2)
-                .then(function (response) {
-                  console.log(JSON.stringify(response.data));
-                  Swal.fire({
-                    icon: "success",
-                    title: "Cart updated!",
-                    showClass: {
-                      popup: "animate__animated animate__fadeInDown",
-                    },
-                    hideClass: {
-                      popup: "animate__animated animate__fadeOutUp",
-                    },
-                  });
-                })
-                .catch(function (error) {
-                  console.log(error.status);
-                });}
-            });
+          }
         }
-      }}
+      },
     });
     var config = {
       method: "POST",
       url: `http://communitybuying.pythonanywhere.com/main/cart/${id}/`,
       headers: {
-        Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjQzMDQyLCJpYXQiOjE2Mzk5ODM4NDIsImp0aSI6ImNhNGUxOGQyZGYzNDRjZmRiZDgyZDcyNzkwMmM4ZjFiIiwidXNlcl9pZCI6MjR9.owtBfRV03qlmXfBDcB2XAg2AFHJO9nLvgHlEMSDnEJ4",
-      },
-      data: data,
-    };
-
-    var config2 = {
-      method: "PUT",
-      url: `http://communitybuying.pythonanywhere.com/main/cart/${id}/`,
-      headers: {
+        // Authorization:
+        //   `Bearer ${Access}`
         Authorization:
           "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjQzMDQyLCJpYXQiOjE2Mzk5ODM4NDIsImp0aSI6ImNhNGUxOGQyZGYzNDRjZmRiZDgyZDcyNzkwMmM4ZjFiIiwidXNlcl9pZCI6MjR9.owtBfRV03qlmXfBDcB2XAg2AFHJO9nLvgHlEMSDnEJ4",
       },

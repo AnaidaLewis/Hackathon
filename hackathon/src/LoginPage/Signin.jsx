@@ -647,6 +647,7 @@ const Signin = () => {
                 render={(renderProps) => (
                   <Button
                     size="small"
+                    color="secondary"
                     startIcon={<GoogleIcon />}
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
