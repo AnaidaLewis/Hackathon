@@ -44,3 +44,10 @@ class SellerAllOrdersViewSerializer(serializers.Serializer):
     Address = serializers.CharField()
     Cart = serializers.CharField()
     finalPrice = serializers.CharField()
+
+
+class ResetProductsOrderedSerializer(serializers.Serializer):
+    totalAggregateQuantity = serializers.IntegerField(required = True)
+
+class ProductInCartSerializer(serializers.Serializer):
+    ProductInCart = serializers.CharField()

@@ -7,8 +7,7 @@ from products.serializers import ProductSerializer, AddressSerializer
 from .models import Product,Address
 from django.contrib.auth import get_user_model
 from .models import Product,Address,Cart,CartItem
-from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer,SellerAllOrdersViewSerializer
-
+from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer,SellerAllOrdersViewSerializer,ResetProductsOrderedSerializer,ProductInCartSerializer
 
 #for most common in set
 from collections import Counter
@@ -350,6 +349,9 @@ class PlaceOrder(APIView):
             
             cart.final_price = 0 #so that we dont keep adding up the price of already added items
             cart.save()
+
+            data = []
+
             for i in range(len(displaySerializer.data)):
                 products = Product.objects.get(id = displaySerializer.data[i]['item']) #getting all products
                 # print(products.user)
@@ -359,11 +361,19 @@ class PlaceOrder(APIView):
                 cart_item = CartItem.objects.get(item = products,cart = cart,fixed = False)
                 if products.products_ordered > products.min_order:
                     cart_item.wholesale_price = True
-                    cart_item.price = products.wholesale_price
+                    cart_item.price = products.wholesale_price #DISCOUNT1
                     cart_item.save()
                 
                 cart.final_price += cart_item.price*cart_item.qty
                 cart.save()
+
+
+                # ***************************
+                productSerializer = ProductSerializer(products, many = False)
+                perUserInfo = {}
+                perUserInfo['ProductInCart'] = productSerializer.data
+                data.append(perUserInfo)
+                # **************************
                 # ifPlaceOrder = products.products_ordered + cart_item.qty #
                 # if ifPlaceOrder > products.min_order:
                 #     message = {'message': 'If you place you order for this item you will get it at wholesale price'}
@@ -377,11 +387,14 @@ class PlaceOrder(APIView):
             if maxNumofItemsFromSameManufacturer > cart.totalCartItem/2:
                 cart.manufacturer_name = User.objects.get(id = c.most_common(1)[0][0]).email
                 cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
-                cart.final_price -= maxNumofItemsFromSameManufacturer*2
+                cart.final_price -= maxNumofItemsFromSameManufacturer*2 #DISCOUNT2
                 cart.save()
-
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
+
+        # ***************************
+        productListSerializer = ProductInCartSerializer(data, many = True)
+        # ***************************
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice, 'Products':productListSerializer.data}, status = status.HTTP_200_OK )
     
 
     def post(self, request):
@@ -456,6 +469,7 @@ class SellerViewOrder(APIView):
                     wholesale_price = True
             wholesale_price = False
             data = []
+            newdata = []
             totalAggregateQuantity = 0
             totalAggregatePrice = 0
             for i in range(len(displaySerializer.data)):
@@ -476,11 +490,32 @@ class SellerViewOrder(APIView):
                 perUserInfo['Cart'] = userCartSerializer.data
                 perUserInfo['finalPrice'] = displaySerializer.data[i]['price']
                 data.append(perUserInfo)
+
+            
+            productSerializer = ProductSerializer(product, many = False)
+            
+
             SellerAllOrdersView = SellerAllOrdersViewSerializer(data, many = True)           
             return JsonResponse({'Wholesale Price': wholesale_price ,
                                 'totalAggregateQuantity':totalAggregateQuantity,
                                 'totalAggregatePrice':totalAggregatePrice, 
                                 'Buyer':SellerAllOrdersView.data,
+                                'Product':productSerializer.data,
                                 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
         
-            
+       
+    def post(self, request, pk):
+        user = User.objects.get(email = request.user)
+        serializer = ResetProductsOrderedSerializer(data = request.data)
+        if serializer.is_valid():
+            totalAggregateQuantity = serializer.data['totalAggregateQuantity']
+            try:
+                product = Product.objects.get(id = pk)
+            except Product.DoesNotExist:
+                content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+            print(product.products_ordered)
+            product.products_ordered -= int(totalAggregateQuantity)
+            product.save()
+            serializerProduct = ProductSerializer(product)
+            return JsonResponse(serializerProduct.data, status = status.HTTP_202_ACCEPTED)
