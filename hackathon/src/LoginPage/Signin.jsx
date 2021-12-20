@@ -30,6 +30,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import Swal from "sweetalert2";
+import spin from "../Images/spin.gif";
+import star from "../Images/star.png";
+import starspin from "../Images/star-spin.gif";
+import star2 from "../Images/stra2.gif";
 var axios = require("axios");
 
 const Signin = () => {

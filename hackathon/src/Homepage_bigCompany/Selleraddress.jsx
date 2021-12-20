@@ -66,8 +66,8 @@ const Selleraddress = () => {
      
 const options = useMemo(() => countryList().getData(), []);
       const loadList = async () => {
-        const result = await axios.get("http://communitybuyingbackend.pythonanywhere.com//main/address/",{
-          headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+        const result = await axios.get("http://communitybuyingbackend.pythonanywhere.com/main/address/",{
+          headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
         });
         setLoadImage(result);
         //console.log(result);
@@ -89,8 +89,8 @@ const options = useMemo(() => countryList().getData(), []);
         formData.append("pinCode", pincode);
         formData.append("state", state);
         formData.append("country", country.label);
-        const result = await axios.post("http://communitybuyingbackend.pythonanywhere.com//main/address/", {
-          headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw` },
+        const result = await axios.post("http://communitybuyingbackend.pythonanywhere.com/main/address/", {
+          headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc` },
           body: formData,
         })
         console.log(result);
@@ -111,8 +111,8 @@ const options = useMemo(() => countryList().getData(), []);
             if (result.value) {
                 try {
                     
-                    axios.delete("http://communitybuyingbackend.pythonanywhere.com//main/address/" , {
-                      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+                    axios.delete("http://communitybuyingbackend.pythonanywhere.com/main/address/" , {
+                      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
                     })
                         Swal.fire(
                             'Deleted !',
@@ -240,23 +240,169 @@ export default Selleraddress
 */
 
 import { Grid } from '@mui/material'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import BillingAddress from '../Cart/BillingAddress'
 import Total from '../Cart/Total'
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@mui/styles';
+import axios from "axios";
+
+import { useHistory } from "react-router-dom";
+import Swal from 'sweetalert2';
+import {motion} from 'framer-motion';
+import BadgeIcon from '@mui/icons-material/Badge';
+import BusinessIcon from '@mui/icons-material/Business';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import carroticon from '../Images/carroticon.png';
+import corn from "../Images/corn.png";
+import fruits from "../Images/fruits.png";
+import papaya from "../Images/papayaicon.png";
+import lemon from "../Images/lemon.png";
+import watermelon from "../Images/watermelon.png";
+import wheaticon from "../Images/wheaticon.png";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+const useStyles = makeStyles((theme) => ({
+  root:{
+      "& .MuiFormControl-root":{
+          width:"28rem",
+          padding:"7px",
+          margin:"2vh",
+          height:"6vh"
+      },
+  },
+  inputbox:{
+      width:"25rem",
+      paddingBottom:"5vh",
+      margin:"5vh",
+  },
+  card:{
+    "& .MuiCard-root":{
+      height:"28vh",
+      boxShadow:"none"
+    }
+  },
+  button:{
+    "& .MuiButtonBase-root":{
+        width:"25rem",
+        fontSize:"2rem",
+    }
+  },
+  image:{
+    "& .MuiCardMedia-root":{
+      objectFit:"contain",
+    }
+  },
+  
+}))
 
 const Cart = () => {
+  const classes = useStyles();
+  const [load,setLoadImage] = useState([]);
+  useEffect(() => {
+    loadList();
+   //detaillist();
+  },[]);
+  var id = localStorage.getItem('prodid');
+  const loadList = async () => {
+    console.log(id);
+    const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/seller-view-order/${id}/`,{
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+    });
+    setLoadImage(result);
+    console.log(result);
+  }
     return (
         <div>
         <Grid container spacing={3}>
             <Grid item md={6}><BillingAddress></BillingAddress></Grid>
             
         </Grid>
-        <Grid container spacing={3}>
-            <Grid item md={6}><Total></Total></Grid>
-            <Grid item md={6}><Total></Total></Grid>
-        </Grid>
-        </div>
-    )
-}
+          <Grid container spacing={{ xs: 2, md: 9 }} columns={{ xs: 1, sm: 4, md: 9 }}>
+                {/*{load.map((index) => (
+                 <Grid item xs={2} sm={4} md={4} key={index} className={classes.card}>
+                
+                <Card sx={{ maxWidth: 630  }} className="card" 
+                whileHover={{ scale: 1.1 }}
+              component={motion.div}
+              elevation={3}>
+                <div className={classes.image}>
+                
+                
+                <CardMedia
+                component="img"
+                padding="1.2vh"
+                height="150"
+                width="50"
+                
+                src={"http://communitybuyingbackend.pythonanywhere.com/" + index.image}
+                />
+                </div>
+                <div className='card-cont'>
+                <div className="content">
+                <div className='cont-right'>
+                <div className="cont-block">
+                <div className='head-1'>
+                <Typography gutterBottom variant="h5" component="div">
+                {index.name}
+                </Typography>
+                </div>
+                <div className='sub-1'>
+                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
+                {index.category}
+                </Typography>
+                </div>
+                </div>
+                </div>
+                <div className='cont-left'>
+                <div className="cont-block1">
+                <div className='head-3' >
+                <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
+                
+                </Typography>
+                </div>
+                </div>
+                <div className='cont-block' style={{paddingLeft:"3vh"}}>
+                <div className='head-4'>
+                <Typography gutterBottom style={{fontSize:"0.9rem"}}>
+                Rs.{index.price} per {index.units}
+                </Typography>
+                </div>
+                <div className='sub-4'>
+                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
+                In Stock : {index.total_stock}
+                </Typography>
+                </div>
+                
+                </div>
 
+                </div>
+                </div>
+                
+                <div className="button">
+                <CardActions>
+                
+                </CardActions>
+                </div>
+                </div>
+                </Card>
+                </Grid>
+                ))}*/}
+        </Grid>
+                </div>
+                
+    )}
+  
 export default Cart

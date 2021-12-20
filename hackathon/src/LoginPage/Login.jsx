@@ -63,7 +63,7 @@ const Login = () => {
 
   var config = {
     method: "post",
-    url: "http://communitybuyingbackend.pythonanywhere.com//account/login/",
+    url: "http://communitybuyingbackend.pythonanywhere.com/account/login/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,7 +75,7 @@ const Login = () => {
     var item = { auth_token: token };
 
     let result = await fetch(
-      "http://communitybuyingbackend.pythonanywhere.com//account/google/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -112,7 +112,7 @@ const Login = () => {
   const otp = async (response) => {
     console.warn(response);
     const res = await axios.get(
-      "http://communitybuyingbackend.pythonanywhere.com//account/send-twostep/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
       { params: { token: response } }
     );
     console.warn(res);
@@ -136,7 +136,7 @@ const Login = () => {
           console.log(num);
 
           const res = await axios.get(
-            "http://communitybuyingbackend.pythonanywhere.com//account/send-twostep/",
+            "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
             { params: { token: token, code: code } }
           );
           if(compareRole==='BUYER'){

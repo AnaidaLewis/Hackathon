@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
+
+import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2';
 import {motion} from 'framer-motion';
 import BadgeIcon from '@mui/icons-material/Badge';
@@ -24,6 +26,14 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import carroticon from '../Images/carroticon.png';
+import corn from "../Images/corn.png";
+import fruits from "../Images/fruits.png";
+import papaya from "../Images/papayaicon.png";
+import lemon from "../Images/lemon.png";
+import watermelon from "../Images/watermelon.png";
+import wheaticon from "../Images/wheaticon.png";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const useStyles = makeStyles((theme) => ({
     root:{
         "& .MuiFormControl-root":{
@@ -40,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card:{
       "& .MuiCard-root":{
-        height:"28vh",
+        height:"20vh",
         boxShadow:"none"
       }
     },
@@ -48,13 +58,14 @@ const useStyles = makeStyles((theme) => ({
       "& .MuiButtonBase-root":{
           width:"25rem",
           fontSize:"2rem",
+          height:"5rem",
       }
     },
     image:{
       "& .MuiCardMedia-root":{
         objectFit:"contain",
       }
-    }
+    },
     
 }))
 const Dashboard = () => {
@@ -65,6 +76,7 @@ const Dashboard = () => {
         color: theme.palette.text.secondary,
       }));
     const classes = useStyles();
+    const history = useHistory();
     const [name,setName] = useState("");
     const [image,setImage] = useState(null);
     const [price,setPrice] = useState("");
@@ -78,13 +90,13 @@ const Dashboard = () => {
     var field='';
     useEffect(() => {
       loadList();
-    },[load]);
+    },[]);
 
    const userid = localStorage.getItem('user');
    console.log(userid);
     const loadList = async () => {
-      const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com//main/product/0/`,{
-        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+      const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/product/0/`,{
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2NjAxLCJpYXQiOjE2NDAwMDc0MDEsImp0aSI6IjAyNDQxN2RiMzUyMjRhZDJiOTRkYzI1ZTE3YmU0MWMwIiwidXNlcl9pZCI6M30.0lFeb3ZbHAef9RCnXpBehPpVfyKcy-5YXP_0mKy5wuc`},
       });
       setLoadImage(result.data);
     }
@@ -101,10 +113,10 @@ const Dashboard = () => {
       formData.append("units", units);
   
       
-      await fetch(`http://communitybuyingbackend.pythonanywhere.com//main/product/${userid}/`, {
+      await fetch(`http://communitybuyingbackend.pythonanywhere.com/main/product/${userid}/`, {
         method: "POST",
         body: formData,
-        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw` },
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2NjAxLCJpYXQiOjE2NDAwMDc0MDEsImp0aSI6IjAyNDQxN2RiMzUyMjRhZDJiOTRkYzI1ZTE3YmU0MWMwIiwidXNlcl9pZCI6M30.0lFeb3ZbHAef9RCnXpBehPpVfyKcy-5YXP_0mKy5wuc` },
       })
       .then((result)=>{
         loadList();
@@ -114,6 +126,10 @@ const Dashboard = () => {
         alert('Error in the Code');
       });
     };
+
+
+
+
 
    /* const deleteImage = (id) => {
       Swal.fire({
@@ -130,8 +146,8 @@ const Dashboard = () => {
            
               try {
                   
-                  axios.delete(`http://communitybuyingbackend.pythonanywhere.com//main/product/${id}` , {
-                    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+                  axios.delete(`http://communitybuyingbackend.pythonanywhere.com/main/product/${id}` , {
+                    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
                     
                   })
                       Swal.fire(
@@ -169,9 +185,9 @@ const editStock =(id,qnty) =>{
         formData.append("total_stock", num);
         var config = {
           method: "put",
-          url: `http://communitybuyingbackend.pythonanywhere.com//main/product/${id}/`,
+          url: `http://communitybuyingbackend.pythonanywhere.com/main/product/${id}/`,
           headers: {
-            "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`
+            "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`
           },
           data: formData,
         };
@@ -209,8 +225,32 @@ const editStock =(id,qnty) =>{
   });
 }
 
+
+
     return (
 
+      <>
+      <div className="carroticon">
+      <img src={carroticon} alt="" style={{width:"55px",height:"55px"}}/>
+      </div>
+      <div className="papaya">
+      <img src={papaya} alt="" style={{width:"75px",height:"75px"}}/>
+      </div>
+      <div className="wheaticon">
+      <img src={wheaticon} alt="" style={{width:"45px",height:"45px"}}/>
+      </div>
+      <div className="corn">
+      <img src={corn} alt="" style={{width:"45px",height:"45px"}}/>
+      </div>
+      <div className="lemon">
+      <img src={lemon} alt="" style={{width:"65px",height:"65px"}}/>
+      </div>
+      <div className="watermelon">
+      <img src={watermelon} alt="" style={{width:"55px",height:"55px"}}/>
+      </div>
+      <div className="fruits">
+      <img src={fruits} alt="" style={{width:"70px",height:"70px"}}/>
+      </div>
 
         <div className='Dashboard'>
                 <div className='Box'>
@@ -345,7 +385,7 @@ const editStock =(id,qnty) =>{
                          />
                          <TextField 
                             className = {classes.inputbox}
-                            label="Total Quantity"
+                            label="Total Qnty"
                             name="total_stock"
                             variant="outlined" 
                             placeholder="Total Quantity"
@@ -438,7 +478,7 @@ const editStock =(id,qnty) =>{
                 height="150"
                 width="50"
                 
-                src={"https://communitybuying.pythonanywhere.com" + index.image}
+                src={"http://communitybuyingbackend.pythonanywhere.com/" + index.image}
                 />
                 </div>
                 <div className='card-cont'>
@@ -462,7 +502,9 @@ const editStock =(id,qnty) =>{
                 <div className='head-3' >
                 <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
                 <AddShoppingCartIcon onClick={()=>editStock(index.id,index.total_stock)}/>
+                
                 </Typography>
+                <VisibilityIcon onClick={()=>{history.push("/Address") ; localStorage.setItem('prodid',index.id)}} style={{cursor:"ponter"}} />
                 </div>
                 </div>
                 <div className='cont-block' style={{paddingLeft:"3vh"}}>
@@ -496,7 +538,7 @@ const editStock =(id,qnty) =>{
 
       </div>
     </div>
-                
+    </>          
       /*<div>
         <Grid container spacing={3}>
             <Grid item md={6}> 

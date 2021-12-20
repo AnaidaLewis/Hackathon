@@ -48,6 +48,164 @@
 .List{
     margin-top: 10vh;
 }
+.carroticon{
+    position: absolute;
+    margin-left: 40px;
+    animation: carroticon 5s linear infinite;
+
+}
+@keyframes carroticon {
+    0%,100%{
+        transform: translateX(50px) translateY(30px);
+      }
+      50%{
+        transform: translateX(-20px) translateY(-10px);
+        width:15px;
+        height: 15px;
+      }
+}
+.carroticon{
+    position: absolute;
+    margin-left: 40px;
+    animation: carroticon 5s linear infinite;
+
+}
+@keyframes carroticon {
+    0%,100%{
+        transform: translateX(50px) translateY(30px);
+      }
+      50%{
+        transform: translateX(-20px) translateY(-10px);
+        width:15px;
+        height: 15px;
+      }
+}
+.carroticon{
+    position: absolute;
+    margin-left: 10%;
+    margin-top: -2%;
+    width:15px;
+    height:15px;
+    animation: carroticon 5s linear infinite;
+    transition:  ease-in-out;
+
+}
+@keyframes carroticon {
+    0%,100%{
+        transform: translateX(50px) translateY(30px);
+      }
+      50%{
+        transform: translateX(-20px) translateY(-10px);
+        width:15px;
+        height: 15px;
+      }
+}
+.papaya{
+    position: absolute;
+    margin-left: 90%;
+    margin-top: 5%;
+    animation: papaya 5s linear infinite;
+
+}
+@keyframes papaya {
+    0%,100%{
+        transform: translateY(50px) 
+      }
+      50%{
+        transform: translateY(-20px) ;
+        width:15px;
+        height: 15px;
+      }
+}
+.corn{
+    position: absolute;
+    margin-left: 80%;
+    margin-top: 25%;
+    animation: corn 3s linear infinite;
+
+}
+@keyframes corn {
+    0%,100%{
+        transform: translateX(50px) translateY(30px);
+      }
+      50%{
+        transform: translateX(-20px) translateY(-10px);
+        width:15px;
+        height: 15px;
+      }
+}
+.lemon{
+    position: absolute;
+    margin-left: 35%;
+    margin-top: 8%;
+    animation: lemon 5s linear infinite;
+
+}
+@keyframes lemon {
+    0%,100%{
+        width:70px;
+        height:70px
+      }
+      50%{
+        width:15px;
+        height: 15px;
+      }
+}
+.watermelon{
+    position: absolute;
+    margin-left: 45%;
+    margin-top: 5%;
+    animation: watermelon 7s linear infinite;
+
+}
+@keyframes watermelon {
+    25% {
+        transform: rotate(15deg);
+      }
+      50% {
+        transform: rotate(-30deg);
+      }
+      75% {
+        transform: rotate(5deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+}
+.fruits{
+    position: absolute;
+    margin-left: 40%;
+    margin-top: 15%;
+    animation: fruits 10s linear infinite;
+
+}
+@keyframes fruits {
+    0%,100%{
+        transform: translateX(-50px) translateY(100px);
+      }
+      50%{
+        transform: translateX(-20px) translateY(10px);
+        width:15px;
+        height: 15px;
+      }
+}
+.wheaticon{
+    position: absolute;
+    margin-left: 5%;
+    margin-top: 10%;
+    animation: carroticon 15s linear infinite;
+
+}
+@keyframes wheaticon {
+    0%,100%{
+        transform: translateX(50px) translateY(30px);
+      }
+      50%{
+        transform: translateX(-2px) translateY(-10px);
+        width:15px;
+        height: 15px;
+      }
+}
 @media (max-width:1000px)
 {
 
@@ -63,5 +221,11 @@
     }
     .card{
         margin: -2vh;
+    }
+    .corn{
+        display:none;
+    }
+    .papaya{
+        display:none
     }
 }
