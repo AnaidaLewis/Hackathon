@@ -28,6 +28,10 @@ class AllProducts(generics.ListAPIView):
 
 
 
+
+
+
+
 #PRODUCTS ***********************************************************************
 class ProductList(APIView):
     
@@ -107,6 +111,14 @@ class ProductList(APIView):
         return JsonResponse({'Response': 'Product succsesfully delete!'},status = status.HTTP_200_OK)
 
 
+
+
+
+
+
+
+
+
 #ADDRESS************************************************************************************************
 class AddressList(APIView):
     
@@ -163,6 +175,15 @@ class AddressList(APIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         address.delete()
         return JsonResponse({'Response': 'Address succsesfully delete!'},status = status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -291,7 +312,14 @@ class BuyerCart(APIView):
             cart_item.delete()
             return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
         return JsonResponse({'Response': 'Order Placed cannot be editted '},status = status.HTTP_503_SERVICE_UNAVAILABLE)
-            
+
+
+
+
+
+
+
+
 
 #BUYER HISTORY*********************************************************
 class BuyerHistory(APIView):
@@ -318,7 +346,25 @@ class BuyerHistory(APIView):
             return JsonResponse('new cart not created', status = status.HTTP_404_NOT_FOUND)
         all_cart_items = CartItem.objects.filter(cart = cart.id, fixed = True)
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data}, status = status.HTTP_200_OK )
+        # ************************************
+        data = []
+        for i in range(len(displaySerializer.data)):
+            products = Product.objects.get(id = displaySerializer.data[i]['item']) #getting all products
+            productSerializer = ProductSerializer(products, many = False)
+            perUserInfo = {}
+            perUserInfo['ProductInCart'] = productSerializer.data
+            data.append(perUserInfo)
+        productListSerializer = ProductInCartSerializer(data, many = True)
+        # ************************************
+
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'Products':productListSerializer.data}, status = status.HTTP_200_OK )
+
+        
+
+
+
+
+
 
 
 #BUYER CONFIRM ORDER*****************************************************************
@@ -452,6 +498,12 @@ class PlaceOrder(APIView):
             return JsonResponse({'Cart':user.email, 'cartItems':displayItemSerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
         content = {'detail': 'No new items Added to cart'}
         return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+
+
+
+
+
 
 
 #SELLER****************************************************************************************
