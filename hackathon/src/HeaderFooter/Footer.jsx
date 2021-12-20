@@ -6,9 +6,9 @@ import { FiPackage } from "react-icons/fi";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { BsInstagram, BsFacebook, BsLinkedin } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
-
-// import image from "../Header/DJACMLOGO.png";
+import { GiHamburgerMenu, GiFruitBowl } from "react-icons/gi";
 import "./header.css";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
@@ -115,6 +115,65 @@ const Footer = () => {
             <p>contact us 24hours a day, 7 days a week</p>
           </Grid>
         </Grid>
+        <div className="footerSection">
+          <Grid container spacing={1}>
+            <Grid style={{ backgroundColor: "#116530" }} item sm={4} xs={12}>
+              <GiFruitBowl style={{ fontSize: "9rem", color: "white" }} />
+            </Grid>
+            <Grid style={{ backgroundColor: "#116530" }} item sm={4} xs={12}>
+              <p>Get involved</p>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to="/homePage"
+              >
+                <li>Home</li>
+              </Link>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to="/category"
+              >
+                <li>Category</li>
+              </Link>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to="/feedback"
+              >
+                <li>Feedback</li>
+              </Link>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to="/cart"
+              >
+                <li>Cart</li>
+              </Link>
+            </Grid>
+            <Grid style={{ backgroundColor: "#116530" }} item sm={4} xs={12}>
+              <p>Get in touch</p>
+              <IconContext.Provider
+                value={{ size: "1.7rem", className: "iconsFooter" }}
+              >
+                <li className="footerSocial">
+                  <a href="##">
+                    <BsInstagram />
+                  </a>
+
+                  <a href="##">
+                    <BsFacebook />
+                  </a>
+                  <a href="##">
+                    <BsLinkedin />
+                  </a>
+                </li>
+              </IconContext.Provider>
+            </Grid>
+          </Grid>
+        </div>
+
+        {/* copyright */}
+        <h6 style={{ padding: "5px", fontSize: ".8rem" }}>
+          &copy;
+          {new Date().getFullYear()} FOOD Mart -- All Rights Reserved
+        </h6>
       </center>
     </div>
   );

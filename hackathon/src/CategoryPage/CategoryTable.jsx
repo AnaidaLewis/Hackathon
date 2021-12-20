@@ -116,10 +116,10 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const drawerWidth = 300;
+const drawerWidth = 302;
 const Category = [
   {
-    label: "Exotic vegetables",
+    label: "Exotic vegetable",
   },
   {
     label: "Meat & Seafood",
@@ -205,8 +205,8 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ display: 'flex' }} className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+      {/* <AppBar position="fixed" open={open}>
+        <Toolbar> */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -217,16 +217,10 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          {Category.map((x)=>{
-            return(
-              <Typography variant="h6" noWrap style={{marginBottom:"5vh"}}>
-                Category
-             </Typography>
-            );
-          })}
+      
          
-        </Toolbar>
-      </AppBar>
+        {/* </Toolbar>
+      </AppBar> */}
       <Drawer
         sx={{
           width: drawerWidth,
@@ -244,6 +238,7 @@ export default function PersistentDrawerLeft() {
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
+
         </DrawerHeader>
         <Divider />
         
@@ -264,7 +259,7 @@ export default function PersistentDrawerLeft() {
                       fontWeight: 700,
                       color:'black'
                     }}
-                    to={`${x.label}`}
+                    to={`/category/${x.label}`}
                   >
                     <p>{x.label}</p>
                   </Link>

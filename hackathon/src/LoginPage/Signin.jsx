@@ -134,6 +134,7 @@ const Signin = () => {
 
     // The ID token you need to pass to your backend:
     var auth_token = googleUser.getAuthResponse().id_token;
+    console.log(auth_token);
     console.log("ID Token: " + auth_token);
     authConfirm(auth_token);
   }
@@ -641,11 +642,12 @@ const Signin = () => {
               cookiePolicy={"single_host_origin"}
             />
             <br /> <br /> */}
-            {/* <GoogleLogin
+            <GoogleLogin
                 clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
                 render={(renderProps) => (
                   <Button
                     size="small"
+                    color="secondary"
                     startIcon={<GoogleIcon />}
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
@@ -662,8 +664,8 @@ const Signin = () => {
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={"single_host_origin"}
-              /> */
-            /* <GoogleLogin
+              /> 
+            {/* /* <GoogleLogin
               clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
               render={(renderProps) => (
                 <Button
@@ -683,7 +685,7 @@ const Signin = () => {
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
               cookiePolicy={"single_host_origin"}
-            /> */}
+            /> */} 
             {/* <Button
               size="small"
               startIcon={<GoogleIcon />}

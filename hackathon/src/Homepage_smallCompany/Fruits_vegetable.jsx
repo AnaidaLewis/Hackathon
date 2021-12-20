@@ -51,7 +51,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to={`category/Exotic vegetables`} className="cat_link">
+              <Link to={`category/Exotic vegetable`} className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}
@@ -89,7 +89,7 @@ const Fruits_vegetable = () => {
               </Link>
             </Grid>
             <Grid item md={6} sm={12} xs={12}>
-              <Link to={`category/Exotic vegetables`} className="cat_link">
+              <Link to={`category/Exotic vegetable`} className="cat_link">
                 <Paper
                   whileHover={{ scale: 1.1 }}
                   component={motion.div}

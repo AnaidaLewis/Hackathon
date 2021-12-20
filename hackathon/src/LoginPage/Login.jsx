@@ -39,7 +39,7 @@ const Login = () => {
     showPassword: false,
   });
   const [errors, setErrors] = useState({});
-
+  const [compareRole,setRole]=useState('')
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
@@ -127,7 +127,7 @@ const Login = () => {
         if (!num) {
           return "You need to write something!";
         }
-        if (num) {
+        else if (num) {
           var data = JSON.stringify({
             code: `${num}`,
             phone: `${"+91" + values.phone}`,
@@ -139,8 +139,13 @@ const Login = () => {
             "http://communitybuyingbackend.pythonanywhere.com//account/send-twostep/",
             { params: { token: token, code: code } }
           );
+          if(compareRole==='BUYER'){
+            history.push("/homePage");
+          }
+          else{
+            history.push("/SellerDashboard");
 
-          history.push("/homePage");
+          }
 
           console.log(res);
         }
@@ -262,8 +267,10 @@ const Login = () => {
                     console.log(JSON.stringify(response.data));
                     console.log(response.status);
                     if (response.status == 200) {
+
                       otp(response.data.access);
-                      console.log(response.data.access);
+                      setRole(response.data.role)
+                      console.log(response.data.Role);
 
                       // console.warn(response.data["is two step enabled"]);
                       // if (response.data["is two step enabled"] === true) {

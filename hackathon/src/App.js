@@ -2,8 +2,6 @@ import './App.css';
 import { Route , BrowserRouter , Switch} from "react-router-dom";
 import Login from "./LoginPage/Login";
 import Signin from "./LoginPage/Signin";
-import { Header } from './HeaderFooter/Header';
-import {Footer} from './HeaderFooter/Footer';
 import HomeC from './Homepage_smallCompany/HomeC';
 import Page1 from './Pages/Page1';
 import Page2 from './Pages/Page2';
@@ -19,29 +17,33 @@ import Cart from './Cart/Cart';
 import Selleraddress from './Homepage_bigCompany/Selleraddress';
 import CategoryHome from './Homepage_smallCompany/CategoryHome';
 import CategoryPage from './CategoryPage/CategoryPage';
+import AllItems from './CategoryPage/AllItems';
+import NavBar_loginSignup from './HeaderFooter/NavBar_loginSignup';
+import NavBarSeller from './HeaderFooter/NavBarSeller';
+import Footer from './HeaderFooter/Footer';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
-  var role = 'Buyer';
   return (
     <div className="App">
     
       <BrowserRouter>
         <Switch>
-        <Route exact path = "/" children={<div className='sign'><HeaderN/><Signin/></div>}/>
-        <Route path = "/Login" children={<div className='sign'><HeaderN/><Login/></div>} />
-        {/* <Route path= '/verfication' children={<TwoStep/>}></Route>
-        <Route path= '/verfication2' children={<TwoStep2/>}></Route> */}
-        <Route path={'/category/:type'}>
-        <HeaderN/>
-        <CategoryPage/>
-        </Route>
+        {/* login signup */}
+        <Route exact path = "/" children={<div className='sign'><NavBar_loginSignup/><Signin/></div>}/>
+        <Route path = "/Login" children={<div className='sign'><NavBar_loginSignup/><Login/></div>} />
+
+        {/* home page for buyer */}
+        <Route path='/category' exact children={<><HeaderN/><AllItems/><Footer></Footer></>}/>
+        <Route path={'/category/:type'} children={<><HeaderN/><CategoryPage/><Footer></Footer></>}/>
         <Route path='/cart' children={<><HeaderN/><Cart/></>}/>
-        <Route path = "/HomePage" children={<><HeaderN/><HomeC/></>} />
-        {/* <Route path = "/Page1" children={<><Navbar/><Page1/></>}/> */}
-        {/* <Route path = "/Page2" children={<><Navbar/><Page2/></>} /> */}
+        <Route path = "/HomePage" children={<><HomeC/></>} />
         <Route path = "/Feedback" children={<><HeaderN/><Feedback/></>} />
-        <Route path = "/SellerDashboard" children={<><HeaderN/><Dashboard/></>} />
-        <Route path = '/Address' children={<><HeaderN/><Selleraddress/></>} />
+
+        {/* home page for seller */}
+        <Route path = "/SellerDashboard" children={<><NavBarSeller/><Dashboard/></>} />
+        <Route path = '/Address' children={<><NavBarSeller/><Selleraddress/></>} />
+
+        {/* not found page */}
         <Route children={<NotFound/>} />
         </Switch>
        
