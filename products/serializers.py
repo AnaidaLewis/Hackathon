@@ -29,3 +29,16 @@ class DisplayCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+
+class SellerAllOrdersViewSerializer(serializers.Serializer):
+    Quantity = serializers.CharField()
+    Address = serializers.CharField()
+    Cart = serializers.CharField()
+    finalPrice = serializers.CharField()

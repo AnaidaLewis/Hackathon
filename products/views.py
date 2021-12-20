@@ -7,7 +7,7 @@ from products.serializers import ProductSerializer, AddressSerializer
 from .models import Product,Address
 from django.contrib.auth import get_user_model
 from .models import Product,Address,Cart,CartItem
-from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer
+from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer,SellerAllOrdersViewSerializer
 
 
 #for most common in set
@@ -289,7 +289,6 @@ class PlaceOrder(APIView):
 
     def get(self, request, pk):
         user = User.objects.get(email = request.user)
-        # try:
         try:
             address = Address.objects.get(user = user.id)
         except Address.DoesNotExist:
@@ -314,8 +313,8 @@ class PlaceOrder(APIView):
                 print(products.user)
                 product_owner = User.objects.get(email = products.user) #getting all the owners of the product
                 manufactures.append(product_owner.id) #appending in manufacturers
-                
-                cart_item = CartItem.objects.get(item = products)
+                print(products)
+                cart_item = CartItem.objects.get(item = products, cart = cart)
                 
                 if products.products_ordered > products.min_order:
                     cart_item.wholesale_price = True
@@ -361,9 +360,31 @@ class SellerViewOrder(APIView):
             if product.products_ordered > product.min_order:
                     wholesale_price = True
             wholesale_price = False
+            data = []
+            totalAggregateQuantity = 0
+            totalAggregatePrice = 0
             for i in range(len(displaySerializer.data)):
-                totalAggregateQuantity = displaySerializer.data[i]['qty']
-                all_buyers = Cart.objects.get(id = displaySerializer.data[i]['cart'])
-                allBuyersSerializer = True
-            return JsonResponse({ 'Wholesale Price': wholesale_price ,'totalAggregateQuantity':totalAggregateQuantity, 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
+                totalAggregateQuantity += int(displaySerializer.data[i]['qty'])
+                user_cart = Cart.objects.get(id = displaySerializer.data[i]['cart'])
+                item_price_same_manufacturer = float(displaySerializer.data[i]['price'])
+                if user_cart.manufacturer_name == user.email:
+                    item_price_same_manufacturer -= 2
+                
+                userCartSerializer = CartSerializer(user_cart, many = False)
+                userAddress = Address.objects.get(user = user_cart.user)
+                userAddressSerializer = AddressSerializer(userAddress, many = False)
+                
+                perUserInfo = {}
+                totalAggregatePrice += item_price_same_manufacturer*int(displaySerializer.data[i]['qty'])
+                perUserInfo['Quantity'] = displaySerializer.data[i]['qty']
+                perUserInfo['Address'] = userAddressSerializer.data
+                perUserInfo['Cart'] = userCartSerializer.data
+                perUserInfo['finalPrice'] = displaySerializer.data[i]['price']
+                data.append(perUserInfo)
+            SellerAllOrdersView = SellerAllOrdersViewSerializer(data, many = True)           
+            return JsonResponse({'Wholesale Price': wholesale_price ,
+                                'totalAggregateQuantity':totalAggregateQuantity,
+                                'totalAggregatePrice':totalAggregatePrice, 
+                                'Buyer':SellerAllOrdersView.data,
+                                'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
         
