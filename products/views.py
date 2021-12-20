@@ -190,7 +190,7 @@ class BuyerCart(APIView):
                 content = {'detail': 'User does not have a cart hence new cart created', 'New Cart':serializer.data}
                 return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
             return JsonResponse('new cart not created', status = status.HTTP_404_NOT_FOUND)
-        all_cart_items = CartItem.objects.filter(cart = cart.id)
+        all_cart_items = CartItem.objects.filter(cart = cart.id, fixed = False)
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
         return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data}, status = status.HTTP_200_OK )
             
@@ -232,7 +232,7 @@ class BuyerCart(APIView):
                 cart.save()
                 product = Product.objects.get(id = pk)
                 print(serializer.data)
-                product.products_ordered += serializer.data['qty']
+                # product.products_ordered += serializer.data['qty']
                 product.total_stock -= serializer.data['qty']
                 product.save() 
                 return JsonResponse({'Message': 'Item added to cart'}, status = status.HTTP_200_OK )
@@ -253,21 +253,23 @@ class BuyerCart(APIView):
         except CartItem.DoesNotExist:
             content = {'detail': 'No such item added to this cart'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        product = Product.objects.get(id = pk)
-        serializer = CartItemSerializer(instance = cart_item, data=request.data, partial = True)
-        if serializer.is_valid():
-            product.products_ordered -= cart_item.qty
-            product.total_stock += cart_item.qty
-            product.save()
-            serializer.save()
-            product.products_ordered += cart_item.qty
-            product.total_stock -= cart_item.qty
-            product.save()
-            return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
-        content = {'detail': 'Serializer not valid'}
-        return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
+        if not cart_item.fixed :
+            product = Product.objects.get(id = pk)
+            serializer = CartItemSerializer(instance = cart_item, data=request.data, partial = True)
+            if serializer.is_valid():
+                # product.products_ordered -= cart_item.qty
+                product.total_stock += cart_item.qty
+                product.save()
+                serializer.save()
+                # product.products_ordered += cart_item.qty
+                product.total_stock -= cart_item.qty
+                product.save()
+                return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
+            content = {'detail': 'Serializer not valid'}
+            return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'Response': 'Order Placed cannot be editted '},status = status.HTTP_503_SERVICE_UNAVAILABLE)
     
-    
+
     def delete(self, request, pk):
         user = User.objects.get(email = request.user)
         try:
@@ -280,15 +282,45 @@ class BuyerCart(APIView):
         except CartItem.DoesNotExist:
             content = {'detail': 'No such item added to this cart'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        cart.totalCartItem -= 1
-        cart.save()
-        product = Product.objects.get(id = cart_item.item.id)
-        product.products_ordered -= cart_item.qty
-        product.total_stock += cart_item.qty
-        product.save() 
-        cart_item.delete()
-        return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
+        if not cart_item.fixed :
+            cart.totalCartItem -= 1
+            cart.save()
+            product = Product.objects.get(id = cart_item.item.id)
+            # product.products_ordered -= cart_item.qty
+            product.total_stock += cart_item.qty
+            product.save() 
+            cart_item.delete()
+            return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
+        return JsonResponse({'Response': 'Order Placed cannot be editted '},status = status.HTTP_503_SERVICE_UNAVAILABLE)
             
+
+#BUYER HISTORY
+class BuyerHistory(APIView):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request,pk):
+        user = User.objects.get(email = request.user)
+        # try:
+        try:
+            address = Address.objects.get(user = user.id)
+        except Address.DoesNotExist:
+            content = {'detail': 'Address not created, First create address then create cart'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            cart = Cart.objects.get(user = user.id)
+        except Cart.DoesNotExist:
+            user_cart = Cart(user = user)
+            serializer = CartSerializer(user_cart,data=request.data)
+            if serializer.is_valid():
+                created_cart = serializer.save()
+                content = {'detail': 'User does not have a cart hence new cart created', 'New Cart':serializer.data}
+                return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
+            return JsonResponse('new cart not created', status = status.HTTP_404_NOT_FOUND)
+        all_cart_items = CartItem.objects.filter(cart = cart.id, fixed = True)
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data}, status = status.HTTP_200_OK )
+
 
 #BUYER CONFIRM ORDER*****************************************************************
 class PlaceOrder(APIView):
@@ -328,6 +360,59 @@ class PlaceOrder(APIView):
                     cart_item.wholesale_price = True
                     cart_item.price = products.wholesale_price
                     cart_item.save()
+                # ifPlaceOrder = products.products_ordered + cart_item.qty #
+                # if ifPlaceOrder > products.min_order:
+                #     message = {'message': 'If you place you order for this item you will get it at wholesale price'}
+                #     displaySerializer.data[i]['message'] = message
+            (manufactures)
+            c = Counter(manufactures)
+            print(c)
+            print(c.most_common(1)[0])
+            maxNumofItemsFromSameManufacturer = c.most_common(1)[0][1]
+            #give discount if more than half products are from same manufacturer
+            if maxNumofItemsFromSameManufacturer > cart.totalCartItem/2:
+                cart.manufacturer_name = User.objects.get(id = c.most_common(1)[0][0]).email
+                cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
+                cart.final_price -= maxNumofItemsFromSameManufacturer*5
+                cart.save()
+
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
+    
+
+    def post(self, request):
+        user = User.objects.get(email = request.user)
+        try:
+            address = Address.objects.get(user = user.id)
+        except Address.DoesNotExist:
+            content = {'detail': 'Address not created, First create address then create cart then place order'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            cart = Cart.objects.get(user = user.id)
+        except Cart.DoesNotExist:
+            content = {'detail': 'No items Added to cart'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        
+        all_cart_items = CartItem.objects.filter(cart = cart.id)
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+        manufactures = []
+        print(len(displaySerializer.data))
+        if len(displaySerializer.data) > 0:
+            cart.final_price = 0 #so that we dont keep adding up the price of already added items
+            for i in range(len(displaySerializer.data)):
+                products = Product.objects.get(id = displaySerializer.data[i]['item']) #getting all products
+                print(products.user)
+                product_owner = User.objects.get(email = products.user) #getting all the owners of the product
+                manufactures.append(product_owner.id) #appending in manufacturers
+                print(products)
+                cart_item = CartItem.objects.get(item = products, cart = cart)
+                products.products_ordered += cart_item.qty
+                products.save()
+                if products.products_ordered > products.min_order:
+                    cart_item.wholesale_price = True
+                    cart_item.price = products.wholesale_price
+                    cart_item.fixed = True #$$$$$$$$$$$$$$
+                    cart_item.save()
                 
                 cart.final_price += cart_item.price
                 cart.save()
@@ -336,20 +421,17 @@ class PlaceOrder(APIView):
             c = Counter(manufactures)
             print(c)
             print(c.most_common(1)[0])
-            
             maxNumofItemsFromSameManufacturer = c.most_common(1)[0][1]
-            
             #give discount if more than half products are from same manufacturer
             if maxNumofItemsFromSameManufacturer > cart.totalCartItem/2:
                 cart.manufacturer_name = User.objects.get(id = c.most_common(1)[0][0]).email
                 cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
                 cart.final_price -= maxNumofItemsFromSameManufacturer*5
                 cart.save()
-        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
-    
-    def post(self, request):
-        pass
+            displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+            return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
+        content = {'detail': 'No items Added to cart'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
 
 
 #SELLER****************************************************************************************
@@ -364,8 +446,8 @@ class SellerViewOrder(APIView):
         except Product.DoesNotExist:
             content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        if CartItem.objects.filter(item = product).exists():
-            all_cart_items = CartItem.objects.filter(item = product)
+        if CartItem.objects.filter(item = product, fixed = True).exists():
+            all_cart_items = CartItem.objects.filter(item = product, fixed = True)
             displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
             if product.products_ordered > product.min_order:
                     wholesale_price = True
@@ -398,3 +480,5 @@ class SellerViewOrder(APIView):
                                 'Buyer':SellerAllOrdersView.data,
                                 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
         
+            
+            
