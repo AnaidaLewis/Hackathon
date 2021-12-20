@@ -389,14 +389,17 @@ class PlaceOrder(APIView):
                 cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
                 cart.final_price -= maxNumofItemsFromSameManufacturer*2 #DISCOUNT2
                 cart.save()
-        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+            displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
 
-        # ***************************
-        print(displaySerializer.data)
-        productListSerializer = ProductInCartSerializer(data, many = True)
-        # ***************************
-        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice, 'Products':productListSerializer.data}, status = status.HTTP_200_OK )
-    
+            # ***************************
+            # print(displaySerializer.data)
+            productListSerializer = ProductInCartSerializer(data, many = True)
+            # ***************************
+            return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice, 'Products':productListSerializer.data}, status = status.HTTP_200_OK )
+        content = {'detail': 'No new items Added to cart'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+
 
     def post(self, request):
         user = User.objects.get(email = request.user)
