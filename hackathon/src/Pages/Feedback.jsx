@@ -55,7 +55,7 @@ const Feedback = () => {
     const classes = useStyles();
     return (
         <div style={{display:"flex" , justifyContent:"center"}} className={classes.root}>
-           
+          
         <div className="box">
             <div className="social-media-feedback">
             <div className="title-feedback">

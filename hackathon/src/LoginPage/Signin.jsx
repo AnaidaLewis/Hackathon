@@ -92,7 +92,7 @@ const Signin = () => {
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
-    url: "http://communitybuying.pythonanywhere.com/account/signup/",
+    url: "http://communitybuyingbackend.pythonanywhere.com//account/signup/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -104,7 +104,7 @@ const Signin = () => {
     var item = { auth_token: token };
 
     let result = await fetch(
-      "http://communitybuying.pythonanywhere.com/account/google/",
+      "http://communitybuyingbackend.pythonanywhere.com//account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -157,7 +157,7 @@ const Signin = () => {
           console.log(values);
           var config = {
             method: "post",
-            url: "http://communitybuying.pythonanywhere.com/account/phone-verify/",
+            url: "http://communitybuyingbackend.pythonanywhere.com//account/phone-verify/",
             headers: {
               "Content-Type": "application/json",
             },
