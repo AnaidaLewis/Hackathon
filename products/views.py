@@ -344,10 +344,12 @@ class PlaceOrder(APIView):
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
         manufactures = []
         print(len(displaySerializer.data))
+        cart.final_price = 0 #so that we dont keep adding up the price of already added items
+        cart.save()
         if len(displaySerializer.data) > 0:
             
             cart.final_price = 0 #so that we dont keep adding up the price of already added items
-            
+            cart.save()
             for i in range(len(displaySerializer.data)):
                 products = Product.objects.get(id = displaySerializer.data[i]['item']) #getting all products
                 # print(products.user)
