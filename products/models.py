@@ -41,7 +41,7 @@ class Product(models.Model):
     products_ordered = models.IntegerField(default=0)
     category       = models.CharField(max_length=255,choices=CATEGORY_CHOICES) #for setting a new order values just user update
     units          = models.CharField(max_length=255,choices=UNIT_CHOICES) #for setting a new order values just user update
-    published      = models.BooleanField(default = True)
+    # published      = models.BooleanField(default = True)
     createdAt      = models.DateTimeField(auto_now_add = True)
     
     def __str__(self):
@@ -67,9 +67,10 @@ class Cart(models.Model):
     user           = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = 'cart',null = True)
     totalCartItem  = models.IntegerField(default=0)
     totalCartItemFromSameManufacturer  = models.IntegerField(default=0)
-    manufacturer_name = models.CharField(max_length = 200, blank = True)
+    manufacturer_name = models.CharField(max_length = 200, blank = True, default = 'A')
+    # ItemFromSameManufacturerDiscount  = models.DecimalField(max_digits=7, decimal_places=2, default = 0)
     taxPrice       = models.DecimalField(max_digits = 7, decimal_places = 2, default = 18)
-    final_price    = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    final_price    = models.DecimalField(max_digits=7, decimal_places=2,default = 0)
     isPaid         = models.BooleanField(default = False)
     paidAt         = models.DateTimeField(auto_now_add = False, null = True, blank = True)
     isDelivered    = models.BooleanField(default = False)

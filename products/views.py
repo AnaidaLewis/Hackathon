@@ -8,7 +8,14 @@ from .models import Product,Address
 from django.contrib.auth import get_user_model
 from .models import Product,Address,Cart,CartItem
 from .serializers import CartSerializer,CartItemSerializer,DisplayCartItemSerializer
+
+
+#for most common in set
+from collections import Counter
+
 # Create your views here.
+
+
 
 User = get_user_model()
 
@@ -51,7 +58,7 @@ class ProductList(APIView):
         serializer = ProductSerializer(product_user,data=request.data)
         if serializer.is_valid():
             user_product = serializer.save()
-            user_product.published = True
+            # user_product.published = True
             user_product.save()
             return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -65,12 +72,14 @@ class ProductList(APIView):
         except Product.DoesNotExist:
             content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        if product.published:
-            content = {'detail': 'Once published NO changes can be made in Product'}
-            return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
+        # if product.published:
+        #     content = {'detail': 'Once published NO changes can be made in Product'}
+        #     return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
         serializer = ProductSerializer(instance = product, data=request.data, partial = True)
         if serializer.is_valid():
-            serializer.save()
+            user_product = serializer.save()
+            # user_product.published = True
+            user_product.save()
             return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     
@@ -82,9 +91,9 @@ class ProductList(APIView):
         except Product.DoesNotExist:
             content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        if product.published:
-            content = {'detail': 'Once published Product cannot be deleted'}
-            return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
+        # if product.published:
+        #     content = {'detail': 'Once published Product cannot be deleted'}
+        #     return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
         product.delete()
         return JsonResponse({'Response': 'Product succsesfully delete!'},status = status.HTTP_200_OK)
 
@@ -212,8 +221,9 @@ class BuyerCart(APIView):
                 cart.totalCartItem += 1
                 cart.save()
                 product = Product.objects.get(id = pk)
-                product.products_ordered += 1
-                product.total_stock -= 1
+                print(serializer.data)
+                product.products_ordered += serializer.data['qty']
+                product.total_stock -= serializer.data['qty']
                 product.save() 
                 return JsonResponse({'Message': 'Item added to cart'}, status = status.HTTP_200_OK )
         content = {'detail': 'This item is already added to cart, to update item quantity go to PUT','message':'dont forget to pass qty'}
@@ -255,8 +265,8 @@ class BuyerCart(APIView):
         cart.totalCartItem -= 1
         cart.save()
         product = Product.objects.get(id = cart_item.item.id)
-        product.products_ordered -= 1
-        product.total_stock += 1
+        product.products_ordered -= cart_item.qty
+        product.total_stock += cart_item.qty
         product.save() 
         cart_item.delete()
         return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
@@ -283,13 +293,41 @@ class PlaceOrder(APIView):
         
         all_cart_items = CartItem.objects.filter(cart = cart.id)
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        for i in range(len(displaySerializer.data)):
-            products = Product.objects.get(id = displaySerializer.data[i]['item'])
-            if products.products_ordered > products.min_order:
+        manufactures = []
+        print(len(displaySerializer.data))
+        if len(displaySerializer.data) > 0:
+            
+            cart.final_price = 0 #so that we dont keep adding up the price of already added items
+            
+            for i in range(len(displaySerializer.data)):
+                products = Product.objects.get(id = displaySerializer.data[i]['item']) #getting all products
+                print(products.user)
+                product_owner = User.objects.get(email = products.user) #getting all the owners of the product
+                manufactures.append(product_owner.id) #appending in manufacturers
+                
                 cart_item = CartItem.objects.get(item = products)
-                cart_item.wholesale_price = True
-                cart_item.price = products.wholesale_price
-                cart_item.save()
-                displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+                
+                if products.products_ordered > products.min_order:
+                    cart_item.wholesale_price = True
+                    cart_item.price = products.wholesale_price
+                    cart_item.save()
+                
+                cart.final_price += cart_item.price
+                cart.save()
+            
+            (manufactures)
+            c = Counter(manufactures)
+            print(c)
+            print(c.most_common(1)[0])
+            
+            maxNumofItemsFromSameManufacturer = c.most_common(1)[0][1]
+            
+            #give discount if more than half products are from same manufacturer
+            if maxNumofItemsFromSameManufacturer > cart.totalCartItem/2:
+                cart.manufacturer_name = User.objects.get(id = c.most_common(1)[0][0]).email
+                cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
+                cart.save()
+        
+        displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
         return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK )
            
