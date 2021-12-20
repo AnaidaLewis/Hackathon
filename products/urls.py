@@ -5,6 +5,6 @@ urlpatterns = [
     path('all-product/',AllProducts.as_view(), name="AllProduct"),
     path('product/<int:pk>/', ProductList.as_view(), name="Product"),
     path('cart/<int:pk>/', BuyerCart.as_view(), name="BuyerCart"),
-    path('place-order/<int:pk>/', PlaceOrder.as_view(), name="BuyerCart"),
+    path('place-order/', PlaceOrder.as_view(), name="BuyerCart"),
     path('seller-view-order/<int:pk>/', SellerViewOrder.as_view(), name="SellerViewOrder"),
 ]

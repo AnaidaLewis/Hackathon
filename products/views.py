@@ -236,6 +236,7 @@ class BuyerCart(APIView):
                 product.total_stock -= serializer.data['qty']
                 product.save() 
                 return JsonResponse({'Message': 'Item added to cart'}, status = status.HTTP_200_OK )
+            return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)       
         content = {'detail': 'This item is already added to cart, to update item quantity go to PUT','message':'dont forget to pass qty'}
         return JsonResponse(content, status = status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -252,9 +253,16 @@ class BuyerCart(APIView):
         except CartItem.DoesNotExist:
             content = {'detail': 'No such item added to this cart'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        product = Product.objects.get(id = pk)
         serializer = CartItemSerializer(instance = cart_item, data=request.data, partial = True)
         if serializer.is_valid():
+            product.products_ordered -= cart_item.qty
+            product.total_stock += cart_item.qty
+            product.save()
             serializer.save()
+            product.products_ordered += cart_item.qty
+            product.total_stock -= cart_item.qty
+            product.save()
             return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
         content = {'detail': 'Serializer not valid'}
         return JsonResponse(content, status = status.HTTP_400_BAD_REQUEST)
@@ -282,12 +290,12 @@ class BuyerCart(APIView):
         return JsonResponse({'Response': 'Item Successfully deleted from Cart'},status = status.HTTP_200_OK)
             
 
-#BUYER*****************************************************************
+#BUYER CONFIRM ORDER*****************************************************************
 class PlaceOrder(APIView):
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
+    def get(self, request):
         user = User.objects.get(email = request.user)
         try:
             address = Address.objects.get(user = user.id)
@@ -339,7 +347,9 @@ class PlaceOrder(APIView):
                 cart.save()
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
         return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
-           
+    
+    def post(self, request):
+        pass
 
 
 #SELLER****************************************************************************************
