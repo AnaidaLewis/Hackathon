@@ -30,7 +30,7 @@ const CategoryPage = () => {
   useEffect(() => {
     const all_items = async () => {
       const res = await axios.get(
-        "http://communitybuying.pythonanywhere.com/main/all-product/"
+        "http://communitybuyingbackend.pythonanywhere.com//main/all-product/"
       );
       console.log(res.data);
       setArr(res.data);
@@ -84,7 +84,7 @@ const CategoryPage = () => {
     });
     var config = {
       method: "POST",
-      url: `http://communitybuying.pythonanywhere.com/main/cart/${id}/`,
+      url: `http://communitybuyingbackend.pythonanywhere.com//main/cart/${id}/`,
       headers: {
           // Authorization:
         //   `Bearer ${Access}`
@@ -119,7 +119,7 @@ const CategoryPage = () => {
                       width="150"
                       height="150"
                       src={
-                        "http://communitybuying.pythonanywhere.com" + x.image
+                        "http://communitybuyingbackend.pythonanywhere.com/" + x.image
                       }
                       alt="veggies"
                     ></img>
