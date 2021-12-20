@@ -30,7 +30,7 @@ var axios = require("axios");
 
 const Login = () => {
   const history = useHistory();
-
+  const [notValid, setCorrectData] = useState(true);
   const token = localStorage.getItem("Access");
   const [code, setCode] = useState("");
   const [values, setValues] = useState({
@@ -63,7 +63,7 @@ const Login = () => {
 
   var config = {
     method: "post",
-    url: "http://communitybuying.pythonanywhere.com/account/login/",
+    url: "http://communitybuyingbackend.pythonanywhere.com/account/login/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,7 +75,7 @@ const Login = () => {
     var item = { auth_token: token };
 
     let result = await fetch(
-      "http://communitybuying.pythonanywhere.com/account/google/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -112,7 +112,7 @@ const Login = () => {
   const otp = async (response) => {
     console.warn(response);
     const res = await axios.get(
-      "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
       { params: { token: response } }
     );
     console.warn(res);
@@ -136,7 +136,7 @@ const Login = () => {
           console.log(num);
 
           const res = await axios.get(
-            "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+            "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
             { params: { token: token, code: code } }
           );
           if(compareRole==='BUYER'){
@@ -250,6 +250,39 @@ const Login = () => {
               </FormHelperText>
             )}
             <br />
+
+            {notValid? 
+            <Button
+              fullWidth
+              style={{margin:'20px 0'}}
+              color="secondary"
+              component={motion.div}
+              disabled={!notValid}
+              whileHover={{
+                scale: 1.08,
+                textShadow: "0 0 4px rgb(255,255,255)",
+                transition: { duration: 0.3 },
+              }}
+              variant="contained"
+              onClick={() => {
+                setErrors(Validation(values));
+                // console.log(role);
+                // setRole(prompt("ADD role"));
+              }}
+              onMouseOver={() => {
+                console.log(errors);
+                if (
+                  errors.email == "" &&
+                  errors.password == ""
+                ) {
+                  setCorrectData(false);
+                }
+              }}
+           
+            >
+              Submit
+            </Button>
+               :
             <Button
               fullWidth
               component={motion.div}
@@ -286,14 +319,18 @@ const Login = () => {
                   })
                   .catch(function (error) {
                     console.log(error);
-                    swal("Account already exists!", "Try logging in", "error");
-                    history.push("/login");
+                    Swal.fire({
+                       title:'Error',
+                       text:"Account doesn't exist",
+                       icon:'error',
+                     })
+                    // history.push("/login");
                   });
                 // }
               }}
             >
               Login in Your Account
-            </Button>
+            </Button>}
             <div className="google">
               <br />
               <span className="or">______________</span>

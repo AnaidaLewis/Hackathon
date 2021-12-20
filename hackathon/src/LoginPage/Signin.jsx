@@ -92,7 +92,7 @@ const Signin = () => {
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
-    url: "http://communitybuying.pythonanywhere.com/account/signup/",
+    url: "http://communitybuyingbackend.pythonanywhere.com/account/signup/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -104,7 +104,7 @@ const Signin = () => {
     var item = { auth_token: token };
 
     let result = await fetch(
-      "http://communitybuying.pythonanywhere.com/account/google/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -137,6 +137,8 @@ const Signin = () => {
     console.log(auth_token);
     console.log("ID Token: " + auth_token);
     authConfirm(auth_token);
+    history.push("/login");
+
   }
 
   const phoneverify = (num) => {
@@ -158,7 +160,7 @@ const Signin = () => {
           console.log(values);
           var config = {
             method: "post",
-            url: "http://communitybuying.pythonanywhere.com/account/phone-verify/",
+            url: "http://communitybuyingbackend.pythonanywhere.com/account/phone-verify/",
             headers: {
               "Content-Type": "application/json",
             },
@@ -529,7 +531,6 @@ const Signin = () => {
             </div>
             <Select
               placeholder="ROLE"
-
               value={role}
               name="role"
               onChange={(e) => {
@@ -537,8 +538,11 @@ const Signin = () => {
               }}
               options={options}
             />
+
+            {notValid? 
             <Button
               fullWidth
+              style={{margin:'20px 0'}}
               color="secondary"
               component={motion.div}
               disabled={!notValid}
@@ -586,8 +590,10 @@ const Signin = () => {
             >
               Submit
             </Button>
+            :
             <Button
               fullWidth
+              style={{margin:'20px 0'}}
               component={motion.div}
               color="secondary"
               disabled={notValid}
@@ -615,18 +621,18 @@ const Signin = () => {
                     })
                     .catch(function (error) {
                       console.log(error);
-                      swal(
-                        "Account already exists!",
-                        "Try logging in",
-                        "error"
-                      );
+                     Swal.fire({
+                       title:'Error',
+                       text:"Account doesn't exist",
+                       icon:'error',
+                     })
                     });
                   // }
                 }
               }}
             >
               Create Account
-            </Button>
+            </Button>}
             {/* <div className="google">
               <br />
               <span className="or">______________</span>
