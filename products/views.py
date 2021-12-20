@@ -392,7 +392,8 @@ class PlaceOrder(APIView):
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
 
         # ***************************
-        productListSerializer = ProductInCartSerializer(displaySerializer.data, many = True)
+        print(displaySerializer.data)
+        productListSerializer = ProductInCartSerializer(data, many = True)
         # ***************************
         return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice, 'Products':productListSerializer.data}, status = status.HTTP_200_OK )
     
