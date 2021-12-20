@@ -51,3 +51,4 @@ class ResetProductsOrderedSerializer(serializers.Serializer):
 
 class ProductInCartSerializer(serializers.Serializer):
     ProductInCart = serializers.CharField()
+    

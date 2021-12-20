@@ -473,7 +473,6 @@ class SellerViewOrder(APIView):
                     wholesale_price = True
             wholesale_price = False
             data = []
-            newdata = []
             totalAggregateQuantity = 0
             totalAggregatePrice = 0
             for i in range(len(displaySerializer.data)):
@@ -499,14 +498,15 @@ class SellerViewOrder(APIView):
             productSerializer = ProductSerializer(product, many = False)
             
 
-            SellerAllOrdersView = SellerAllOrdersViewSerializer(productSerializer.data, many = True)           
+            SellerAllOrdersView = SellerAllOrdersViewSerializer(data, many = True)           
             return JsonResponse({'Wholesale Price': wholesale_price ,
                                 'totalAggregateQuantity':totalAggregateQuantity,
                                 'totalAggregatePrice':totalAggregatePrice, 
                                 'Buyer':SellerAllOrdersView.data,
                                 'Product':productSerializer.data,
                                 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
-        
+        content = {'detail': 'No new items ordered for this product'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
        
     def post(self, request, pk):
         user = User.objects.get(email = request.user)
