@@ -192,7 +192,7 @@ class BuyerCart(APIView):
             return JsonResponse('new cart not created', status = status.HTTP_404_NOT_FOUND)
         all_cart_items = CartItem.objects.filter(cart = cart.id)
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK )
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data}, status = status.HTTP_200_OK )
             
 
     # 'message':'dont forget to pass qty'
@@ -339,7 +339,7 @@ class PlaceOrder(APIView):
                 cart.final_price -= maxNumofItemsFromSameManufacturer*5
                 cart.save()
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
+        return JsonResponse({'Cart':user.email, 'cartItems':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
            
 
 
@@ -358,4 +358,12 @@ class SellerViewOrder(APIView):
         if CartItem.objects.filter(item = product).exists():
             all_cart_items = CartItem.objects.filter(item = product)
             displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-            return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK)
+            if product.products_ordered > product.min_order:
+                    wholesale_price = True
+            wholesale_price = False
+            for i in range(len(displaySerializer.data)):
+                totalAggregateQuantity = displaySerializer.data[i]['qty']
+                all_buyers = Cart.objects.get(id = displaySerializer.data[i]['cart'])
+                allBuyersSerializer = 
+            return JsonResponse({ 'Wholesale Price': wholesale_price ,'totalAggregateQuantity':totalAggregateQuantity, 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
+        
