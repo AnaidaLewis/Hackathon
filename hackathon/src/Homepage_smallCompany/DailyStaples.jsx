@@ -14,7 +14,7 @@ import sugar from "../Images/sugar.jpg";
 import oil from "../Images/sunflower oil.jpg";
 const DailyStaples = () => {
   return (
-    <div style={{ padding: "300px 0px 20px" }}>
+    <div className="DailyStap" >
       <center>
         <h2>Your Daily Staples</h2>
         <br />

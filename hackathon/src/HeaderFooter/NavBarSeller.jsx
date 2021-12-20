@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu, GiFruitBowl } from "react-icons/gi";
-import image from "../Images/beetroot.jpg";
+// import image from "../Images/beetroot.jpg";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -98,7 +98,7 @@ const NavBarSeller = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <img width="60" src={image} alt="acmIcon" />
+            {/* <img width="60" src={image} alt="" /> */}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <div style={{ margin: "auto" }}>

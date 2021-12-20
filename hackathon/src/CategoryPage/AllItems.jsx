@@ -37,7 +37,7 @@ const AllItems = () => {
   var FormData = require("form-data");
   var data = new FormData();
   //   data.append("qty", itemCount);
-  const Access=localStorage.getItem('Access')
+  const Access = localStorage.getItem("Access");
   const addToCart = async (id, ordered, total) => {
     Swal.fire({
       title: "Update the Quantity",
@@ -91,6 +91,7 @@ const AllItems = () => {
     });
     var config = {
       method: "POST",
+
       url: `http://communitybuyingbackend.pythonanywhere.com//main/cart/${id}/`,
       headers: {
         // Authorization:
@@ -121,7 +122,10 @@ const AllItems = () => {
                   <img
                     width="150"
                     height="150"
-                    src={"http://communitybuyingbackend.pythonanywhere.com/" + x.image}
+                    src={
+                      "http://communitybuyingbackend.pythonanywhere.com/" +
+                      x.image
+                    }
                     alt="veggies"
                   ></img>
                 </center>
@@ -143,11 +147,15 @@ const AllItems = () => {
                   &#8377;{x.wholesale_price}&nbsp;
                 </span>
                 <br />
+                <span style={{ color: "red" }}>
+                  {x.products_ordered}/{x.min_order}
+                </span>
+
                 {/* <Badge color="primary" badgeContent={4}>
           <ShoppingCart />{" "}
         </Badge>
         <Badge color="primary" badgeContent={4}> */}
-                <span>Already in cart:{x.products_ordered}</span>
+                {/* <span>Already in cart:{x.products_ordered}</span> */}
                 <IconButton
                   style={{
                     float: "right",

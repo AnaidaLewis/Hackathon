@@ -11,9 +11,9 @@
     list-style-type: none;
     text-decoration: none;
   } */
-*/ body {
+/* body {
   overflow: hidden;
-}
+} */
 .in {
   padding: 10px 15px;
   text-decoration: none;
@@ -131,11 +131,11 @@ header {
   padding: 5px 0px;
 }
 
-.footerAcmIcon {
-  width: 250px;
-  transform: translateY(-20px);
+.footerImgs {
+  width: 97%;
+  height: 250px;
+  /* height: 100px; */
 }
-
 .iconsFooter {
   margin: 8px;
 }
@@ -147,7 +147,7 @@ header {
 
 .assurance {
   color: #116530;
-
+  z-index: 2;
   background-color: #d1c75a;
   padding: 20px;
   font-family: "Roboto", sans-serif;
@@ -227,5 +227,10 @@ header {
 @media (max-width: 610px) {
   .HeaderSocial {
     font-size: 10px;
+  }
+}
+@media (max-width:900px){
+  .footerI{
+    transform: translateY(-50px);
   }
 }

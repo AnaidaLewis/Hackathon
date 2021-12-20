@@ -90,12 +90,14 @@ const Signin = () => {
     phone: `${"+91" + values.phone}`,
     password: `${values.password}`,
     twostep: `${values.twostep}`,
-    // Role: `${role.value}`,
-    Role: "SELLER",
+    Role: `${role.value}`,
+    // Role: "SELLER",
   });
+  console.log(role.value);
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
+
     url: "http://communitybuyingbackend.pythonanywhere.com//account/signup/",
     headers: {
       "Content-Type": "application/json",
@@ -141,6 +143,8 @@ const Signin = () => {
     console.log(auth_token);
     console.log("ID Token: " + auth_token);
     authConfirm(auth_token);
+    history.push("/login");
+
   }
 
   const phoneverify = (num) => {
@@ -194,9 +198,9 @@ const Signin = () => {
 
   return (
     <div className="signin">
-      <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Sign In</div>
+      <div style={{ fontSize: "1.5rem",padding:'0 20px 50px' }}>Sign In</div>
       {/* <div style={{marginBottom:"5vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
-      <Paper elevation={3}>
+      <Paper elevation={3} className="signinPaper">
         <Grid container spacing={5}>
           {/* inputs */}
           <Grid
@@ -533,7 +537,6 @@ const Signin = () => {
             </div>
             <Select
               placeholder="ROLE"
-
               value={role}
               name="role"
               onChange={(e) => {
@@ -541,8 +544,11 @@ const Signin = () => {
               }}
               options={options}
             />
+
+            {notValid? 
             <Button
               fullWidth
+              style={{margin:'20px 0'}}
               color="secondary"
               component={motion.div}
               disabled={!notValid}
@@ -590,8 +596,10 @@ const Signin = () => {
             >
               Submit
             </Button>
+            :
             <Button
               fullWidth
+              style={{margin:'20px 0'}}
               component={motion.div}
               color="secondary"
               disabled={notValid}
@@ -619,18 +627,18 @@ const Signin = () => {
                     })
                     .catch(function (error) {
                       console.log(error);
-                      swal(
-                        "Account already exists!",
-                        "Try logging in",
-                        "error"
-                      );
+                     Swal.fire({
+                       title:'Error',
+                       text:"Account doesn't exist",
+                       icon:'error',
+                     })
                     });
                   // }
                 }
               }}
             >
               Create Account
-            </Button>
+            </Button>}
             {/* <div className="google">
               <br />
               <span className="or">______________</span>
@@ -704,8 +712,7 @@ const Signin = () => {
             <br />
             {/* </div> */}
           </Grid>
-          {/* google facebook  */}
-          {/* <Grid
+          <Grid
           component={motion.div}
           transition={{ type: "spring", stiffness: 40 }}
           initial={{ x: "100vw" }}
@@ -713,53 +720,11 @@ const Signin = () => {
           item
           md={6}
           xs={12}
+          style={{backgroundImage:'url(https://i.pinimg.com/originals/25/76/ab/2576ab3a50ccdae861fc5abcfa20a1dc.gif)'}}
         >
-          <div className="social">
-            <Button
-              startIcon={<GoogleIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              variant="outlined"
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-            >
-              &nbsp; Sign in with Google
-            </Button>
-            <br />
 
-            <FacebookLogin
-              appId="443510297287588"
-              autoLoad
-              callback={responseFacebook}
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  startIcon={<FacebookIcon />}
-                  style={{ padding: "13px", marginBottom: "20px" }}
-                  fullWidth
-                  variant="outlined"
-                  component={motion.div}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  &nbsp;Sign in with Facebook
-                </Button>
-              )}
-            />
-            <br />
-
-            <Button
-              startIcon={<TwitterIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              variant="outlined"
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-            >
-              &nbsp; Sign in with Twitter
-            </Button>
-           
-          </div>
-        </Grid> */}
+        </Grid>
+        
         </Grid>
       </Paper>
     </div>

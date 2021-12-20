@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import { GoogleLogin } from "react-google-login";
-
 import {
   Grid,
   OutlinedInput,
@@ -30,7 +29,7 @@ var axios = require("axios");
 
 const Login = () => {
   const history = useHistory();
-
+  const [notValid, setCorrectData] = useState(true);
   const token = localStorage.getItem("Access");
   const [code, setCode] = useState("");
   const [values, setValues] = useState({
@@ -39,7 +38,7 @@ const Login = () => {
     showPassword: false,
   });
   const [errors, setErrors] = useState({});
-  const [compareRole,setRole]=useState('')
+  // const [compareRole, setRole] = useState('');
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
@@ -64,6 +63,7 @@ const Login = () => {
   var config = {
     method: "post",
     url: "http://communitybuyingbackend.pythonanywhere.com/account/login/",
+
     headers: {
       "Content-Type": "application/json",
     },
@@ -76,6 +76,7 @@ const Login = () => {
 
     let result = await fetch(
       "http://communitybuyingbackend.pythonanywhere.com/account/google/",
+
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -108,16 +109,17 @@ const Login = () => {
     console.log("ID Token: " + auth_token);
     authConfirm(auth_token);
   }
-
+  const number = localStorage.getItem("number");
   const otp = async (response) => {
     console.warn(response);
     const res = await axios.get(
       "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
+
       { params: { token: response } }
     );
     console.warn(res);
   };
-  const phoneverify = async () => {
+  const phoneverify = (x) => {
     Swal.fire({
       title: "Enter the Verification code",
       input: "text",
@@ -126,25 +128,24 @@ const Login = () => {
         console.log(num);
         if (!num) {
           return "You need to write something!";
-        }
-        else if (num) {
+        } else if (num) {
           var data = JSON.stringify({
             code: `${num}`,
-            phone: `${"+91" + values.phone}`,
+            phone: `${"+91" + number}`,
           });
-          console.log(values.phone);
+          console.log(number);
           console.log(num);
 
           const res = await axios.get(
-            "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
+            "http://communitybuyingbackend.pythonanywhere.com/account/twostep-verify/",
+
             { params: { token: token, code: code } }
           );
-          if(compareRole==='BUYER'){
-            history.push("/homePage");
-          }
-          else{
+          // console.log(compareRole);
+          if (x === "SELLER") {
             history.push("/SellerDashboard");
-
+          } else {
+            history.push("/homePage");
           }
 
           console.log(res);
@@ -153,11 +154,93 @@ const Login = () => {
     });
   };
 
+  // Forgot password
+  var FormData = require("form-data");
+  var mail = new FormData();
+  const forgotPassword = async () => {
+    Swal.fire({
+      title: "Enter you email",
+      input: "text",
+      inputValidator: async (x) => {
+        mail.append("email", x);
+
+        if (!x) {
+          return "You need to write something!";
+        } else {
+          axios({
+            method: "post",
+            url: "http://communitybuyingbackend.pythonanywhere.com/account/request-reset-email/",
+            data: mail,
+          })
+            .then(function (response) {
+              console.log(JSON.stringify(response.data));
+              Swal.fire({
+                title: "Link is sent to your mail",
+                icon: "success",
+                inputLabel: "Enter your token",
+                input: "text",
+                inputValidator: async (i) => {
+                  if (!i) {
+                    return "You need to write something!";
+                  } else {
+                    Swal.fire({
+                      text: "Enter your uidb64 code",
+                      input: "text",
+                      inputValidator: async (j) => {
+                        if (!j) {
+                          return "You need to write something!";
+                        } else {
+                          axios
+                            .get(
+                              `http://communitybuyingbackend.pythonanywhere.com/account/password-reset/${j}/${i}`
+                            )
+                            .then(function (response) {
+                              var passCode = new FormData();
+
+                              console.log(JSON.stringify(response.data));
+                              Swal.fire({
+                                text: "Enter the new password",
+                                input: "password",
+                                inputValidator: async (pass) => {
+                                  if (!pass) {
+                                    return "You need to write something!";
+                                  } else {
+                                    passCode.append("token", i);
+                                    passCode.append("uidb64",j);
+                                    passCode.append('password',pass)
+                                    axios({
+                                      method: "patch",
+                                      url: "http://communitybuyingbackend.pythonanywhere.com/account/password-reset-complete",
+                                      data: passCode,
+                                    }).then(function(res){
+                                      Swal.fire({
+                                        title:'password changed',
+                                        icon:'success',
+                                      })
+                                    })
+                                  }
+                                },
+                              });
+                            });
+                        }
+                      },
+                    });
+                  }
+                },
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      },
+    });
+  };
   return (
     <div className="signin">
-      <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Login</div>
+      <div style={{ fontSize: "1.5rem",padding:'0 20px 50px' }}>Login</div>
       {/* <div style={{marginBottom:"6vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
-      <Paper elevation={3} className="imgL">
+      <Paper elevation={3} className="signinPaper">
         <Grid container spacing={5}>
           {/* inputs */}
 
@@ -250,58 +333,87 @@ const Login = () => {
               </FormHelperText>
             )}
             <br />
-            <Button
-              fullWidth
-              component={motion.div}
-              whileHover={{
-                scale: 1.08,
-                textShadow: "0 0 8px rgb(255,255,255)",
-                transition: { duration: 0.3 },
-              }}
-              color="secondary"
-              variant="contained"
-              onClick={() => {
-                setErrors(Validation(values));
-                axios(config)
-                  .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                    console.log(response.status);
-                    if (response.status == 200) {
 
-                      otp(response.data.access);
-                      setRole(response.data.role)
-                      console.log(response.data.Role);
+            {notValid ? (
+              <Button
+                fullWidth
+                style={{ margin: "20px 0" }}
+                color="secondary"
+                component={motion.div}
+                disabled={!notValid}
+                whileHover={{
+                  scale: 1.08,
+                  textShadow: "0 0 4px rgb(255,255,255)",
+                  transition: { duration: 0.3 },
+                }}
+                variant="contained"
+                onClick={() => {
+                  setErrors(Validation(values));
+                  // console.log(role);
+                  // setRole(prompt("ADD role"));
+                }}
+                onMouseOver={() => {
+                  console.log(errors);
+                  if (errors.email == "" && errors.password == "") {
+                    setCorrectData(false);
+                  }
+                }}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                component={motion.div}
+                whileHover={{
+                  scale: 1.08,
+                  textShadow: "0 0 8px rgb(255,255,255)",
+                  transition: { duration: 0.3 },
+                }}
+                color="secondary"
+                variant="contained"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setErrors(Validation(values));
+                  axios(config)
+                    .then(function (response) {
+                      console.log(JSON.stringify(response.data));
+                      console.log(response.status);
+                      if (response.status == 200) {
+                        otp(response.data.access);
+                        console.log(response.data.Role);
+                        // setRole(response.data.Role);
+                        // console.log(compareRole)
+                        // console.warn(response.data["is two step enabled"]);
+                        // if (response.data["is two step enabled"] === true) {
 
-                      // console.warn(response.data["is two step enabled"]);
-                      // if (response.data["is two step enabled"] === true) {
+                        localStorage.setItem("Access", response.data.access);
 
-                      localStorage.setItem("Access", response.data.access);
-                      phoneverify();
+                        phoneverify(response.data.Role);
 
-                      //   } else
-                      //     setTimeout(function () {
-                      //       history.push("/homePage");
-                      //     }, 50000);
-                    }
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                    swal("Account already exists!", "Try logging in", "error");
-                    history.push("/login");
-                  });
-                // }
-              }}
-            >
-              Login in Your Account
-            </Button>
-            <div className="google">
-              <br />
-              <span className="or">______________</span>
-              <span>&nbsp; OR &nbsp;</span>
-              <span className="or">______________</span>
-              <br />
-              <br />
-              <GoogleLogin
+                        //   } else
+                        //     setTimeout(function () {
+                        //       history.push("/homePage");
+                        //     }, 50000);
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                      Swal.fire({
+                        title: "Error",
+                        text: "Account doesn't exist",
+                        icon: "error",
+                      });
+                      // history.push("/login");
+                    });
+                  // }
+                }}
+              >
+                Login in Your Account
+              </Button>
+            )}
+
+            {/* <GoogleLogin
                 clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
                 render={(renderProps) => (
                   <Button
@@ -325,7 +437,12 @@ const Login = () => {
                 cookiePolicy={"single_host_origin"}
               />
               <br />
-            </div>
+            </div> */}
+            <center>
+              <Button color="secondary" onClick={() => forgotPassword()}>
+                Forgot password
+              </Button>
+            </center>
           </Grid>
           <Grid
             component={motion.div}
