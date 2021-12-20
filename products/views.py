@@ -19,6 +19,16 @@ from collections import Counter
 
 User = get_user_model()
 
+#GET ALL PRODUCTS
+class AllProducts(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    def list(self,request):
+        queryset = Product.objects.all()
+        serializer = ProductSerializer(queryset, many = True)
+        return JsonResponse(serializer.data,safe = False, status = status.HTTP_200_OK)
+
+
+
 #PRODUCTS ***********************************************************************
 class ProductList(APIView):
     
@@ -326,8 +336,26 @@ class PlaceOrder(APIView):
             if maxNumofItemsFromSameManufacturer > cart.totalCartItem/2:
                 cart.manufacturer_name = User.objects.get(id = c.most_common(1)[0][0]).email
                 cart.totalCartItemFromSameManufacturer = maxNumofItemsFromSameManufacturer
+                cart.final_price -= maxNumofItemsFromSameManufacturer*5
                 cart.save()
-        
         displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK )
+        return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data, 'total Price':cart.final_price, 'tax Price': cart.taxPrice}, status = status.HTTP_200_OK )
            
+
+
+#SELLER****************************************************************************************
+class SellerViewOrder(APIView):
+    serializer_class = DisplayCartItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = User.objects.get(email = request.user)
+        try:
+	        product = Product.objects.get(id = pk)
+        except Product.DoesNotExist:
+            content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        if CartItem.objects.filter(item = product).exists():
+            all_cart_items = CartItem.objects.filter(item = product)
+            displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+            return JsonResponse({'Cart':user.email, 'cart Items':displaySerializer.data}, status = status.HTTP_200_OK)
