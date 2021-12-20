@@ -119,7 +119,8 @@ const CategoryPage = () => {
                       width="150"
                       height="150"
                       src={
-                        "http://communitybuyingbackend.pythonanywhere.com" + x.image
+
+                        "http://communitybuyingbackend.pythonanywhere.com/" + x.image
                       }
                       alt="veggies"
                     ></img>

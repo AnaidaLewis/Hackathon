@@ -25,7 +25,7 @@ const AllItems = () => {
   useEffect(() => {
     const all_items = async () => {
       const res = await axios.get(
-        "http://communitybuyingbackend.pythonanywhere.com/main/all-product/"
+        "http://communitybuyingbackend.pythonanywhere.com//main/all-product/"
       );
       console.log(res.data);
       setArr(res.data);
@@ -37,7 +37,7 @@ const AllItems = () => {
   var FormData = require("form-data");
   var data = new FormData();
   //   data.append("qty", itemCount);
-  const Access=localStorage.getItem('Access')
+  const Access = localStorage.getItem("Access");
   const addToCart = async (id, ordered, total) => {
     Swal.fire({
       title: "Update the Quantity",
@@ -91,7 +91,8 @@ const AllItems = () => {
     });
     var config = {
       method: "POST",
-      url: `http://communitybuyingbackend.pythonanywhere.com/main/cart/${id}/`,
+
+      url: `http://communitybuyingbackend.pythonanywhere.com//main/cart/${id}/`,
       headers: {
         // Authorization:
         //   `Bearer ${Access}`
@@ -121,7 +122,10 @@ const AllItems = () => {
                   <img
                     width="150"
                     height="150"
-                    src={"http://communitybuyingbackend.pythonanywhere.com" + x.image}
+                    src={
+                      "http://communitybuyingbackend.pythonanywhere.com/" +
+                      x.image
+                    }
                     alt="veggies"
                   ></img>
                 </center>

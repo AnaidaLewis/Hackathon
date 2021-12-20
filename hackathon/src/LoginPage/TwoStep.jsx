@@ -23,7 +23,7 @@ const TwoStep = () => {
   console.log(values);
   var config = {
     method: "post",
-    url: "http://communitybuying.pythonanywhere.com/account/phone-verify/",
+    url: "http://communitybuyingbackend.pythonanywhere.com//account/phone-verify/",
     headers: {
       "Content-Type": "application/json",
     },

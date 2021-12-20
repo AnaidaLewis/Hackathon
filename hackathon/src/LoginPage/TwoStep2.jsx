@@ -45,7 +45,7 @@ const TwoStep2 = () => {
             console.log(token);
             console.log(code);
             const res = await axios.get(
-              "http://communitybuying.pythonanywhere.com/account/send-twostep/",
+              "http://communitybuyingbackend.pythonanywhere.com//account/send-twostep/",
               { params: { token: token, code: code } }
             );
             console.log(res);
