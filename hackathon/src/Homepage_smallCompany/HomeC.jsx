@@ -14,17 +14,14 @@ const home = () => {
   return (
     <div className="home">
       <div className="home_image">
-        <HeaderN/>
+        <HeaderN />
         <MainHomeScreen />
       </div>
-      <CategoryHome/>
-      {/* <center>
-        <CategoryC />
-      </center> */}
+      <CategoryHome />
       <FruitsVegetable />
       <DiscountNew />
       <DailyStaples />
-      <Footer/>
+      <Footer />
     </div>
   );
 };

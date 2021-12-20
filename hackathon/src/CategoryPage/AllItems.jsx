@@ -147,11 +147,15 @@ const AllItems = () => {
                   &#8377;{x.wholesale_price}&nbsp;
                 </span>
                 <br />
+                <span style={{ color: "red" }}>
+                  {x.products_ordered}/{x.min_order}
+                </span>
+
                 {/* <Badge color="primary" badgeContent={4}>
           <ShoppingCart />{" "}
         </Badge>
         <Badge color="primary" badgeContent={4}> */}
-                <span>Already in cart:{x.products_ordered}</span>
+                {/* <span>Already in cart:{x.products_ordered}</span> */}
                 <IconButton
                   style={{
                     float: "right",

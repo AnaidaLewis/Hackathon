@@ -86,9 +86,10 @@ const Signin = () => {
     phone: `${"+91" + values.phone}`,
     password: `${values.password}`,
     twostep: `${values.twostep}`,
-    // Role: `${role.value}`,
-    Role: "SELLER",
+    Role: `${role.value}`,
+    // Role: "SELLER",
   });
+  console.log(role.value);
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
@@ -193,9 +194,9 @@ const Signin = () => {
 
   return (
     <div className="signin">
-      <div style={{ fontSize: "1.5rem", margin: "5vh" }}>Sign In</div>
+      <div style={{ fontSize: "1.5rem",padding:'0 20px 50px' }}>Sign In</div>
       {/* <div style={{marginBottom:"5vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
-      <Paper elevation={3}>
+      <Paper elevation={3} className="signinPaper">
         <Grid container spacing={5}>
           {/* inputs */}
           <Grid
@@ -707,8 +708,7 @@ const Signin = () => {
             <br />
             {/* </div> */}
           </Grid>
-          {/* google facebook  */}
-          {/* <Grid
+          <Grid
           component={motion.div}
           transition={{ type: "spring", stiffness: 40 }}
           initial={{ x: "100vw" }}
@@ -716,53 +716,11 @@ const Signin = () => {
           item
           md={6}
           xs={12}
+          style={{backgroundImage:'url(https://i.pinimg.com/originals/25/76/ab/2576ab3a50ccdae861fc5abcfa20a1dc.gif)'}}
         >
-          <div className="social">
-            <Button
-              startIcon={<GoogleIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              variant="outlined"
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-            >
-              &nbsp; Sign in with Google
-            </Button>
-            <br />
 
-            <FacebookLogin
-              appId="443510297287588"
-              autoLoad
-              callback={responseFacebook}
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  startIcon={<FacebookIcon />}
-                  style={{ padding: "13px", marginBottom: "20px" }}
-                  fullWidth
-                  variant="outlined"
-                  component={motion.div}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  &nbsp;Sign in with Facebook
-                </Button>
-              )}
-            />
-            <br />
-
-            <Button
-              startIcon={<TwitterIcon />}
-              style={{ padding: "13px", marginBottom: "20px" }}
-              fullWidth
-              variant="outlined"
-              component={motion.div}
-              whileHover={{ scale: 1.1 }}
-            >
-              &nbsp; Sign in with Twitter
-            </Button>
-           
-          </div>
-        </Grid> */}
+        </Grid>
+        
         </Grid>
       </Paper>
     </div>

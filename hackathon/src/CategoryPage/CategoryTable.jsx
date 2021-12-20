@@ -215,7 +215,8 @@ export default function PersistentDrawerLeft() {
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
             style={{marginBottom:"5vh"}}
           >
-            <MenuIcon />
+         <p> Categories:</p>
+            <MenuIcon style={{fontSize:'2rem',transform:'translateX(20px)'}}/>
           </IconButton>
       
          
@@ -234,7 +235,7 @@ export default function PersistentDrawerLeft() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>

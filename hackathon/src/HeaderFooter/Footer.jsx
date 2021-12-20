@@ -13,39 +13,42 @@ const Footer = () => {
   return (
     <div>
       <center>
-        <h1>@Follow us on instagram</h1>
-      </center>
-      <Grid container spacing={0} style={{ width: "97%" }}>
+        <h1 className="footerI">@Follow us on instagram</h1>
+      <Grid  className="footerI" container spacing={0} style={{ width: "97%" }}>
         <Grid item md={6} sm={12} xs={12}>
           <Grid container spacing={0}>
             <Grid item md={3} sm={6} xs={6}>
               <img
-                width="190"
-                height="250"
+                // width="190"
+                className="footerImgs"
+                // height="250"
                 src="https://images.pexels.com/photos/5085407/pexels-photo-5085407.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 alt="##"
               ></img>
             </Grid>
             <Grid item md={3} sm={6} xs={6}>
               <img
-                width="190"
-                height="250"
+                // width="190"
+                className="footerImgs"
+                // height="250"
                 src="https://images.pexels.com/photos/2683373/pexels-photo-2683373.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 alt="##"
               ></img>
             </Grid>
             <Grid item md={3} sm={6} xs={6}>
               <img
-                width="190"
-                height="250"
+                // width="190"
+                className="footerImgs"
+                // height="250"
                 src="https://images.pexels.com/photos/7556322/pexels-photo-7556322.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 alt="##"
               ></img>
             </Grid>
             <Grid item md={3} sm={6} xs={6}>
               <img
-                width="190"
-                height="250"
+                // width="190"
+                className="footerImgs"
+                // height="250"
                 src="https://images.pexels.com/photos/8181523/pexels-photo-8181523.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 alt="##"
               ></img>
@@ -57,32 +60,36 @@ const Footer = () => {
             <Grid container spacing={0}>
               <Grid item md={3} sm={6} xs={6}>
                 <img
-                  width="190"
-                  height="250"
+                  // width="190"
+                  className="footerImgs"
+                  // height="250"
                   src="https://images.pexels.com/photos/3872434/pexels-photo-3872434.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                   alt="##"
                 ></img>
               </Grid>
               <Grid item md={3} sm={6} xs={6}>
                 <img
-                  width="190"
-                  height="250"
+                  // width="190"
+                  className="footerImgs"
+                  // height="250"
                   src="https://images.pexels.com/photos/5129931/pexels-photo-5129931.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                   alt="##"
                 ></img>
               </Grid>
               <Grid item md={3} sm={6} xs={6}>
                 <img
-                  width="190"
-                  height="250"
+                  // width="190"
+                  className="footerImgs"
+                  // height="250"
                   src="https://images.pexels.com/photos/1590583/pexels-photo-1590583.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                   alt="##"
                 ></img>
               </Grid>
               <Grid item md={3} sm={6} xs={6}>
                 <img
-                  width="190"
-                  height="250"
+                  // width="190"
+                  className="footerImgs"
+                  // height="250"
                   src="https://images.pexels.com/photos/4113820/pexels-photo-4113820.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                   alt="##"
                 ></img>
@@ -91,6 +98,8 @@ const Footer = () => {
           </Grid>
         </Grid>
       </Grid>
+      </center>
+
       <center>
         <Grid container spacing={3} className="assurance">
           <Grid item sm={4} xs={12}>

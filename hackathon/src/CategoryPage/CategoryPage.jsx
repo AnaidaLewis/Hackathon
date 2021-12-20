@@ -10,6 +10,8 @@ import {
   IconButton,
 } from "@mui/material";
 import { MdOutlineAddCircle } from "react-icons/md";
+import { useHistory } from "react-router-dom";
+
 import { motion } from "framer-motion";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -21,7 +23,7 @@ import Swal from "sweetalert2";
 const CategoryPage = () => {
   const { type } = useParams();
   console.log({ type });
-
+  const history = useHistory();
   const categoryType = type.toLowerCase();
   console.log(categoryType);
   const [itemCount, setItemCount] = React.useState(0);
@@ -75,9 +77,24 @@ const CategoryPage = () => {
                   },
                 });
               })
+       
               .catch(function (error) {
                 console.log(error);
-              });
+                  Swal.fire({
+                    text: "Item already exist in cart",
+                    title: "Oopsss !",
+                    icon: "error'",
+                    showCancelButton: true,
+                    confirmButtonColor: "#116530 ",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Cart",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      history.push("/cart");
+                    }
+                  });
+                });
+              // });
           }
         }
       },
@@ -143,6 +160,7 @@ const CategoryPage = () => {
                     &#8377;{x.wholesale_price}&nbsp;
                   </span>
                   <br />
+                  <span style={{color:'red'}}>{x.products_ordered}/{x.min_order}</span>
                   {/* <Badge color="primary" badgeContent={4}>
           <ShoppingCart />{" "}
         </Badge>

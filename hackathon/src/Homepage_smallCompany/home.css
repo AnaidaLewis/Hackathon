@@ -76,6 +76,35 @@
 .home_image {
   background-size: cover;
   padding-bottom: 20px;
+  background-repeat: no-repeat;
   background-position: 0 -100px;
   background-image: url("https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+}
+
+.DailyStap{
+  padding:300px 0px 30px;
+}
+@media (max-width:900px){
+  .DailyStap{
+    padding-top: 450px;
+  }
+}
+@media (max-width:600px){
+  .DailyStap{
+    padding-top: 1100px;
+  }
+  .mainGrid{
+   transform: translateX(30px);
+
+  }
+ /* .discountCards img ,.discountCards p ,.discountCards span{
+   transform: translateX(20px);
+
+} */
+}
+
+.dis{
+  width: 80%;
+  height: 200px;
+  margin: auto;
 }

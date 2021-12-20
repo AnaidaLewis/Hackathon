@@ -20,27 +20,27 @@ const DiscountNew = () => {
           style={{ borderRadius: "30px", opacity: 1 }}
           className="discount_paper"
         >
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <img width="200" height="200" src={beetroot} alt="##"></img>
+          <Grid container spacing={2} className="mainGrid">
+            <Grid item className="discountCards" md={3} sm={6}>
+              <img  className="dis" src={beetroot} alt="##"></img>
               <br />
               <span>Beetroot</span>
               <p className="price"> &#8377; 40</p>
             </Grid>
-            <Grid item xs={3}>
-              <img width="200" height="200" src={cucumber} alt="##"></img>
+            <Grid item className="discountCards"  md={3} sm={6}>
+              <img className="dis" src={cucumber} alt="##"></img>
               <br />
               <span>cucumber</span>
               <p className="price"> &#8377; 40</p>
             </Grid>
-            <Grid item xs={3}>
-              <img width="200" height="200" src={capsicum} alt="##"></img>
+            <Grid item className="discountCards" md={3} sm={6}>
+              <img className="dis" src={capsicum} alt="##"></img>
               <br />
               <span>capsicum</span>
               <p className="price"> &#8377; 40</p>
             </Grid>
-            <Grid item xs={3}>
-              <img width="200" height="200" src={brinjal} alt="##"></img>
+            <Grid item className="discountCards"  md={3} sm={6}>
+              <img className="dis" src={brinjal} alt="##"></img>
               <br />
               <span>brinjal</span>
               <p className="price"> &#8377; 40</p>
