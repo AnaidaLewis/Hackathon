@@ -344,26 +344,26 @@ class PlaceOrder(APIView):
 
 
 #SELLER****************************************************************************************
-# class SellerViewOrder(APIView):
-#     serializer_class = DisplayCartItemSerializer
-#     permission_classes = [IsAuthenticated]
+class SellerViewOrder(APIView):
+    serializer_class = DisplayCartItemSerializer
+    permission_classes = [IsAuthenticated]
 
-#     def get(self, request, pk):
-#         user = User.objects.get(email = request.user)
-#         try:
-# 	        product = Product.objects.get(id = pk)
-#         except Product.DoesNotExist:
-#             content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
-#             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-#         if CartItem.objects.filter(item = product).exists():
-#             all_cart_items = CartItem.objects.filter(item = product)
-#             displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
-#             if product.products_ordered > product.min_order:
-#                     wholesale_price = True
-#             wholesale_price = False
-#             for i in range(len(displaySerializer.data)):
-#                 totalAggregateQuantity = displaySerializer.data[i]['qty']
-#                 all_buyers = Cart.objects.get(id = displaySerializer.data[i]['cart'])
-#                 allBuyersSerializer = 
-#             return JsonResponse({ 'Wholesale Price': wholesale_price ,'totalAggregateQuantity':totalAggregateQuantity, 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
+    def get(self, request, pk):
+        user = User.objects.get(email = request.user)
+        try:
+	        product = Product.objects.get(id = pk)
+        except Product.DoesNotExist:
+            content = {'detail': 'No such product available, which is created by this seller','message':'remember to pass pk'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        if CartItem.objects.filter(item = product).exists():
+            all_cart_items = CartItem.objects.filter(item = product)
+            displaySerializer = DisplayCartItemSerializer(all_cart_items, many = True)
+            if product.products_ordered > product.min_order:
+                    wholesale_price = True
+            wholesale_price = False
+            for i in range(len(displaySerializer.data)):
+                totalAggregateQuantity = displaySerializer.data[i]['qty']
+                all_buyers = Cart.objects.get(id = displaySerializer.data[i]['cart'])
+                allBuyersSerializer = True
+            return JsonResponse({ 'Wholesale Price': wholesale_price ,'totalAggregateQuantity':totalAggregateQuantity, 'message': 'serilaizer data with only address and quantity per order'}, status = status.HTTP_200_OK)
         
