@@ -495,7 +495,7 @@ class SellerViewOrder(APIView):
             productSerializer = ProductSerializer(product, many = False)
             
 
-            SellerAllOrdersView = SellerAllOrdersViewSerializer(data, many = True)           
+            SellerAllOrdersView = SellerAllOrdersViewSerializer(productSerializer.data, many = True)           
             return JsonResponse({'Wholesale Price': wholesale_price ,
                                 'totalAggregateQuantity':totalAggregateQuantity,
                                 'totalAggregatePrice':totalAggregatePrice, 
