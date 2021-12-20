@@ -19,7 +19,7 @@ UNIT_CHOICES=(
 
 CATEGORY_CHOICES=(
     ('Exotic vegetable','Exotic vegetable'),
-    ('Meat/Seafood','Meat/Seafood'),
+    ('meat & seafood','meat & seafood'),
     ('Daily essentials','Daily essentials'),
     ('Dairy Products','Dairy Products'),
     ('Healthy Food','Healthy Food'),
