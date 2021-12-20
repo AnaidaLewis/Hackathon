@@ -19,6 +19,7 @@ import Cart from './Cart/Cart';
 import Selleraddress from './Homepage_bigCompany/Selleraddress';
 import CategoryHome from './Homepage_smallCompany/CategoryHome';
 import CategoryPage from './CategoryPage/CategoryPage';
+import AllItems from './CategoryPage/AllItems';
 // import Dashboard from './Homepage_smallCompany/Dashboard';
 function App() {
   var role = 'Buyer';
@@ -31,12 +32,14 @@ function App() {
         <Route path = "/Login" children={<div className='sign'><HeaderN/><Login/></div>} />
         {/* <Route path= '/verfication' children={<TwoStep/>}></Route>
         <Route path= '/verfication2' children={<TwoStep2/>}></Route> */}
+        <Route path='/category' exact children={<><HeaderN/><AllItems/></>}>
+        </Route>
         <Route path={'/category/:type'}>
         <HeaderN/>
         <CategoryPage/>
         </Route>
         <Route path='/cart' children={<><HeaderN/><Cart/></>}/>
-        <Route path = "/HomePage" children={<><HeaderN/><HomeC/></>} />
+        <Route path = "/HomePage" children={<><HomeC/></>} />
         {/* <Route path = "/Page1" children={<><Navbar/><Page1/></>}/> */}
         {/* <Route path = "/Page2" children={<><Navbar/><Page2/></>} /> */}
         <Route path = "/Feedback" children={<><HeaderN/><Feedback/></>} />

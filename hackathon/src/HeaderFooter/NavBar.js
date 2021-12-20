@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu,GiFruitBowl } from "react-icons/gi";
 import image from "../Images/beetroot.jpg";
 
 // import MenuIcon from '@mui/icons-material/Menu';
@@ -42,7 +42,8 @@ const Nav = (activePage) => {
   return (
     <AppBar
       style={{ background: "transparent", boxShadow: "none" }}
-      position="sticky"
+      // position="sticky"
+      position="static"
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -52,7 +53,8 @@ const Nav = (activePage) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <img
+           <GiFruitBowl style={{fontSize:'3rem',color:'black'}} />
+            {/* <img
               style={
                 {
                   transform: "translateY(-30px)",
@@ -61,7 +63,7 @@ const Nav = (activePage) => {
               width="60"
               src={image}
               alt="##"
-            />
+            /> */}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -71,9 +73,9 @@ const Nav = (activePage) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              // color="inherit"
             >
-              <GiHamburgerMenu />
+              <GiHamburgerMenu style={{fontColor:'black'}} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -128,22 +130,21 @@ const Nav = (activePage) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <div style={{margin:'auto'}} >
-              <Link disabled={value.home} className="headerLinks" to="/login">
-                <button disabled={value.home} className="btn">
+              <Link  className="headerLinks" to="/login">
+                <button  className="btn">
                   Login
                 </button>
               </Link>
-              <Link disabled={value.events} className="headerLinks" to="/">
-                <button disabled={value.events} className="btn">
+              <Link  className="headerLinks" to="/">
+                <button  className="btn">
                   Signup
                 </button>
               </Link>
               <Link
-                disabled={value.Committee}
                 className="headerLinks"
                 to="/homePage"
               >
-                <button disabled={value.Committee} className="btn">
+                <button  className="btn">
                   Home
                 </button>
               </Link>
@@ -164,7 +165,7 @@ const Nav = (activePage) => {
               <Link
                 disabled={value.contactUs}
                 className="headerLinks"
-                to="/category/fruits"
+                to="/category"
               >
                 <button disabled={value.contactUs} className="btn">
                   Category

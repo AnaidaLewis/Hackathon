@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const CategoryHome = () => {
   const Category = [
     {
-      label: "Exotic vegetables",
+      label: "Exotic vegetable",
     },
     {
       label: "Meat & Seafood",
