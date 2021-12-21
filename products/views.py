@@ -269,7 +269,7 @@ class BuyerCart(APIView):
             content = {'detail': 'User does not have a cart hence create new cart in POST'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
-            cart_item = CartItem.objects.get(cart = cart, item = pk)
+            cart_item = CartItem.objects.get(cart = cart, item = pk, fixed = False)
         except CartItem.DoesNotExist:
             content = {'detail': 'No such item added to this cart'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
@@ -298,7 +298,7 @@ class BuyerCart(APIView):
             content = {'detail': 'User does not have a cart hence create new cart in POST'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
-            cart_item = CartItem.objects.get(cart = cart, item = pk)
+            cart_item = CartItem.objects.get(cart = cart, item = pk, fixed = False)
         except CartItem.DoesNotExist:
             content = {'detail': 'No such item added to this cart'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
