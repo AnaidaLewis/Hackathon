@@ -370,7 +370,7 @@ const Dashboard = () => {
                 label="Total Quantity"
                 name="total_stock"
                 variant="outlined"
-
+                 autoFocus
                 
                 color="secondary"
                 placeholder="WholeSale Price"
@@ -386,6 +386,7 @@ const Dashboard = () => {
                   ),
                 }}
               />
+              <br/><br/>
               <TextField
                 className={classes.inputbox}
                 label="WholeSale Price"
@@ -407,6 +408,7 @@ const Dashboard = () => {
                 }}
               />
           
+          <br/><br/>
 
               <TextField
                 className={classes.inputbox}
@@ -427,7 +429,7 @@ const Dashboard = () => {
                   ),
                 }}
               />
-
+<br/><br/>
               <FormControl className={classes.dropdown}>
                 <Select
                   name="units"

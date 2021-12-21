@@ -42,7 +42,7 @@ const Total = () => {
   }*/
   const loadList = async () => {
     const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/cart-history/`,{
-      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMzIyNzk4LCJpYXQiOjE2NDAwNjM1OTgsImp0aSI6IjJkNDk2Y2YzYzU1YzRjMTNiMmJjYmZjNzc2Mjk1NTI1IiwidXNlcl9pZCI6MjF9.uo1UEecB89sZ-ocvS4PUwdnLb2_7aBq3qVHlqhqkCEo`},
     });console.log(result.data.cartItems);
     setLoadImage(result.data.cartItems);
     
