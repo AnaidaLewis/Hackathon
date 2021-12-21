@@ -34,6 +34,207 @@
     background-size:97% 99%;
    
   }
+
+.star2{
+    position: absolute;
+    margin-left: 60%;
+margin-top:80%;
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(50px) translateX(50px);
+      }
+      50% {
+        transform: translateY(-150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star{
+    position: absolute;
+    margin-top: 50%;
+    margin-left: 45%;
+    animation: star 10s linear infinite;
+}
+@keyframes star {
+    0% , 100%{
+        transform: translateY(50px) translateX(-500px);
+      }
+      50% {
+        transform: translateY(150px) translateX(250px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star2{
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 100%;
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star2{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star3{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star2{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star2{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.star2{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: star2 10s linear infinite;
+}
+@keyframes star2 {
+    0% , 100%{
+        transform: translateY(450px) translateX(50px);
+      }
+      50% {
+        transform: translateY(150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.starspin{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: starspin 10s linear infinite;
+}
+@keyframes starspin {
+    0% , 100%{
+        transform: translateY(50px) translateX(50px);
+      }
+      50% {
+        transform: translateY(-150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
+.circle{
+    position: absolute;
+    margin-left: 50%;
+
+    animation: circle 10s linear infinite;
+}
+@keyframes circle{
+    0% , 100%{
+        transform: translateY(50px) translateX(50px);
+      }
+      50% {
+        transform: translateY(-150px) translateX(-150px);
+        width:25px;
+        height: 25px;
+    }
+    25% ,75%{
+        width: 40px;
+        height: 40px;
+    }
+}
 @media (max-width:900px){
 .social,.social2{
     transform: translateX(0);

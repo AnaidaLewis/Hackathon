@@ -22,63 +22,44 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-var datacart=[];
+var data=[];
 var photoadd;
 var count = 0;
 const Total = () => {
 
   const [load,setLoadImage] = useState([]);
-  const [blogs,setBlogs]=useState([]);
+  /*const [detail,setDetailLoad] = useState([]);
+  const [cartdetail,Setcartdetail] =useState({});*/
   useEffect(() => {
     loadList();
-
+   //detaillist();
   },[]);
+  /*const detaillist = async (id) =>{
+    const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/product/${id}/`,{
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+      });
+      setDetailLoad(result.data);
+      console.log(data);
+  }*/
   const loadList = async () => {
     const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
-      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
-    })
-    Swal.fire
-    ({
-      title:'Cart is Empty',
-
-    })
-    .then((response) => {
-      setLoadImage(result.data.cartItems);
-      console.log(load);
-
-    })
-  .catch((error) => {
-    console.log(error); //Logs a string: Error: Request failed with status code 404
-  });
-
-  
-   
-   //setLoadImage(result.data.Products);
-  
-    /*console.log(result.data.Products);
-    for(var i=0;i<=result.data.Products.length;i++)
-    {
-      localStorage.setItem('obj',JSON.parse(Object.values(result.data.Products[i])));
-      var temp = localStorage.getItem('obj');
-      console.log(temp);
-      datacart[i]=temp;
-      console.log(datacart);
-
-    }*/
-    //data = Object.values(result.data.Products);
-    //console.log(data);
-    //localStorage.setItem('obj',Object.values(result.data.Products[0]));
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+    });
+    setLoadImage(result.data);
+    console.log(result.data.Products);
     
-    
-    {/*var value={};
+    /*var value={};
     result.data.cartItems.map(async(item,index)=>{
         value[item.item]= await detaillist(item.item)
     })
-  Setcartdetail(value);*/}
+    Setcartdetail(value);*/
 }
 
 
-const editStock =(id) =>{
+
+
+
+/*const editStock =(id) =>{
   // alert("hii"+qnty+id);
    Swal.fire({
      title: "Enter the quantity to be added",
@@ -97,7 +78,7 @@ const editStock =(id) =>{
            method: "put",
            url: `https://communitybuying.pythonanywhere.com/main/cart/${id}/`,
            headers: {
-             "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`
+             "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`
            },
            data: formData,
          };
@@ -134,26 +115,12 @@ const editStock =(id) =>{
      },
    });
  }
-
-const placeorder=async()=>{
-  const resp = await axios.post(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
-    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
-  });
-  console.log(resp);
-  Swal.fire(
-    {
-      title: "order detail",
-      inputLabel: resp.data,
-    }
-  )
-}
-
+*/
   return (
     <div>
-
+      
       <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
-      <Button onClick={()=>placeorder()}>Place the Order</Button>
-     {load?.map((index,key) => (
+      {load.map((index) => (
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -181,7 +148,7 @@ const placeorder=async()=>{
                 <div className="cont-block">
                 <div className='head-1'>
                 <Typography gutterBottom variant="h5" component="div">
-                {key.name}
+                {index.name}
                 </Typography>
                 </div>
                 <div className='sub-1'>
@@ -196,7 +163,7 @@ const placeorder=async()=>{
                 <div className='head-3' >
                 <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
                 {index.item}
-                <AddShoppingCartIcon onClick={()=>editStock(index.item,index.qty)}/>
+               
                 </Typography>
                 </div>
                 </div>
@@ -228,6 +195,7 @@ const placeorder=async()=>{
               </Card>
 
       ))}
+ 
     </div>
   );
 };

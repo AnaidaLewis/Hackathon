@@ -32,6 +32,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useHistory} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
@@ -41,11 +43,11 @@ const useStyles = makeStyles((theme) => ({
       height: "6vh",
     },
   },
-  inputbox: {
+  /*inputbox: {
     width: "25rem",
     paddingBottom: "5vh",
     margin: "5vh",
-  },
+  },*/
   card: {
     "& .MuiCard-root": {
       height: "28vh",
@@ -71,6 +73,7 @@ const Dashboard = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  const history = useHistory();
   const classes = useStyles();
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
@@ -85,7 +88,7 @@ const Dashboard = () => {
   var field = "";
   useEffect(() => {
     loadList();
-  }, [load]);
+  }, []);
 
   const userid = localStorage.getItem("user");
   console.log(userid);
@@ -94,7 +97,7 @@ const Dashboard = () => {
       `http://communitybuyingbackend.pythonanywhere.com//main/product/0/`,
       {
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
         },
       }
     );
@@ -118,7 +121,7 @@ const Dashboard = () => {
         method: "POST",
         body: formData,
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
         },
       }
     )
@@ -187,7 +190,7 @@ const Dashboard = () => {
             method: "put",
             url: `http://communitybuyingbackend.pythonanywhere.com//main/product/${id}/`,
             headers: {
-              Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+              Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
             },
             data: formData,
           };
@@ -198,10 +201,10 @@ const Dashboard = () => {
                 icon: "success",
                 title: "Successfully Updated",
                 showClass: {
-                  popup: "animate__animated animate__fadeInDown",
+                  popup: "animate_animated animate_fadeInDown",
                 },
                 hideClass: {
-                  popup: "animate__animated animate__fadeOutUp",
+                  popup: "animate_animated animate_fadeOutUp",
                 },
               });
             })
@@ -213,10 +216,10 @@ const Dashboard = () => {
             icon: "error",
             title: "Entered value should be more than total stock value",
             showClass: {
-              popup: "animate__animated animate__fadeInDown",
+              popup: "animate_animated animate_fadeInDown",
             },
             hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
+              popup: "animate_animated animate_fadeOutUp",
             },
           });
         }
@@ -438,7 +441,7 @@ const Dashboard = () => {
                 variant="contained"
                 style={{
                   marginTop: "5vh",
-                  marginLeft: "5vh",
+                  marginLeft: "20vh",
                   marginBottom: "5vh",
                 }}
               >
@@ -478,7 +481,7 @@ const Dashboard = () => {
                       height="150"
                       width="50"
                       src={
-                        "https://communitybuying.pythonanywhere.com" +
+                        "https://communitybuyingbackend.pythonanywhere.com" +
                         index.image
                       }
                     />
@@ -501,7 +504,7 @@ const Dashboard = () => {
                               gutterBottom
                               style={{ fontSize: "1.1rem" }}
                             >
-                              {index.category}
+                              
                             </Typography>
                           </div>
                         </div>
@@ -523,7 +526,8 @@ const Dashboard = () => {
                                   editStock(index.id, index.total_stock)
                                 }
                               />
-                            </Typography>
+                              <VisibilityIcon onClick={()=>{history.push("/Address");localStorage.setItem('prodid',index.id)}}/>
+                              </Typography>
                           </div>
                         </div>
                         <div

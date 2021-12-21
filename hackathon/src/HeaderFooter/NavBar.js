@@ -12,13 +12,15 @@ import { GiHamburgerMenu,GiFruitBowl } from "react-icons/gi";
 // import MenuIcon from '@mui/icons-material/Menu';
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
+import DrawerComponent from  "./Drawer";
 
 const Nav = (activePage) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
  
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+    console.log("hii");
+    <DrawerComponent></DrawerComponent>
   };
 
   const handleCloseNavMenu = () => {

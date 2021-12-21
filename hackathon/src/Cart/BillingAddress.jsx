@@ -1,10 +1,10 @@
 import { Button, Paper, TextField, InputAdornment } from "@mui/material";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo ,useEffect } from "react";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import { makeStyles } from "@mui/styles";
-
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root:{
       "& .MuiFormControl-root":{
@@ -12,14 +12,34 @@ const useStyles = makeStyles((theme) => ({
       },
   },
 }))
-
 const BillingAddress = () => {
     const [address,setAdd] = useState("");
     const [city,setCity] = useState("");
     const [pinCode,setPincode] = useState("");
     const [country,setCountry] = useState("")
     const [state, setState] = useState("");
-  
+    const[load,setLoadImage]=useState(" ");
+    useEffect(() => {
+      loadList();
+    },[]);
+    
+    const loadList = async () => {
+      const result = await axios.get("http://communitybuyingbackend.pythonanywhere.com/main/address/",{
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+      });
+      setLoadImage(result);
+      //console.log(result);
+      localStorage.setItem("address",result.data.address);
+                localStorage.setItem("city",result.data.city);
+                localStorage.setItem("pincode",result.data.pinCode);
+                localStorage.setItem("state",result.data.state);
+                localStorage.setItem("country",result.data.country);
+                localStorage.setItem("id",result.data.id);
+                localStorage.setItem("user",result.data.user);
+      
+    };
+
+
   const handleSubmission = async (e) => {
     const formData = new FormData();
     formData.append("address", address);
@@ -27,15 +47,13 @@ const BillingAddress = () => {
     formData.append("pinCode", pinCode);
     formData.append("state", state);
     formData.append("country", country);
-await fetch("http://communitybuyingbackend.pythonanywhere.com//main/address/", {
-  method: "POST",
-  body: formData,
-  headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw` },
-})
+
+    const result = await axios.post("http://communitybuyingbackend.pythonanywhere.com/main/address/",{
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+      data:formData,
+    })
 .then((result)=>{
     var data = result.data;
-    console.log(result.data);
-    //console.log(result.data);
 })
 .catch(()=>{
   alert('Error in the Code');
@@ -43,7 +61,6 @@ await fetch("http://communitybuyingbackend.pythonanywhere.com//main/address/", {
 };
 const options = useMemo(() => countryList().getData(), []);
 const classes = useStyles();
-  //const options = useMemo(() => countryList().getData(), []);
   return (
     <div style={{ padding: "60px" }} className={classes.root}>
       <Paper elevation={3}>
@@ -75,7 +92,7 @@ const classes = useStyles();
           fullWidth
           variant="outlined"
           value={pinCode}
-          name="pincode"
+          name="pinCode"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -89,13 +106,13 @@ const classes = useStyles();
         />
         <TextField
           id="outlined-basic"
-          label="Address"
+          label="City"
           required
           className="fields_space"
           fullWidth
           variant="outlined"
           value={city}
-          name="address"
+          name="city"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
