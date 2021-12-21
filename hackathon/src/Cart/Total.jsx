@@ -35,9 +35,26 @@ const Total = () => {
   const loadList = async () => {
     const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
       headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
-    });
-    setLoadImage(result.data.Products);
-    console.log(result.data.Products);
+    })
+    Swal.fire
+    ({
+      title:'Cart is Empty',
+
+    })
+    .then((response) => {
+      setLoadImage(result.data.cartItems);
+      console.log(load);
+
+    })
+  .catch((error) => {
+    console.log(error); //Logs a string: Error: Request failed with status code 404
+  });
+
+  
+   
+   //setLoadImage(result.data.Products);
+  
+    /*console.log(result.data.Products);
     for(var i=0;i<=result.data.Products.length;i++)
     {
       localStorage.setItem('obj',JSON.parse(Object.values(result.data.Products[i])));
@@ -46,7 +63,7 @@ const Total = () => {
       datacart[i]=temp;
       console.log(datacart);
 
-    }
+    }*/
     //data = Object.values(result.data.Products);
     //console.log(data);
     //localStorage.setItem('obj',Object.values(result.data.Products[0]));
@@ -117,11 +134,24 @@ const editStock =(id) =>{
    });
  }
 
+const placeorder=async()=>{
+  const resp = await axios.post(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
+    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+  });
+  console.log(resp);
+  Swal.fire(
+    {
+      title: "order detail",
+      inputLabel: resp.data,
+    }
+  )
+}
+
   return (
     <div>
-      
       <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
-     {datacart?.map((index,key) => (
+      <Button onClick={()=>placeorder()}>Place the Order</Button>
+     {load?.map((index,key) => (
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -149,7 +179,7 @@ const editStock =(id) =>{
                 <div className="cont-block">
                 <div className='head-1'>
                 <Typography gutterBottom variant="h5" component="div">
-                {index.name}
+                {key.name}
                 </Typography>
                 </div>
                 <div className='sub-1'>

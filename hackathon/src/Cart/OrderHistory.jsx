@@ -29,7 +29,6 @@ const Total = () => {
 
   const [load,setLoadImage] = useState([]);
   const [detail,setDetailLoad] = useState([]);
- // const [cartdetail,Setcartdetail] =useState({});
   useEffect(() => {
     loadList();
   
@@ -118,8 +117,10 @@ const Total = () => {
   return (
     <div>
       
-      <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
+      <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>Order History</h2>
+    
       {load.map((index) => (
+       <Paper elevation={3} style={{padding:"3px"}}> 
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -161,7 +162,7 @@ const Total = () => {
                 <div className="cont-block1">
                 <div className='head-3' >
                 <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
-                {index.item}
+                Ordered: {index.qty} items
                
                 </Typography>
                 </div>
@@ -169,12 +170,12 @@ const Total = () => {
                 <div className='cont-block' style={{paddingLeft:"3vh"}}>
                 <div className='head-4'>
                 <Typography gutterBottom style={{fontSize:"0.9rem"}}>
-                Rs.{index.price} per {index.units}
+                Total Price
                 </Typography>
                 </div>
                 <div className='sub-4'>
-                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                In Stock : {index.total_stock}
+                <Typography gutterBottom  style={{fontSize:"1.1rem" , color:"green"}}>
+                Rs.{index.price * index.cart}
                 </Typography>
                 </div>
                 
@@ -191,8 +192,10 @@ const Total = () => {
                 </div>
                 
                 </div>
+                
+      
               </Card>
-
+              </Paper>
       ))}
  
     </div>

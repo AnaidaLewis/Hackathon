@@ -34,6 +34,7 @@ import spin from "../Images/spin.gif";
 import star from "../Images/star.png";
 import starspin from "../Images/star-spin.gif";
 import star2 from "../Images/stra2.gif";
+import circle from "../Images/circle.png";
 var axios = require("axios");
 
 const Signin = () => {
@@ -197,7 +198,9 @@ const Signin = () => {
   };
 
   return (
+    
     <div className="signin">
+      
       <div style={{ fontSize: "1.5rem",padding:'0 20px 50px' }}>Sign In</div>
       {/* <div style={{marginBottom:"5vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
       <Paper elevation={3} className="signinPaper">

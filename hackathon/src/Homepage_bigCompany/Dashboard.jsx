@@ -20,30 +20,6 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
 import axios from "axios";
-
-
-import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2';
-import {motion} from 'framer-motion';
-import BadgeIcon from '@mui/icons-material/Badge';
-import BusinessIcon from '@mui/icons-material/Business';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import carroticon from '../Images/carroticon.png';
-import corn from "../Images/corn.png";
-import fruits from "../Images/fruits.png";
-import papaya from "../Images/papayaicon.png";
-import lemon from "../Images/lemon.png";
-import watermelon from "../Images/watermelon.png";
-import wheaticon from "../Images/wheaticon.png";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import BadgeIcon from "@mui/icons-material/Badge";
@@ -56,7 +32,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useHistory} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
@@ -66,87 +43,16 @@ const useStyles = makeStyles((theme) => ({
       height: "6vh",
     },
   },
-  inputbox: {
+  /*inputbox: {
     width: "25rem",
     paddingBottom: "5vh",
     margin: "5vh",
-  },
+  },*/
   card: {
     "& .MuiCard-root": {
       height: "28vh",
       boxShadow: "none",
     },
-    card:{
-      "& .MuiCard-root":{
-        height:"20vh",
-        boxShadow:"none"
-      }
-    },
-    button:{
-      "& .MuiButtonBase-root":{
-          width:"25rem",
-          fontSize:"2rem",
-          height:"5rem",
-      }
-    },
-    image:{
-      "& .MuiCardMedia-root":{
-        objectFit:"contain",
-      }
-    },
-    
-}))
-const Dashboard = () => {
-    const Item = styled(Paper)(({ theme }) => ({
-        ...theme.typography.body2,
-        padding: theme.spacing(18),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-      }));
-    const classes = useStyles();
-    const history = useHistory();
-    const [name,setName] = useState("");
-    const [image,setImage] = useState(null);
-    const [price,setPrice] = useState("");
-    const [companyname,setCompany] = useState("")
-    const [category, setCategory] = useState("");
-    const [wholesale_price,setWholePrice] = useState("");
-    const [min_order,setMinOrder] = useState("");
-    const [total_stock, setTotalStock] = useState(" ");
-    const [units,setUnits] = useState(" ");
-    const [load,setLoadImage] = useState([]);
-    var field='';
-    useEffect(() => {
-      loadList();
-    },[]);
-
-   const userid = localStorage.getItem('user');
-   console.log(userid);
-    const loadList = async () => {
-      const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/product/0/`,{
-        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2NjAxLCJpYXQiOjE2NDAwMDc0MDEsImp0aSI6IjAyNDQxN2RiMzUyMjRhZDJiOTRkYzI1ZTE3YmU0MWMwIiwidXNlcl9pZCI6M30.0lFeb3ZbHAef9RCnXpBehPpVfyKcy-5YXP_0mKy5wuc`},
-      });
-      setLoadImage(result.data);
-    }
-    const handleSubmission = async (e) => {
-      const formData = new FormData();
-      formData.append("company", companyname);
-      formData.append("name", name);
-      formData.append("image", image);
-      formData.append("price", price);
-      formData.append("category",category)
-      formData.append("wholesale_price", wholesale_price);
-      formData.append("min_order", min_order);
-      formData.append("total_stock", total_stock);
-      formData.append("units", units);
-  
-      
-      await fetch(`http://communitybuyingbackend.pythonanywhere.com/main/product/${userid}/`, {
-        method: "POST",
-        body: formData,
-        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2NjAxLCJpYXQiOjE2NDAwMDc0MDEsImp0aSI6IjAyNDQxN2RiMzUyMjRhZDJiOTRkYzI1ZTE3YmU0MWMwIiwidXNlcl9pZCI6M30.0lFeb3ZbHAef9RCnXpBehPpVfyKcy-5YXP_0mKy5wuc` },
-      })
-      .then((result)=>{
   },
   button: {
     "& .MuiButtonBase-root": {
@@ -167,6 +73,7 @@ const Dashboard = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  const history = useHistory();
   const classes = useStyles();
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
@@ -181,7 +88,7 @@ const Dashboard = () => {
   var field = "";
   useEffect(() => {
     loadList();
-  }, [load]);
+  }, []);
 
   const userid = localStorage.getItem("user");
   console.log(userid);
@@ -190,7 +97,7 @@ const Dashboard = () => {
       `http://communitybuyingbackend.pythonanywhere.com//main/product/0/`,
       {
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
         },
       }
     );
@@ -214,7 +121,7 @@ const Dashboard = () => {
         method: "POST",
         body: formData,
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
         },
       }
     )
@@ -227,11 +134,6 @@ const Dashboard = () => {
       });
   };
 
-
-
-
-
-   /* const deleteImage = (id) => {
   /* const deleteImage = (id) => {
       Swal.fire({
           title: 'Are you Sure ?',
@@ -247,8 +149,8 @@ const Dashboard = () => {
            
               try {
                   
-                  axios.delete(`http://communitybuyingbackend.pythonanywhere.com/main/product/${id}` , {
-                    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+                  axios.delete(`http://communitybuyingbackend.pythonanywhere.com//main/product/${id}` , {
+                    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
                     
                   })
                       Swal.fire(
@@ -270,41 +172,6 @@ const Dashboard = () => {
       })
     }
 */
-{/*const editStock =(id,qnty) =>{
- // alert("hii"+qnty+id);
-  Swal.fire({
-    title: "Enter the quantity to be added",
-    input: "text",
-    inputLabel: "Re-Stock Quantity",
-    inputValidator: async (num) => {
-      console.log(num);
-      if (!num) {
-        return "You need to write something!";
-      }
-      if (num>=qnty) {
-        const formData = new FormData();
-        formData.append("total_stock", num);
-        var config = {
-          method: "put",
-          url: `http://communitybuyingbackend.pythonanywhere.com/main/product/${id}/`,
-          headers: {
-            "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`
-          },
-          data: formData,
-        };
-        axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-            Swal.fire({
-              icon: "success",
-              title: "Successfully Updated",
-              showClass: {
-                popup: "animate__animated animate__fadeInDown",
-              },
-              hideClass: {
-                popup: "animate__animated animate__fadeOutUp",
-              },
-            */}
   const editStock = (id, qnty) => {
     // alert("hii"+qnty+id);
     Swal.fire({
@@ -323,7 +190,7 @@ const Dashboard = () => {
             method: "put",
             url: `http://communitybuyingbackend.pythonanywhere.com//main/product/${id}/`,
             headers: {
-              Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`,
+              Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`,
             },
             data: formData,
           };
@@ -334,10 +201,10 @@ const Dashboard = () => {
                 icon: "success",
                 title: "Successfully Updated",
                 showClass: {
-                  popup: "animate__animated animate__fadeInDown",
+                  popup: "animate_animated animate_fadeInDown",
                 },
                 hideClass: {
-                  popup: "animate__animated animate__fadeOutUp",
+                  popup: "animate_animated animate_fadeOutUp",
                 },
               });
             })
@@ -349,55 +216,12 @@ const Dashboard = () => {
             icon: "error",
             title: "Entered value should be more than total stock value",
             showClass: {
-              popup: "animate__animated animate__fadeInDown",
+              popup: "animate_animated animate_fadeInDown",
             },
             hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
+              popup: "animate_animated animate_fadeOutUp",
             },
           });
-      }
-      else{
-        Swal.fire({
-          icon: "error",
-          title: "Entered value should be more than total stock value",
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        });
-      }
-    },
-  });
-}
-
-
-
-    return (
-
-      <>
-      <div className="carroticon">
-      <img src={carroticon} alt="" style={{width:"55px",height:"55px"}}/>
-      </div>
-      <div className="papaya">
-      <img src={papaya} alt="" style={{width:"75px",height:"75px"}}/>
-      </div>
-      <div className="wheaticon">
-      <img src={wheaticon} alt="" style={{width:"45px",height:"45px"}}/>
-      </div>
-      <div className="corn">
-      <img src={corn} alt="" style={{width:"45px",height:"45px"}}/>
-      </div>
-      <div className="lemon">
-      <img src={lemon} alt="" style={{width:"65px",height:"65px"}}/>
-      </div>
-      <div className="watermelon">
-      <img src={watermelon} alt="" style={{width:"55px",height:"55px"}}/>
-      </div>
-      <div className="fruits">
-      <img src={fruits} alt="" style={{width:"70px",height:"70px"}}/>
-      </div>
         }
       },
     });
@@ -490,36 +314,6 @@ const Dashboard = () => {
                 </Select>
               </FormControl>
 
-<<<<<<< HEAD
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} className = {classes.root} justify="center">
-      <TextField 
-                            className = {classes.inputbox}
-                            label="WholeSale Price"
-                            name="wholesale_price"
-                            variant="outlined" 
-                            placeholder="WholeSale Price"
-                            value={wholesale_price}
-                            onChange={(e)=>setWholePrice(e.target.value)}
-                            autoComplete="off"
-                            InputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    < ShoppingCartIcon/>
-                                  </InputAdornment>
-                                ),
-                            }}
-                         />
-                         <TextField 
-                            className = {classes.inputbox}
-                            label="Total Qnty"
-                            name="total_stock"
-                            variant="outlined" 
-                            placeholder="Total Quantity"
-                            value={total_stock}
-                            onChange={(e)=>setTotalStock(e.target.value)}
-                            autoComplete="off"
-=======
               <TextField
                 className={classes.inputbox}
                 label="Price"
@@ -529,7 +323,6 @@ const Dashboard = () => {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 autoComplete="off"
->>>>>>> f4aba4433a9b5da07ce69fad1f8b5c7c4c64d73c
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -616,73 +409,6 @@ const Dashboard = () => {
                 }}
               />
 
-<<<<<<< HEAD
-        
-    </div>
-                    
-                </div>
-                <div className='List'>
-                <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={{ xs: 2, md: 9 }} columns={{ xs: 1, sm: 4, md: 9 }}>
-                {load.map((index) => (
-                 <Grid item xs={2} sm={4} md={4} key={index} className={classes.card}>
-                
-                <Card sx={{ maxWidth: 630  }} className="card" 
-                whileHover={{ scale: 1.1 }}
-              component={motion.div}
-              elevation={3}>
-                <div className={classes.image}>
-                
-                
-                <CardMedia
-                component="img"
-                padding="1.2vh"
-                height="150"
-                width="50"
-                
-                src={"http://communitybuyingbackend.pythonanywhere.com/" + index.image}
-                />
-                </div>
-                <div className='card-cont'>
-                <div className="content">
-                <div className='cont-right'>
-                <div className="cont-block">
-                <div className='head-1'>
-                <Typography gutterBottom variant="h5" component="div">
-                {index.name}
-                </Typography>
-                </div>
-                <div className='sub-1'>
-                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                {index.category}
-                </Typography>
-                </div>
-                </div>
-                </div>
-                <div className='cont-left'>
-                <div className="cont-block1">
-                <div className='head-3' >
-                <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
-                <AddShoppingCartIcon onClick={()=>editStock(index.id,index.total_stock)}/>
-                
-                </Typography>
-                <VisibilityIcon onClick={()=>{history.push("/Address") ; localStorage.setItem('prodid',index.id)}} style={{cursor:"ponter"}} />
-                </div>
-                </div>
-                <div className='cont-block' style={{paddingLeft:"3vh"}}>
-                <div className='head-4'>
-                <Typography gutterBottom style={{fontSize:"0.9rem"}}>
-                Rs.{index.price} per {index.units}
-                </Typography>
-                </div>
-                <div className='sub-4'>
-                <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                In Stock : {index.total_stock}
-                </Typography>
-                </div>
-                
-                </div>
-=======
               <FormControl className={classes.dropdown}>
                 <Select
                   name="units"
@@ -713,7 +439,7 @@ const Dashboard = () => {
                 variant="contained"
                 style={{
                   marginTop: "5vh",
-                  marginLeft: "5vh",
+                  marginLeft: "20vh",
                   marginBottom: "5vh",
                 }}
               >
@@ -753,7 +479,7 @@ const Dashboard = () => {
                       height="150"
                       width="50"
                       src={
-                        "https://communitybuying.pythonanywhere.com" +
+                        "https://communitybuyingbackend.pythonanywhere.com" +
                         index.image
                       }
                     />
@@ -776,7 +502,7 @@ const Dashboard = () => {
                               gutterBottom
                               style={{ fontSize: "1.1rem" }}
                             >
-                              {index.category}
+                              
                             </Typography>
                           </div>
                         </div>
@@ -798,7 +524,8 @@ const Dashboard = () => {
                                   editStock(index.id, index.total_stock)
                                 }
                               />
-                            </Typography>
+                              <VisibilityIcon onClick={()=>{history.push("/Address");localStorage.setItem('prodid',index.id)}}/>
+                              </Typography>
                           </div>
                         </div>
                         <div
@@ -824,7 +551,6 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
->>>>>>> f4aba4433a9b5da07ce69fad1f8b5c7c4c64d73c
 
                     <div className="button">
                       <CardActions></CardActions>
@@ -837,13 +563,8 @@ const Dashboard = () => {
         </Box>
       </div>
     </div>
-<<<<<<< HEAD
-    </>          
-      /*<div>
-=======
 
     /*<div>
->>>>>>> f4aba4433a9b5da07ce69fad1f8b5c7c4c64d73c
         <Grid container spacing={3}>
             <Grid item md={6}> 
             <div style={{ padding: "60px"}}>

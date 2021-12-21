@@ -8,8 +8,8 @@ const Cart = () => {
     return (
         <div>
         <Grid container spacing={3}>
-            <Grid item md={6}><BillingAddress/><Total/></Grid>
-            <Grid item md={6}><OrderHistory/></Grid>
+            <Grid item md={6} xs={12}><BillingAddress/><Total/></Grid>
+            <Grid item md={6} xs={12}><OrderHistory/></Grid>
         </Grid>
         </div>
     )

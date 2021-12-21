@@ -311,19 +311,52 @@ const useStyles = makeStyles((theme) => ({
 const Cart = () => {
   const classes = useStyles();
   const [load,setLoadImage] = useState([]);
+  const [cart,setcart] = useState([]);
+  var cartimage;
   useEffect(() => {
+    //getitem();
     loadList();
+
    //detaillist();
   },[]);
   var id = localStorage.getItem('prodid');
+  /*const getitem =async() =>{
+    const res = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/seller-view-order/${id}/`,{
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+    })
+    .setcart(res.data);
+    console.log(res.data);
+
+  }*/
   const loadList = async () => {
     console.log(id);
-    const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/seller-view-order/${id}/`,{
+    /*const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/seller-view-order/${id}/`,{
       headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
-    });
-    setLoadImage(result);
-    console.log(result);
+    })*/
+    await fetch(
+      `http://communitybuyingbackend.pythonanywhere.com/main/seller-view-order/1/`,{
+        method:"Get",
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+    }
+    ).then ((result)=>{
+      //setLoadImage(result);
+      return result.json();
+    })
+    .then((data)=>{
+      
+      cartimage = data.Product.image;
+      setLoadImage(data.Buyer);
+      //setcart(data.Product);
+      console.log(data);
+      console.log(data.Product.image)
+      console.log(cartimage)
+    }).catch(()=>{
+      alert("error");
+    })
+   console.log(cartimage);
+
   }
+
     return (
         <div>
         <Grid container spacing={3}>
@@ -331,7 +364,7 @@ const Cart = () => {
             
         </Grid>
           <Grid container spacing={{ xs: 2, md: 9 }} columns={{ xs: 1, sm: 4, md: 9 }}>
-                {/*{load.map((index) => (
+                {load.map((index) => (
                  <Grid item xs={2} sm={4} md={4} key={index} className={classes.card}>
                 
                 <Card sx={{ maxWidth: 630  }} className="card" 
@@ -346,8 +379,8 @@ const Cart = () => {
                 padding="1.2vh"
                 height="150"
                 width="50"
-                
-                src={"http://communitybuyingbackend.pythonanywhere.com/" + index.image}
+              
+                src={'http://communitybuyingbackend.pythonanywhere.com'}
                 />
                 </div>
                 <div className='card-cont'>
@@ -356,12 +389,13 @@ const Cart = () => {
                 <div className="cont-block">
                 <div className='head-1'>
                 <Typography gutterBottom variant="h5" component="div">
-                {index.name}
+                Quantity: {index.Quantity}
+                {cartimage}
                 </Typography>
                 </div>
                 <div className='sub-1'>
                 <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                {index.category}
+                {index.Address.address}
                 </Typography>
                 </div>
                 </div>
@@ -377,12 +411,12 @@ const Cart = () => {
                 <div className='cont-block' style={{paddingLeft:"3vh"}}>
                 <div className='head-4'>
                 <Typography gutterBottom style={{fontSize:"0.9rem"}}>
-                Rs.{index.price} per {index.units}
+                Total Price
                 </Typography>
                 </div>
                 <div className='sub-4'>
                 <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                In Stock : {index.total_stock}
+                 {index.finalPrice}
                 </Typography>
                 </div>
                 
@@ -399,7 +433,7 @@ const Cart = () => {
                 </div>
                 </Card>
                 </Grid>
-                ))}*/}
+                ))}
         </Grid>
                 </div>
                 
