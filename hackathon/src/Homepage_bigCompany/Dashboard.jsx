@@ -365,35 +365,18 @@ const Dashboard = () => {
               className={classes.root}
               justify="center"
             >
-              <TextField
+                <TextField
                 className={classes.inputbox}
-                label="WholeSale Price"
-                name="wholesale_price"
+                label="Total Quantity"
+                name="total_stock"
                 variant="outlined"
+
                 
                 color="secondary"
                 placeholder="WholeSale Price"
                 value={wholesale_price}
                 onChange={(e) => setWholePrice(e.target.value)}
-                autoComplete="off"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <ShoppingCartIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                className={classes.inputbox}
-                label="Total Quantity"
-                name="total_stock"
-                variant="outlined"
-                placeholder="Total Quantity"
-                value={total_stock}
-                
-                color="secondary"
-                onChange={(e) => setTotalStock(e.target.value)}
+       
                 autoComplete="off"
                 InputProps={{
                   endAdornment: (
@@ -403,6 +386,27 @@ const Dashboard = () => {
                   ),
                 }}
               />
+              <TextField
+                className={classes.inputbox}
+                label="WholeSale Price"
+                name="wholesale_price"
+                variant="outlined"
+
+                placeholder="Total Quantity"
+                value={total_stock}
+                
+                color="secondary"
+                onChange={(e) => setTotalStock(e.target.value)}
+               autoComplete="off"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <ShoppingCartIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+          
 
               <TextField
                 className={classes.inputbox}
@@ -427,6 +431,7 @@ const Dashboard = () => {
               <FormControl className={classes.dropdown}>
                 <Select
                   name="units"
+                  label="units"
                   value={units}
                   
                 color="secondary"

@@ -192,36 +192,35 @@ header {
   font-weight: 700;
 }
 .navBar span button:hover {
-  border-bottom: 2px solid rgb(60, 247, 251);
+  /* border-bottom: 2px solid rgb(60, 247, 251); */
 }
 .headerLinks {
   text-decoration: none;
-  /* color: #dbdbdb; */
+  color: black;
+  /* padding: 1px; */
+  font-size: 1.5rem;
 }
 .headerLinks:active,
 .headerLinks:hover {
-  color: rgb(60, 247, 251);
+  /* color: rgb(60, 247, 251); */
 }
 .btn {
   background-color: #e8e8cc98;
   transform: translateY(-30px);
   font-family: "Source Serif 4", sans-serif;
   font-weight: 800;
-  border: black 1px solid;
+  border: 3px solid transparent;
   text-transform: uppercase;
   padding: 10px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 
   cursor: pointer;
 }
 .btn:hover {
-  border-bottom: 3px solid red;
+  border-bottom: 3px solid black;
 }
 
 .mobileNav {
-  background-color: #000324;
-  color: white;
-  border-bottom: 1.3px solid rgb(60, 247, 251);
 }
 
 @media (max-width: 610px) {

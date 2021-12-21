@@ -35,6 +35,7 @@ const Total = () => {
   const [blogs,setBlogs]=useState([]);
   useEffect(() => {
     loadList();
+
   },[]);
   const loadList = async () => {
 
@@ -193,6 +194,7 @@ const placeorder=async()=>{
     <div>
       <h2 style={{alignItems:"center" ,marginBottom:"5vh" ,marginLeft:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
       <Button onClick={()=>placeorder()} variant="contained" style={{marginLeft:"5vh"}}>Place the Order</Button>
+
      {load?.map((index,key) => (
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}

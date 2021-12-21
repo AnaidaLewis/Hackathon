@@ -155,7 +155,7 @@ const Feedback = () => {
                     component={motion.div}
                     whileHover={{ scale: 1.1 }}
                   >
-                    
+                    vegetable
                   </Button>
                 </div>
                 <div>
@@ -164,7 +164,7 @@ const Feedback = () => {
                     component={motion.div}
                     whileHover={{ scale: 1.1 }}
                   >
-                    Outlined
+                    dairy
                   </Button>
                 </div>
                 <div>
@@ -173,7 +173,7 @@ const Feedback = () => {
                     component={motion.div}
                     whileHover={{ scale: 1.1 }}
                   >
-                    Outlined
+                    fruits
                   </Button>
                 </div>
                 <div>
@@ -182,7 +182,7 @@ const Feedback = () => {
                     component={motion.div}
                     whileHover={{ scale: 1.1 }}
                   >
-                    Outlined
+                    non veg
                   </Button>
                 </div>
               </div>

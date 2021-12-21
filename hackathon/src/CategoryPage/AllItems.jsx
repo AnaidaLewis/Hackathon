@@ -19,13 +19,16 @@ import { useParams } from "react-router-dom";
 import CategoryTable from "./CategoryTable";
 import axios from "axios";
 import Swal from "sweetalert2";
+import DiscountNew from "./DiscountNew";
+import "../Homepage_smallCompany/home.css"
+
 
 const AllItems = () => {
   const [arr, setArr] = useState([]);
   useEffect(() => {
     const all_items = async () => {
       const res = await axios.get(
-        "http://communitybuyingbackend.pythonanywhere.com//main/all-product/"
+        "http://communitybuyingbackend.pythonanywhere.com/main/all-product/"
       );
       console.log(res.data);
       setArr(res.data);
@@ -92,12 +95,12 @@ const AllItems = () => {
     var config = {
       method: "POST",
 
-      url: `http://communitybuyingbackend.pythonanywhere.com//main/cart/${id}/`,
+      url: `http://communitybuyingbackend.pythonanywhere.com/main/cart/${id}/`,
       headers: {
         // Authorization:
         //   `Bearer ${Access}`
         Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjQzMDQyLCJpYXQiOjE2Mzk5ODM4NDIsImp0aSI6ImNhNGUxOGQyZGYzNDRjZmRiZDgyZDcyNzkwMmM4ZjFiIiwidXNlcl9pZCI6MjR9.owtBfRV03qlmXfBDcB2XAg2AFHJO9nLvgHlEMSDnEJ4",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMzIyNzk4LCJpYXQiOjE2NDAwNjM1OTgsImp0aSI6IjJkNDk2Y2YzYzU1YzRjMTNiMmJjYmZjNzc2Mjk1NTI1IiwidXNlcl9pZCI6MjF9.uo1UEecB89sZ-ocvS4PUwdnLb2_7aBq3qVHlqhqkCEo",
       },
       data: data,
     };
@@ -105,6 +108,8 @@ const AllItems = () => {
 
   return (
     <div>
+     <DiscountNew/>
+     <div className="space" ></div>
       <CategoryTable />
       <Grid style={{ padding: "20px" }} container spacing={2}>
         {arr.map((x, index) => {

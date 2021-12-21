@@ -43,10 +43,10 @@ const Signin = () => {
   const [notValid, setCorrectData] = useState(true);
 
   const [values, setValues] = useState({
-    fname: "bap",
-    lname: "bap",
-    password: "bhumika13@",
-    password2: "bhumika13@",
+    fname: "",
+    lname: "",
+    password: "",
+    password2: "",
     email: "",
     // Role: "SELLER",
     phone: "",
@@ -88,18 +88,18 @@ const Signin = () => {
   // signin integrated with backend
   var data = JSON.stringify({
     email: `${values.email}`,
-    phone: `${"+91" + values.phone}`,
+    phone: `${"+91 " + values.phone}`,
     password: `${values.password}`,
     twostep: `${values.twostep}`,
     Role: `${role.value}`,
     // Role: "SELLER",
   });
-  console.log(role.value);
+  console.log(data);
   //localStorage.setItem("role", Role);
   var config = {
     method: "post",
 
-    url: "http://communitybuyingbackend.pythonanywhere.com//account/signup/",
+    url: "http://communitybuyingbackend.pythonanywhere.com/account/signup/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -111,7 +111,7 @@ const Signin = () => {
     var item = { auth_token: token };
 
     let result = await fetch(
-      "http://communitybuyingbackend.pythonanywhere.com//account/google/",
+      "http://communitybuyingbackend.pythonanywhere.com/account/google/",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -145,7 +145,6 @@ const Signin = () => {
     console.log("ID Token: " + auth_token);
     authConfirm(auth_token);
     history.push("/login");
-
   }
 
   const phoneverify = (num) => {
@@ -162,18 +161,18 @@ const Signin = () => {
         if (num) {
           var data = JSON.stringify({
             code: `${num}`,
-            phone: `${"+91" + values.phone}`,
+            phone: `${"+91 " + values.phone}`,
           });
           console.log(values);
-          var config = {
+          var config2 = {
             method: "post",
-            url: "http://communitybuyingbackend.pythonanywhere.com//account/phone-verify/",
+            url: "http://communitybuyingbackend.pythonanywhere.com/account/phone-verify/",
             headers: {
               "Content-Type": "application/json",
             },
             data: data,
           };
-          axios(config)
+          axios(config2)
             .then(function (response) {
               console.log(JSON.stringify(response.data));
               Swal.fire({
@@ -200,12 +199,12 @@ const Signin = () => {
   return (
     
     <div className="signin">
-      
-      <div style={{ fontSize: "1.5rem",padding:'0 20px 50px' }}>Sign In</div>
+      <div style={{ fontSize: "1.5rem", padding: "0 20px 50px" }}>Sign In</div>
       {/* <div style={{marginBottom:"5vh"}}>Lorem ipsumvcbxvnxcvncbv dshfsdhfgfh sdhfgsgj sdfgsdgfhsdgfj </div> */}
       <Paper elevation={3} className="signinPaper">
         <Grid container spacing={5}>
           {/* inputs */}
+
           <Grid
             style={{ padding: "7%" }}
             component={motion.div}
@@ -548,100 +547,104 @@ const Signin = () => {
               options={options}
             />
 
-            {notValid? 
-            <Button
-              fullWidth
-              style={{margin:'20px 0'}}
-              color="secondary"
-              component={motion.div}
-              disabled={!notValid}
-              whileHover={{
-                scale: 1.08,
-                textShadow: "0 0 4px rgb(255,255,255)",
-                transition: { duration: 0.3 },
-              }}
-              variant="contained"
-              onClick={() => {
-                setErrors(Validation(values));
-                // console.log(role);
-                // setRole(prompt("ADD role"));
-              }}
-              onMouseOver={() => {
-                console.log(errors);
-                if (
-                  errors.fname == "" &&
-                  errors.lname == "" &&
-                  errors.phone == "" &&
-                  errors.email == "" &&
-                  errors.Cpassword == "" &&
-                  errors.password == ""
-                ) {
-                  setCorrectData(false);
-                }
-              }}
-              // if(role==''){
-              //   alert("Error")
-              // }
-              // else{
-              // axios(config)
-              //   .then(function (response) {
-              //     console.log(JSON.stringify(response.data));
-              //     localStorage.setItem("number",values.phone)
-              //     // localStorage.setItem("email",values.email)
-              //     history.push(`/verfication`);
-              //   })
-              //   .catch(function (error) {
-              //     console.log(error);
-              //     swal("Account already exists!", "Try logging in", "error");
-              //   });
-              // }
-              // }}}
-            >
-              Submit
-            </Button>
-            :
-            <Button
-              fullWidth
-              style={{margin:'20px 0'}}
-              component={motion.div}
-              color="secondary"
-              disabled={notValid}
-              whileHover={{
-                scale: 1.08,
-                textShadow: "0 0 4px rgb(255,255,255)",
-                transition: { duration: 0.3 },
-              }}
-              variant="contained"
-              onClick={() => {
-                // setErrors(Validation(values));
-                console.log(role);
-                // setRole(prompt("ADD role"))
-                console.warn(errors);
+            {notValid ? (
+              <Button
+                fullWidth
+                style={{ margin: "20px 0" }}
+                color="secondary"
+                component={motion.div}
+                disabled={!notValid}
+                whileHover={{
+                  scale: 1.08,
+                  textShadow: "0 0 4px rgb(255,255,255)",
+                  transition: { duration: 0.3 },
+                }}
+                variant="contained"
+                onClick={() => {
+                  setErrors(Validation(values));
+                  // console.log(role);
+                  // setRole(prompt("ADD role"));
+                }}
+                onMouseOver={() => {
+                  console.log(errors);
+                  if (
+                    errors.fname == "" &&
+                    errors.lname == "" &&
+                    errors.phone == "" &&
+                    errors.email == "" &&
+                    errors.Cpassword == "" &&
+                    errors.password == ""
+                  ) {
+                    setCorrectData(false);
+                  }
+                }}
+                // if(role==''){
+                //   alert("Error")
+                // }
+                // else{
+                // axios(config)
+                //   .then(function (response) {
+                //     console.log(JSON.stringify(response.data));
+                //     localStorage.setItem("number",values.phone)
+                //     // localStorage.setItem("email",values.email)
+                //     history.push(`/verfication`);
+                //   })
+                //   .catch(function (error) {
+                //     console.log(error);
+                //     swal("Account already exists!", "Try logging in", "error");
+                //   });
+                // }
+                // }}}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                style={{ margin: "20px 0" }}
+                component={motion.div}
+                color="secondary"
+                disabled={notValid}
+                whileHover={{
+                  scale: 1.08,
+                  textShadow: "0 0 4px rgb(255,255,255)",
+                  transition: { duration: 0.3 },
+                }}
+                variant="contained"
+                onClick={() => {
+                  // setErrors(Validation(values));
+                  console.log(role);
+                  // setRole(prompt("ADD role"))
+                  console.warn(errors);
 
-                if (role == "") {
-                  alert("Error");
-                } else {
-                  axios(config)
-                    .then(function (response) {
-                      console.log(JSON.stringify(response.data));
-                      localStorage.setItem("number", values.phone);
-                      phoneverify();
-                      // localStorage.setItem("email",values.email)
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                     Swal.fire({
-                       title:'Error',
-                       text:"Account doesn't exist",
-                       icon:'error',
-                     })
-                    });
-                  // }
-                }
-              }}
-            >
-              Create Account
-            </Button>}
+                  if (role == "") {
+                    alert("Error");
+                  } else {
+                    axios(config)
+                      .then(function (response) {
+                        console.log(JSON.stringify(response.data));
+                        localStorage.setItem("number", values.phone);
+                        phoneverify();
+                        // localStorage.setItem("email",values.email)
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                        console.log(values);
+
+                        history.push("/login");
+                        // Swal.fire({
+                        //   title: "Error",
+                        //   text: "Already exist",
+                        //   icon: "error",
+                        // });
+                      });
+                    // }
+                  }
+                }}
+              >
+                Create Account
+              </Button>
+            )}
             {/* <div className="google">
               <br />
               <span className="or">______________</span>
@@ -658,28 +661,28 @@ const Signin = () => {
             />
             <br /> <br /> */}
             <GoogleLogin
-                clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
-                render={(renderProps) => (
-                  <Button
-                    size="small"
-                    color="secondary"
-                    startIcon={<GoogleIcon />}
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    // style={{ padding: "13px", marginBottom: "20px" }}
-                    fullWidth
-                    variant="outlined"
-                    component={motion.div}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    &nbsp; Sign in with Google
-                  </Button>
-                )}
-                buttonText="Login"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-              /> 
+              clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <Button
+                  size="small"
+                  color="secondary"
+                  startIcon={<GoogleIcon />}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  // style={{ padding: "13px", marginBottom: "20px" }}
+                  fullWidth
+                  variant="outlined"
+                  component={motion.div}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  &nbsp; Sign in with Google
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
             {/* /* <GoogleLogin
               clientId="647346603249-ctkhinc0kr2l7igmvkj7ddtcoiklgq03.apps.googleusercontent.com"
               render={(renderProps) => (
@@ -700,7 +703,7 @@ const Signin = () => {
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
               cookiePolicy={"single_host_origin"}
-            /> */} 
+            /> */}
             {/* <Button
               size="small"
               startIcon={<GoogleIcon />}
@@ -716,18 +719,16 @@ const Signin = () => {
             {/* </div> */}
           </Grid>
           <Grid
-          component={motion.div}
-          transition={{ type: "spring", stiffness: 40 }}
-          initial={{ x: "100vw" }}
-          animate={{ x: 0 }}
-          item
-          md={6}
-          xs={12}
-          style={{backgroundImage:'url(https://i.pinimg.com/originals/25/76/ab/2576ab3a50ccdae861fc5abcfa20a1dc.gif)'}}
-        >
-
-        </Grid>
-        
+            component={motion.div}
+            transition={{ type: "spring", stiffness: 40 }}
+            initial={{ x: "100vw" }}
+            animate={{ x: 0 }}
+            item
+            md={6}
+            xs={12}
+            className="signinImg"
+           
+          ></Grid>
         </Grid>
       </Paper>
     </div>

@@ -29,6 +29,12 @@
     background-image: url('https://i.pinimg.com/originals/25/76/ab/2576ab3a50ccdae861fc5abcfa20a1dc.gif');
     background-size: auto 97%;
 }
+.signinImg{
+    background-image: url('https://i.pinimg.com/originals/25/76/ab/2576ab3a50ccdae861fc5abcfa20a1dc.gif');
+    background-size:97% 99%;
+   
+  }
+
 .star2{
     position: absolute;
     margin-left: 60%;
@@ -238,6 +244,9 @@ margin-top:80%;
     padding: 0 8%;
 }
 .loginImg{
+    visibility: hidden;
+}
+.signinImg{
     visibility: hidden;
 }
 }
