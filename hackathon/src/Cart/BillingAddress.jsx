@@ -53,7 +53,9 @@ const BillingAddress = () => {
       data:formData,
     })
 .then((result)=>{
-    var data = result.data;
+    console.log(result);
+}).then((data)=>{
+
 })
 .catch(()=>{
   alert('Error in the Code');
@@ -63,10 +65,12 @@ const options = useMemo(() => countryList().getData(), []);
 const classes = useStyles();
   return (
     <div style={{ padding: "60px" }} className={classes.root}>
-      <Paper elevation={3}>
+      
         <TextField
           id="outlined-basic"
           label="Address"
+          autoComplete="off"
+          color="secondary"
           required
           autoFocus
           className="fields_space"
@@ -89,6 +93,8 @@ const classes = useStyles();
           label="Pin Code"
           required
           className="fields_space"
+          autoComplete="off"
+          color="secondary"
           fullWidth
           variant="outlined"
           value={pinCode}
@@ -109,6 +115,8 @@ const classes = useStyles();
           label="City"
           required
           className="fields_space"
+          autoComplete="off"
+          color="secondary"
           fullWidth
           variant="outlined"
           value={city}
@@ -130,6 +138,8 @@ const classes = useStyles();
           className="fields_space"
           fullWidth
           variant="outlined"
+          autoComplete="off"
+          color="secondary"
           value={state}
           name="state"
           InputProps={{
@@ -145,11 +155,12 @@ const classes = useStyles();
         <Select
           placeholder="Country"
           value={country}
+          autoComplete="off"
+          color="secondary"
           onChange={(e)=>setCountry(e)}
           options={options}
         />
         
-      </Paper>
       <center>
       <br/>
       <Button size="large" variant="outlined"  onClick={handleSubmission}>Submit</Button>

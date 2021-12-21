@@ -22,6 +22,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
+
+import shoppingcart from "../Images/shoppingcart.gif";
+
+import notplaced from "../Images/notplaced.gif";
 var datacart=[];
 var photoadd;
 var count = 0;
@@ -33,47 +37,43 @@ const Total = () => {
     loadList();
   },[]);
   const loadList = async () => {
-    const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
-      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
+
+    await fetch(
+      `http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
+        method:"get",
+        headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+    }
+    ).then ((result)=>{
+      return result.json();
     })
-    Swal.fire
-    ({
-      title:'Cart is Empty',
-
+    .then((data)=>{
+      
+      
+      var cartstatus = data;
+      if(data.detail === 'No new items Added to cart')
+      {
+      Swal.fire(
+        {
+          icon: "error",
+             title: "Entered value should be more than total stock value",
+             showClass: {
+               popup: "animate__animated animate__fadeInDown",
+             },
+             hideClass: {
+               popup: "animate__animated animate__fadeOutUp",
+             },
+          title:cartstatus.detail
+        } 
+      )
+      }
+      else{
+      setLoadImage(data.cartItems);
+      console.log(data);
+      }
+    }).catch(()=>{
+      alert("error");
     })
-    .then((response) => {
-      setLoadImage(result.data.cartItems);
-      console.log(load);
-
-    })
-  .catch((error) => {
-    console.log(error); //Logs a string: Error: Request failed with status code 404
-  });
-
-  
-   
-   //setLoadImage(result.data.Products);
-  
-    /*console.log(result.data.Products);
-    for(var i=0;i<=result.data.Products.length;i++)
-    {
-      localStorage.setItem('obj',JSON.parse(Object.values(result.data.Products[i])));
-      var temp = localStorage.getItem('obj');
-      console.log(temp);
-      datacart[i]=temp;
-      console.log(datacart);
-
-    }*/
-    //data = Object.values(result.data.Products);
-    //console.log(data);
-    //localStorage.setItem('obj',Object.values(result.data.Products[0]));
     
-    
-    {/*var value={};
-    result.data.cartItems.map(async(item,index)=>{
-        value[item.item]= await detaillist(item.item)
-    })
-  Setcartdetail(value);*/}
 }
 
 
@@ -89,12 +89,11 @@ const editStock =(id) =>{
          return "You need to write something!";
        }
        if(num!=0) {
-         alert(id + num);
          const formData = new FormData();
          formData.append("qty", num);
          var config = {
            method: "put",
-           url: `https://communitybuying.pythonanywhere.com/main/cart/${id}/`,
+           url: `https://communitybuyingbackend.pythonanywhere.com/main/cart/${id}/`,
            headers: {
              "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`
            },
@@ -135,22 +134,65 @@ const editStock =(id) =>{
  }
 
 const placeorder=async()=>{
-  const resp = await axios.post(`http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
-    headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjY2OTY0LCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6IjRlODYzYTRjODljYjRkYzI4YTkxZDQ1ZmUzY2NhMzQ1IiwidXNlcl9pZCI6Mn0.IaJZTneTHCpl3HT4Y3YlDcUkXmQ7guTWPigmG5e8Hgc`},
-  });
-  console.log(resp);
-  Swal.fire(
+ 
+  await fetch(
+    `http://communitybuyingbackend.pythonanywhere.com/main/place-order/`,{
+      method:"post",
+      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMjczNjYzLCJpYXQiOjE2NDAwMDc3NjQsImp0aSI6ImFlMDRjYTc3N2Y1YjQyZDZhN2Q5NTA5NWJlMzJkYTZlIiwidXNlcl9pZCI6Mn0.Kk6CCX4aFsYzvSr6YVCTLbCwGypGTk46nFIHT5b4prE`},
+  }
+  ).then ((result)=>{
+    return result.json();
+  })
+  .then((data)=>{
+    
+    var cartstatus = data;
+    if(data.detail === 'No new items Added to cart')
     {
-      title: "order detail",
-      inputLabel: resp.data,
+    Swal.fire(
+      {
+        icon: "error",
+           title: "Entered value should be more than total stock value",
+           showClass: {
+             popup: "animate__animated animate__fadeInDown",
+           },
+           hideClass: {
+             popup: "animate__animated animate__fadeOutUp",
+           },
+        title:cartstatus.detail
+      } 
+    )
     }
-  )
+    else{
+      Swal.fire(
+        {
+          icon: "success",
+               title: "Successfully Updated",
+               showClass: {
+                 popup: "animate__animated animate__fadeInDown",
+               },
+               hideClass: {
+                 popup: "animate__animated animate__fadeOutUp",
+          },
+          title: 'order successfylly placed',
+          text: 'Total price : '+ data['total Price'] +' / '+ data.cartItems.length + ' items ordered',
+          
+
+
+        } 
+      )
+    }
+    console.log(data);
+    //console.log(data.Product.image)
+   // console.log(cartimage)
+  }).catch(()=>{
+    alert("error");
+  })
 }
 
   return (
     <div>
-      <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
-      <Button onClick={()=>placeorder()}>Place the Order</Button>
+      <h2 style={{alignItems:"center" ,marginBottom:"5vh" ,marginLeft:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
+      <Button onClick={()=>placeorder()} variant="contained" style={{marginLeft:"5vh"}}>Place the Order</Button>
      {load?.map((index,key) => (
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}
@@ -161,16 +203,15 @@ const placeorder=async()=>{
               <div>
              
                 
-                <CardMedia
-                component="img"
-                paddingTop="1.2vh"
-                height="140"
+              <CardMedia
+                padding="2vh"
+                height="150"
                 width="50"
-
-
-                src={"http://communitybuyingbackend.pythonanywhere.com/"}
-
-                />
+              
+                >
+                    <img src={notplaced} alt="cart" style={{objectFit:"contain" ,padding:"3vh"}}/>
+                 
+                  </CardMedia>
              
                 </div>
                 <div className='card-cont'>
@@ -178,13 +219,13 @@ const placeorder=async()=>{
                 <div className='cont-right'>
                 <div className="cont-block">
                 <div className='head-1'>
-                <Typography gutterBottom variant="h5" component="div">
-                {key.name}
+                <Typography gutterBottom variant="h5" component="div" color="secondary">
+                Total Price : {index.qty * index.price}
                 </Typography>
                 </div>
                 <div className='sub-1'>
                 <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                {index.category}
+                Your Cart-id : {index.cart}
                 </Typography>
                 </div>
                 </div>
@@ -193,20 +234,20 @@ const placeorder=async()=>{
                 <div className="cont-block1">
                 <div className='head-3' >
                 <Typography gutterBottom  style={{paddingLeft:"5px" ,fontSize:"1.1rem" ,paddingTop:"1vh"}} className='sub-head-3'>
-                {index.item}
                 <AddShoppingCartIcon onClick={()=>editStock(index.item,index.qty)}/>
+                
                 </Typography>
                 </div>
                 </div>
                 <div className='cont-block' style={{paddingLeft:"3vh"}}>
                 <div className='head-4'>
                 <Typography gutterBottom style={{fontSize:"0.9rem"}}>
-                Rs.{index.price} per {index.units}
+                Quantity 
                 </Typography>
                 </div>
                 <div className='sub-4'>
                 <Typography gutterBottom  style={{fontSize:"1.1rem"}}>
-                In Stock : {index.total_stock}
+                {index.qty}
                 </Typography>
                 </div>
                 
@@ -217,8 +258,7 @@ const placeorder=async()=>{
                 
                 <div className="button">
                 <CardActions>
-                {/*<Button size="large" onClick={() => deleteImage(index.id)}>Delete</Button>
-                <Button size="large" onClick={() => editImage(index.id)}>Edit</Button>*/}
+                
                 </CardActions>
                 </div>
                 
@@ -231,23 +271,3 @@ const placeorder=async()=>{
 };
 
 export default Total;
-{/*{dummy.map((x) => {
-  onClick={()=>editStock(index.id,index.total_stock)}
-        return (
-          <Paper style={{margin:'20px'}} elevation={3}>
-            <p>{x.order}</p>
-            <br />
-            Actual price
-            <span style={{ textDecoration: "line-through" }}>
-              &#8377;{x.price}
-            </span>
-            <br />
-            Discounted Price:<span>&#8377;{x.price - 20}</span>
-            <br />
-            <p>{x.quantity}Kg</p>
-          </Paper>
-        );
-
-
-
-      })}*/}

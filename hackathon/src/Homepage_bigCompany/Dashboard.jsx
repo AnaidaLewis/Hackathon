@@ -251,6 +251,7 @@ const Dashboard = () => {
                 variant="outlined"
                 placeholder="name"
                 value={name}
+                color="secondary"
                 onChange={(e) => setName(e.target.value)}
                 autoComplete="off"
                 InputProps={{
@@ -268,6 +269,8 @@ const Dashboard = () => {
                 variant="outlined"
                 placeholder="Company Name"
                 value={companyname}
+                
+                color="secondary"
                 onChange={(e) => setCompany(e.target.value)}
                 autoComplete="off"
                 InputProps={{
@@ -284,6 +287,8 @@ const Dashboard = () => {
                   placeholder="Category"
                   name="category"
                   value={category}
+                  
+                color="secondary"
                   onChange={(e) => setCategory(e.target.value)}
                   style={{ marginTop: "-5px" }}
                 >
@@ -321,6 +326,8 @@ const Dashboard = () => {
                 variant="outlined"
                 placeholder="Price"
                 value={price}
+                
+                color="secondary"
                 onChange={(e) => setPrice(e.target.value)}
                 autoComplete="off"
                 InputProps={{
@@ -337,6 +344,8 @@ const Dashboard = () => {
                 required
                 variant="outlined"
                 name="Image"
+                
+                color="secondary"
                 onChange={(e) => setImage(e.target.files[0])}
                 autoComplete="off"
                 InputProps={{
@@ -361,6 +370,8 @@ const Dashboard = () => {
                 label="WholeSale Price"
                 name="wholesale_price"
                 variant="outlined"
+                
+                color="secondary"
                 placeholder="WholeSale Price"
                 value={wholesale_price}
                 onChange={(e) => setWholePrice(e.target.value)}
@@ -380,6 +391,8 @@ const Dashboard = () => {
                 variant="outlined"
                 placeholder="Total Quantity"
                 value={total_stock}
+                
+                color="secondary"
                 onChange={(e) => setTotalStock(e.target.value)}
                 autoComplete="off"
                 InputProps={{
@@ -399,6 +412,8 @@ const Dashboard = () => {
                 placeholder="Minimum Order"
                 value={min_order}
                 onChange={(e) => setMinOrder(e.target.value)}
+                
+                color="secondary"
                 autoComplete="off"
                 InputProps={{
                   endAdornment: (
@@ -413,6 +428,8 @@ const Dashboard = () => {
                 <Select
                   name="units"
                   value={units}
+                  
+                color="secondary"
                   onChange={(e) => setUnits(e.target.value)}
                   style={{ marginTop: "-5px" }}
                 >
@@ -437,6 +454,8 @@ const Dashboard = () => {
                 onClick={handleSubmission}
                 className={(classes.button, classes.inputbox)}
                 variant="contained"
+                
+                color="secondary"
                 style={{
                   marginTop: "5vh",
                   marginLeft: "20vh",

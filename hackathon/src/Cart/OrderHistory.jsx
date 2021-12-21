@@ -21,7 +21,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
+import shoppingcart from "../Images/shoppingcart.gif"
 var data=[];
 var photoadd;
 var count = 0;
@@ -120,7 +120,6 @@ const Total = () => {
       <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>Order History</h2>
     
       {load.map((index) => (
-       <Paper elevation={3} style={{padding:"3px"}}> 
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}
               component={motion.div}
@@ -130,16 +129,16 @@ const Total = () => {
               <div>
              
                 
-                <CardMedia
-                component="img"
-                paddingTop="1.2vh"
-                height="140"
+              <CardMedia
+                padding="2vh"
+                height="150"
                 width="50"
-
-
-                src={"http://communitybuyingbackend.pythonanywhere.com/"}
-
-                />
+              
+                //src={'http://communitybuyingbackend.pythonanywhere.com'+{cartimage}}
+                >
+                    <img src={shoppingcart} alt="cart" style={{objectFit:"contain" ,padding:"2vh"}}/>
+                 
+                  </CardMedia>
              
                 </div>
                 <div className='card-cont'>
@@ -195,7 +194,6 @@ const Total = () => {
                 
       
               </Card>
-              </Paper>
       ))}
  
     </div>
