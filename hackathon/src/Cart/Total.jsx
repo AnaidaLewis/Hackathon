@@ -31,7 +31,7 @@ const Total = () => {
   const [detail,setDetailLoad] = useState([]);
   useEffect(() => {
     loadList();
-   detaillist();
+  //  detaillist();
   },[load,detail]);
   const loadList = async () => {
     const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com//main/cart/0/`,{
@@ -42,12 +42,12 @@ const Total = () => {
 }
 
 
-const detaillist = async (id) =>{
-  const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com//main/product/${id}/`,{
-      headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
-    });
-    setDetailLoad(result.data.cartItems);
-}
+// const detaillist = async (id) =>{
+//   const result = await axios.get(`http://communitybuyingbackend.pythonanywhere.com//main/product/${id}/`,{
+//       headers: {"Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQwMTQyMDU2LCJpYXQiOjE2Mzk4ODI4NDEsImp0aSI6ImZlY2E5Y2UzOTdlZjQyYjBiMWNkZTA2YmJlNTQyMjIxIiwidXNlcl9pZCI6MX0.awey4ucXAKVNgXJm4pF_E5VmL7JUK7cxH2kO2-HGnnw`},
+//     });
+//     setDetailLoad(result.data.cartItems);
+// }
 
 
 const editStock =(id) =>{
@@ -110,7 +110,7 @@ const editStock =(id) =>{
   return (
     <div>
       
-      <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMARRY OF YOUR SHOPPING</h2>
+      <h2 style={{alignItems:"center" ,marginBottom:"5vh"}}>SUMMARY OF YOUR SHOPPING</h2>
       {load.map((index) => (
       <Card sx={{ maxWidth: 630}} className="card" 
               whileHover={{ scale: 1.1 }}

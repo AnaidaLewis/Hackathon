@@ -111,13 +111,17 @@ const Login = () => {
   }
   const number = localStorage.getItem("number");
   const otp = async (response) => {
-    console.warn(response);
     const res = await axios.get(
       "http://communitybuyingbackend.pythonanywhere.com/account/send-twostep/",
 
       { params: { token: response } }
-    );
-    console.warn(res);
+    )
+    .then(()=>{
+      console.warn(response);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
   };
   const phoneverify = (x) => {
     Swal.fire({
@@ -131,24 +135,32 @@ const Login = () => {
         } else if (num) {
           var data = JSON.stringify({
             code: `${num}`,
-            phone: `${"+91" + number}`,
+            phone: `${"+91 "+ number}`,
           });
-          console.log(number);
+          console.log("+91 "+number);
           console.log(num);
+           
+          console.log(token);
+          console.log(code);
+          // const res = await axios.get(
+          //   `http://communitybuyingbackend.pythonanywhere.com/account/twostep-verify/?token=${token}&code=${code}`,
+          //   // { params: { token: token, code: code } }
+          // ).then(()=>{
+          //   console.log(res.data);
+          // }).catch((e)=>{
+          //   console.log(e);
+          // })
 
-          const res = await axios.get(
-            "http://communitybuyingbackend.pythonanywhere.com/account/twostep-verify/",
+            if (x === "SELLER") {
+              history.push("/SellerDashboard");
+            } else {
+              history.push("/homePage");
+            }
 
-            { params: { token: token, code: code } }
-          );
+  
           // console.log(compareRole);
-          if (x === "SELLER") {
-            history.push("/SellerDashboard");
-          } else {
-            history.push("/homePage");
-          }
 
-          console.log(res);
+          // console.log(res);
         }
       },
     });

@@ -353,6 +353,23 @@ const Dashboard = () => {
               className={classes.root}
               justify="center"
             >
+                <TextField
+                className={classes.inputbox}
+                label="Total Quantity"
+                name="total_stock"
+                variant="outlined"
+                placeholder="Total Quantity"
+                value={total_stock}
+                onChange={(e) => setTotalStock(e.target.value)}
+                autoComplete="off"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <AddShoppingCartIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
               <TextField
                 className={classes.inputbox}
                 label="WholeSale Price"
@@ -370,23 +387,7 @@ const Dashboard = () => {
                   ),
                 }}
               />
-              <TextField
-                className={classes.inputbox}
-                label="Total Quantity"
-                name="total_stock"
-                variant="outlined"
-                placeholder="Total Quantity"
-                value={total_stock}
-                onChange={(e) => setTotalStock(e.target.value)}
-                autoComplete="off"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <AddShoppingCartIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          
 
               <TextField
                 className={classes.inputbox}
@@ -409,6 +410,7 @@ const Dashboard = () => {
               <FormControl className={classes.dropdown}>
                 <Select
                   name="units"
+                  label="units"
                   value={units}
                   onChange={(e) => setUnits(e.target.value)}
                   style={{ marginTop: "-5px" }}
